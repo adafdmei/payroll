@@ -4,43 +4,30 @@ import com.georgiev.payroll.request.PayrollRequest;
 import com.georgiev.payroll.transaction.Transaction;
 import com.georgiev.payroll.transaction.TransactionFactory;
 import com.georgiev.request.PayRollRequestImpl;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+
 import java.math.BigDecimal;
 
 public class TextParserTransactionSource implements TransactionSource {
 
   private final TransactionFactory factory;
-  private final BufferedReader reader;
+  private final String line;
 
-  public TextParserTransactionSource(TransactionFactory factory, InputStream input) {
+  public TextParserTransactionSource(TransactionFactory factory, String line) {
     this.factory = factory;
-    reader = new BufferedReader(new InputStreamReader(input));
+    this.line = line;
   }
 
   @Override
   public Transaction getTransaction() {
-    try {
-      String line = reader.readLine();
-      if (line == null) {
-        return null;
-      }
-      return parseLine(line);
-    }
-    catch (IOException e) {
-      throw new RuntimeException("unable to read transaction", e);
-    }
+    return parseLine();
   }
 
-  private Transaction parseLine(String line) {
+  private Transaction parseLine() {
     String[] parts = line.split(",");
     if (parts[4].equals("H")) {
       return factory.makeAddHourlyTransaction(integer(parts[1]), parts[2], parts[3], decimal(parts[5]));
     }
     else {
-
       return factory.makeAddCommissionedTransaction(createPayrollRequest(parts));
     }
   }
@@ -52,7 +39,6 @@ public class TextParserTransactionSource implements TransactionSource {
     pr.setAddres(parts[3].trim());
     pr.setSalary(decimal(parts[5].trim()));
     pr.setCommissionRate(decimal(parts[6].trim()));
-
     return pr;
   }
 

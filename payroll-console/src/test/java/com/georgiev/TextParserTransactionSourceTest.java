@@ -4,8 +4,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -47,8 +45,8 @@ public class TextParserTransactionSourceTest {
   }
 
   private void given(String transactions) throws Exception {
-    InputStream input = new ByteArrayInputStream(transactions.getBytes("UTF-8"));
-    source = new TextParserTransactionSource(new TestTransactionFactory(), input);
+    source = new TextParserTransactionSource(new TestTransactionFactory(),
+                                             transactions);
   }
 
   private class TestTransaction implements Transaction {

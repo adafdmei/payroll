@@ -13,10 +13,8 @@ public class TransactionApplication extends Application {
 
   @Override
   public void run() {
-    Transaction trans;
-    while ((trans = source.getTransaction()) != null) {
-      trans.execute();
-    }
+    Transaction trans = source.getTransaction();
+    trans.execute();
   }
 
 }
