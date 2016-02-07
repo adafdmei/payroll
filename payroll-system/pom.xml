@@ -14,17 +14,29 @@
 		<module>../payroll-console</module>
 	</modules>
 
-
 	<properties>
-		<jdk.version>1.6</jdk.version>
+		<java.version>1.8</java.version>
 		<spring.version>3.2.13.RELEASE</spring.version>
 		<junit.version>4.11</junit.version>
 		<jstl.version>1.2</jstl.version>
 		<taglibs.version>1.1.2</taglibs.version>
 		<javax.servlet-api.version>3.1.0</javax.servlet-api.version>
 		<javax.servlet.jsp.version>2.1</javax.servlet.jsp.version>
-
 	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencyManagement>
 		<dependencies>
