@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.kgeorgiev.pom</groupId>
+		<artifactId>payroll-system</artifactId>
+		<version>0.1-SNAPSHOT</version>
+		<relativePath>../payroll-system/pom.xml</relativePath>
+	</parent>
+
+	<groupId>com.kgeorgiev</groupId>
+	<artifactId>payroll-console</artifactId>
+	<packaging>jar</packaging>	
+	<name>payroll console</name>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>com.kgeorgiev</groupId>
+			<artifactId>payroll-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+
+</project>
+
+
+
