@@ -14,22 +14,22 @@ import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.payroll.impl.Commissioned;
 import com.georgiev.payroll.impl.SalesReceipt;
-import com.georgiev.test.usecases.AddEmployeeFactory;
-import com.georgiev.test.usecases.AddSalesReceipTestUtils;
+import com.georgiev.test.usecases.AddEmployee;
+import com.georgiev.test.usecases.AddSalesReceipt;
 import com.payroll.EmpData;
 
 public class AddSalesReceiptPayrollTest {
 
   Map<String, Object> data;
-  AddSalesReceipTestUtils addSR;
-  AddEmployeeFactory addEmp;
+  AddSalesReceipt addSR;
+  AddEmployee addEmp;
 
   @Before
   public void setup() {
     GpayrollDatabase = new InMemoryPayrollDatabase();
     data = EmpData.getStandardDataForEmployee();
-    addEmp = new AddEmployeeFactory();
-    addSR = new AddSalesReceipTestUtils();
+    addEmp = new AddEmployee();
+    addSR = new AddSalesReceipt();
   }
 
   @Test

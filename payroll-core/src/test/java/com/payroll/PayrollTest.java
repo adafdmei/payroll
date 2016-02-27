@@ -24,11 +24,11 @@ import com.georgiev.payroll.domain.Paycheck;
 import com.georgiev.payroll.impl.ServiceCharge;
 import com.georgiev.payroll.impl.Member;
 import com.georgiev.payroll.request.Request;
-import com.georgiev.test.usecases.AddEmployeeFactory;
-import com.georgiev.test.usecases.AddSalesReceipTestUtils;
-import com.georgiev.test.usecases.AddServiceChargePayrollUtils;
-import com.georgiev.test.usecases.AddTimeCardFactory;
-import com.georgiev.test.usecases.PayEmployeesTestUtils;
+import com.georgiev.test.usecases.AddEmployee;
+import com.georgiev.test.usecases.AddSalesReceipt;
+import com.georgiev.test.usecases.AddServiceCharge;
+import com.georgiev.test.usecases.AddTimeCard;
+import com.georgiev.test.usecases.PayEmployee;
 import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.ChangeEmployeeUseCaseFactory;
 import com.georgiev.usecases.factory.UseCaseFactory;
@@ -41,29 +41,29 @@ public class PayrollTest {
   ChangeEmployeeRequestBuilder changeEmpRequestBuilder;
   UseCaseFactory factory;
   ChangeEmployeeUseCaseFactory changeEmpFactory;
-  AddEmployeeFactory addEmp;
-  AddSalesReceipTestUtils addSR;
-  AddTimeCardFactory addTc;
+  AddEmployee addEmp;
+  AddSalesReceipt addSR;
+  AddTimeCard addTc;
   Map<String, Object> data;
   Map<String, Object> newData;
-  PayEmployeesTestUtils payEmp;
+  PayEmployee payEmp;
   Map<String, Object> payData;
-  AddServiceChargePayrollUtils addSc;
+  AddServiceCharge addSc;
 
   @Before
   public void setup() {
     GpayrollDatabase = new InMemoryPayrollDatabase();
     data = EmpData.getStandardDataForEmployee();
-    addEmp = new AddEmployeeFactory();
-    addSR = new AddSalesReceipTestUtils();
-    addTc = new AddTimeCardFactory();
+    addEmp = new AddEmployee();
+    addSR = new AddSalesReceipt();
+    addTc = new AddTimeCard();
 
     requestBuilder = new RequestBuilderImpl();
     changeEmpRequestBuilder = new RequestBuilderImpl();
     factory = new UseCaseFactoryImpl();
     changeEmpFactory = new UseCaseFactoryImpl();
-    payEmp = new PayEmployeesTestUtils();
-    addSc = new AddServiceChargePayrollUtils();
+    payEmp = new PayEmployee();
+    addSc = new AddServiceCharge();
   }
 
   private void addSalariedEmployee() {

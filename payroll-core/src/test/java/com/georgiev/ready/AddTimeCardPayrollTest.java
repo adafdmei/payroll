@@ -15,24 +15,24 @@ import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.payroll.impl.Hourly;
 import com.georgiev.payroll.impl.TimeCard;
-import com.georgiev.test.usecases.AddEmployeeFactory;
-import com.georgiev.test.usecases.AddTimeCardFactory;
+import com.georgiev.test.usecases.AddEmployee;
+import com.georgiev.test.usecases.AddTimeCard;
 import com.georgiev.util.Constants;
 import com.payroll.EmpData;
 
 public class AddTimeCardPayrollTest {
 
   Map<String, Object> data;
-  AddEmployeeFactory addEmp;
-  AddTimeCardFactory addTc;
+  AddEmployee addEmp;
+  AddTimeCard addTc;
 
   @Before
   public void setup() {
     GpayrollDatabase = new InMemoryPayrollDatabase();
 
     data = EmpData.getStandardDataForEmployee();
-    addEmp = new AddEmployeeFactory();
-    addTc = new AddTimeCardFactory();
+    addEmp = new AddEmployee();
+    addTc = new AddTimeCard();
   }
 
   private int getId() {

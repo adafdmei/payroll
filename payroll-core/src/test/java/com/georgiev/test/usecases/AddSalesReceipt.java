@@ -9,12 +9,12 @@ import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.AddSalesRecieptUseCaseFactory;
 import com.georgiev.usecases.factory.impl.UseCaseFactoryImpl;
 
-public class AddSalesReceipTestUtils {
+public class AddSalesReceipt {
 
   AddSalesRecieptRequestBuilder requestBuilder;
   AddSalesRecieptUseCaseFactory factory;
 
-  public AddSalesReceipTestUtils() {
+  public AddSalesReceipt() {
     requestBuilder = new RequestBuilderImpl();
     factory = new UseCaseFactoryImpl();
   }

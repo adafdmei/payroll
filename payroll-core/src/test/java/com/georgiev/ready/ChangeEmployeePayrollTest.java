@@ -29,7 +29,7 @@ import com.georgiev.payroll.impl.Salaried;
 import com.georgiev.payroll.impl.Member;
 import com.georgiev.payroll.impl.WeeklySchedule;
 import com.georgiev.payroll.request.Request;
-import com.georgiev.test.usecases.AddEmployeeFactory;
+import com.georgiev.test.usecases.AddEmployee;
 import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.ChangeEmployeeUseCaseFactory;
 import com.georgiev.usecases.factory.impl.UseCaseFactoryImpl;
@@ -39,7 +39,7 @@ public class ChangeEmployeePayrollTest {
 
   Map<String, Object> data;
   Map<String, Object> newData;
-  AddEmployeeFactory addEmp;
+  AddEmployee addEmp;
   ChangeEmployeeRequestBuilder changeEmpRequestBuilder;
   ChangeEmployeeUseCaseFactory changeEmpFactory;
 
@@ -47,7 +47,7 @@ public class ChangeEmployeePayrollTest {
   public void setup() {
     GpayrollDatabase = new InMemoryPayrollDatabase();
     data = EmpData.getStandardDataForEmployee();
-    addEmp = new AddEmployeeFactory();
+    addEmp = new AddEmployee();
 
     changeEmpRequestBuilder = new RequestBuilderImpl();
     changeEmpFactory = new UseCaseFactoryImpl();

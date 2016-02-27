@@ -9,12 +9,12 @@ import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.AddTimeCardUseCaseFactory;
 import com.georgiev.usecases.factory.impl.UseCaseFactoryImpl;
 
-public class AddTimeCardFactory {
+public class AddTimeCard {
 
   AddTimeCardRequestBuilder requestBuilder;
   AddTimeCardUseCaseFactory factory;
 
-  public AddTimeCardFactory() {
+  public AddTimeCard() {
     requestBuilder = new RequestBuilderImpl();
     factory = new UseCaseFactoryImpl();
   }

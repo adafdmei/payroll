@@ -9,12 +9,12 @@ import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.AddServiceChargeUseCaseFactory;
 import com.georgiev.usecases.factory.impl.UseCaseFactoryImpl;
 
-public class AddServiceChargePayrollUtils {
+public class AddServiceCharge {
 
   AddServiceChargeRequestBuilder requestBuilder;
   AddServiceChargeUseCaseFactory factory;
 
-  public AddServiceChargePayrollUtils() {
+  public AddServiceCharge() {
     requestBuilder = new RequestBuilderImpl();
     factory = new UseCaseFactoryImpl();
   }

@@ -17,7 +17,7 @@ import com.georgiev.builder.RequestBuilderImpl;
 import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.payroll.request.Request;
-import com.georgiev.test.usecases.AddEmployeeFactory;
+import com.georgiev.test.usecases.AddEmployee;
 import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.UseCaseFactory;
 import com.georgiev.usecases.factory.impl.UseCaseFactoryImpl;
@@ -26,7 +26,7 @@ import com.payroll.EmpData;
 public class DeleteEmployeePayrollTest {
 
   Map<String, Object> newData;
-  AddEmployeeFactory addEmp;
+  AddEmployee addEmp;
   Map<String, Object> data;
   UseCaseFactory factory;
   AddEmployeeRequestBuilder addEmpRequestBuilder;
@@ -38,7 +38,7 @@ public class DeleteEmployeePayrollTest {
     delEmpRequestBuilder = new RequestBuilderImpl();
     factory = new UseCaseFactoryImpl();
     data = EmpData.getStandardDataForEmployee();
-    addEmp = new AddEmployeeFactory();
+    addEmp = new AddEmployee();
   }
 
   @Test

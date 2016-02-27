@@ -9,12 +9,12 @@ import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.AddEmployeeUseCaseFactory;
 import com.georgiev.usecases.factory.impl.UseCaseFactoryImpl;
 
-public class AddEmployeeFactory {
+public class AddEmployee {
 
   AddEmployeeRequestBuilder requestBuilder;
   AddEmployeeUseCaseFactory factory;
 
-  public AddEmployeeFactory() {
+  public AddEmployee() {
     requestBuilder = new RequestBuilderImpl();
     factory = new UseCaseFactoryImpl();
   }

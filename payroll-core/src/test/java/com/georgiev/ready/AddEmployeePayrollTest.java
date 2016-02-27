@@ -25,20 +25,20 @@ import com.georgiev.payroll.impl.MonthlySchedule;
 import com.georgiev.payroll.impl.NoMember;
 import com.georgiev.payroll.impl.Salaried;
 import com.georgiev.payroll.impl.WeeklySchedule;
-import com.georgiev.test.usecases.AddEmployeeFactory;
+import com.georgiev.test.usecases.AddEmployee;
 import com.georgiev.util.Constants;
 import com.payroll.EmpData;
 
 public class AddEmployeePayrollTest {
 
-  AddEmployeeFactory addEmp;
+  AddEmployee addEmp;
   Map<String, Object> data;
 
   @Before
   public void setup() {
     GpayrollDatabase = new InMemoryPayrollDatabase();
     data = EmpData.getStandardDataForEmployee();
-    addEmp = new AddEmployeeFactory();
+    addEmp = new AddEmployee();
   }
 
   @Test

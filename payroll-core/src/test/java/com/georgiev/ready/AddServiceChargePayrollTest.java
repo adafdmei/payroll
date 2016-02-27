@@ -15,19 +15,19 @@ import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.payroll.impl.ServiceCharge;
 import com.georgiev.payroll.impl.Member;
-import com.georgiev.test.usecases.AddEmployeeFactory;
-import com.georgiev.test.usecases.AddSalesReceipTestUtils;
-import com.georgiev.test.usecases.AddServiceChargePayrollUtils;
-import com.georgiev.test.usecases.AddTimeCardFactory;
+import com.georgiev.test.usecases.AddEmployee;
+import com.georgiev.test.usecases.AddSalesReceipt;
+import com.georgiev.test.usecases.AddServiceCharge;
+import com.georgiev.test.usecases.AddTimeCard;
 import com.payroll.EmpData;
 import com.payroll.TestUtils;
 
 public class AddServiceChargePayrollTest {
 
-  AddEmployeeFactory addEmp;
-  AddSalesReceipTestUtils addSR;
-  AddServiceChargePayrollUtils addSc;
-  AddTimeCardFactory addTc;
+  AddEmployee addEmp;
+  AddSalesReceipt addSR;
+  AddServiceCharge addSc;
+  AddTimeCard addTc;
   Map<String, Object> data;
   Map<String, Object> newData;
 
@@ -35,9 +35,9 @@ public class AddServiceChargePayrollTest {
   public void setup() {
     GpayrollDatabase = new InMemoryPayrollDatabase();
     data = EmpData.getStandardDataForEmployee();
-    addEmp = new AddEmployeeFactory();
-    addSR = new AddSalesReceipTestUtils();
-    addSc = new AddServiceChargePayrollUtils();
+    addEmp = new AddEmployee();
+    addSR = new AddSalesReceipt();
+    addSc = new AddServiceCharge();
   }
 
   @Test
