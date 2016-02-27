@@ -7,9 +7,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Before;
@@ -21,15 +19,13 @@ import com.georgiev.builder.RequestBuilderImpl;
 import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.payroll.domain.Paycheck;
-import com.georgiev.payroll.impl.ServiceCharge;
 import com.georgiev.payroll.impl.Member;
-import com.georgiev.payroll.request.Request;
 import com.georgiev.test.usecases.AddEmployee;
 import com.georgiev.test.usecases.AddSalesReceipt;
 import com.georgiev.test.usecases.AddServiceCharge;
 import com.georgiev.test.usecases.AddTimeCard;
+import com.georgiev.test.usecases.ChangeEmployeeToMember;
 import com.georgiev.test.usecases.PayEmployee;
-import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.ChangeEmployeeUseCaseFactory;
 import com.georgiev.usecases.factory.UseCaseFactory;
 import com.georgiev.usecases.factory.impl.UseCaseFactoryImpl;
@@ -49,6 +45,7 @@ public class PayrollTest {
   PayEmployee payEmp;
   Map<String, Object> payData;
   AddServiceCharge addSc;
+  ChangeEmployeeToMember changeEmp;
 
   @Before
   public void setup() {
@@ -57,6 +54,7 @@ public class PayrollTest {
     addEmp = new AddEmployee();
     addSR = new AddSalesReceipt();
     addTc = new AddTimeCard();
+    changeEmp = new ChangeEmployeeToMember();
 
     requestBuilder = new RequestBuilderImpl();
     changeEmpRequestBuilder = new RequestBuilderImpl();
@@ -66,70 +64,8 @@ public class PayrollTest {
     addSc = new AddServiceCharge();
   }
 
-  private void addSalariedEmployee() {
-    Request request = requestBuilder.buildSalariedEmployeeRequest(data);
-    UseCase makeAddSalariedEmployee = factory.makeAddSalariedEmployee();
-    makeAddSalariedEmployee.execute(request);
-  }
-
-  private void addCommissionedEmployee() {
-    Request request = requestBuilder.buildCommissionedEmployeeRequest(data);
-    UseCase makeAddCommissionedEmployee = factory.makeAddCommisionedEmployee();
-    makeAddCommissionedEmployee.execute(request);
-  }
-
-  private void addHourlyEmployee() {
-    Request request = requestBuilder.buildHourlyEmployeeRequest(data);
-    UseCase makeAddHourlydEmployee = factory.makeAddHourlyEmployee();
-    makeAddHourlydEmployee.execute(request);
-  }
-
   private int getId() {
     return (int) data.get(Constants.EMPLOYEE_ID.name());
-  }
-
-  private int getMemberId() {
-    return (int) data.get(Constants.MEMBER_ID.name());
-  }
-
-  private BigDecimal getHours() {
-    return (BigDecimal) data.get(Constants.HOURS.name());
-  }
-
-  private void addTimeCard() {
-    Request request = requestBuilder.buildAddTimeCardRequest(data);
-    UseCase addTimeCardUseCase = factory.makeAddTimeCard();
-    addTimeCardUseCase.execute(request);
-  }
-
-  @Test
-  public void shouldAddServiceCharge() throws Exception {
-
-    addCommissionedEmployee();
-
-    final int memberId = 86;
-    Map<String, Object> data2 = new HashMap<String, Object>();
-    data2.put(Constants.MEMBER_ID.name(), memberId);
-    data2.put(Constants.DATE.name(), date(11, 01, 2001));
-    data2.put(Constants.CHARGE.name(), BigDecimal.valueOf(12.95));
-
-    Employee e = GpayrollDatabase.getEmployee(getId());
-    assertThat(e, is(notNullValue()));
-    Request request = requestBuilder.buildAddSalesRecieptRequest(data);
-    UseCase addSalesRecieptUseCase = factory.makeAddSalesReciept();
-    addSalesRecieptUseCase.execute(request);
-
-    Member af = new Member(getMemberId(), BigDecimal.valueOf(12.5));
-    e.setUnionMembership(af);
-    GpayrollDatabase.addUnionMember(getMemberId(), e);
-
-    Request scRequest = requestBuilder.buildAddServiceChargeRequest(data2);
-    UseCase addServiceChargeUseCase = factory.makeAddServiceCharge();
-    addServiceChargeUseCase.execute(scRequest);
-
-    ServiceCharge sc = af.getServiceCharge(date(11, 01, 2001));
-    assertThat(sc, is(notNullValue()));
-    assertThat(sc.getAmount(), is(BigDecimal.valueOf(12.95)));
   }
 
   @Test
@@ -138,7 +74,7 @@ public class PayrollTest {
     payEmp.paySingleEmployee(EmpData.getPayDayDataForSalariedEmployee());
     Employee employee = GpayrollDatabase.getEmployee(getId());
 
-    Date payDate = EmpData.getPayDate(EmpData.getPayDayDataForSalariedEmployee());
+    Date payDate = EmpDataUtils.getPayDate(EmpData.getPayDayDataForSalariedEmployee());
     Paycheck pc = employee.getPaychecks().get(payDate);
     assertThat(pc, is(notNullValue()));
     assertThat(pc.getPayPeriodEndDate(), is(payDate));
@@ -154,7 +90,7 @@ public class PayrollTest {
     addEmp.addSalariedEmployee(data);
     payEmp.paySingleEmployee(payData);
 
-    Date payDate = EmpData.getPayDate(payData);
+    Date payDate = EmpDataUtils.getPayDate(payData);
     Employee employee = GpayrollDatabase.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
     assertThat(pc, is(nullValue()));
@@ -166,7 +102,7 @@ public class PayrollTest {
     addEmp.addHourlyEmployee(data);
     payEmp.paySingleEmployee(payData);
 
-    Date payDate = EmpData.getPayDate(payData);
+    Date payDate = EmpDataUtils.getPayDate(payData);
     Employee employee = GpayrollDatabase.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
     validatePaycheck(pc, getId(), payDate, new BigDecimal("0.00"));
@@ -178,9 +114,7 @@ public class PayrollTest {
     addTc.addTimeCard(EmpData.getTimeCardDataForEmployee());
     payData = EmpData.getPayDayDataForHourlyEmployee();
     payEmp.paySingleEmployee(payData);
-
-    Date payDate = EmpData.getPayDate(payData);
-    //Date payDate = date(11, 9, 2001); // Friday
+    Date payDate = EmpDataUtils.getPayDate(payData);
 
     Employee employee = GpayrollDatabase.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
@@ -188,13 +122,13 @@ public class PayrollTest {
   }
 
   @Test
-  public void paySingleHourlyEmployeeOvertimeOneTimeCard() throws Exception {
+  public void shouldPaySingleHourlyEmployeeOvertimeOneTimeCard() throws Exception {
     addEmp.addHourlyEmployee(data);
     addTc.addTimeCard(EmpData.getOvertimeTimeCardDataForEmployee());
     payData = EmpData.getPayDayDataForHourlyEmployee();
     payEmp.paySingleEmployee(payData);
 
-    Date payDate = EmpData.getPayDate(payData);
+    Date payDate = EmpDataUtils.getPayDate(payData);
     Employee employee = GpayrollDatabase.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
 
@@ -203,12 +137,12 @@ public class PayrollTest {
   }
 
   @Test
-  public void paySingleHourlyEmployeeOnWrongDate() throws Exception {
+  public void shouldPaySingleHourlyEmployeeOnWrongDate() throws Exception {
     addEmp.addHourlyEmployee(data);
     addTc.addTimeCard(EmpData.getTimeCardDataForEmployee());
     payData = EmpData.getPayDayWrongDataForHourlyEmployee();
     payEmp.paySingleEmployee(payData);
-    Date payDate = EmpData.getPayDate(payData);
+    Date payDate = EmpDataUtils.getPayDate(payData);
 
     Employee employee = GpayrollDatabase.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
@@ -217,13 +151,13 @@ public class PayrollTest {
   }
 
   @Test
-  public void paySingleHourlyEmployeeTwoTimeCards() throws Exception {
+  public void shouldPaySingleHourlyEmployeeTwoTimeCards() throws Exception {
     addEmp.addHourlyEmployee(data);
     addTc.addTimeCard(EmpData.getTimeCardDataForEmployee());
     addTc.addTimeCard(EmpData.getSecondTimeCardDataForEmployee());
     payData = EmpData.getPayDayDataForHourlyEmployee();
     payEmp.paySingleEmployee(payData);
-    Date payDate = EmpData.getPayDate(payData);
+    Date payDate = EmpDataUtils.getPayDate(payData);
 
     Employee employee = GpayrollDatabase.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
@@ -233,13 +167,13 @@ public class PayrollTest {
   }
 
   @Test
-  public void paySingleHourlyEmployeeWithTimeCardsSpanningTwoPayPeriods() throws Exception {
+  public void shouldpaySingleHourlyEmployeeWithTimeCardsSpanningTwoPayPeriods() throws Exception {
     addEmp.addHourlyEmployee(data);
     addTc.addTimeCard(EmpData.getTimeCardDataForEmployee());
     addTc.addTimeCard(EmpData.getPreviousPeriodTimeCardDataForEmployee());
     payData = EmpData.getPayDayDataForHourlyEmployee();
     payEmp.paySingleEmployee(payData);
-    Date payDate = EmpData.getPayDate(payData);
+    Date payDate = EmpDataUtils.getPayDate(payData);
 
     Employee employee = GpayrollDatabase.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
@@ -252,7 +186,7 @@ public class PayrollTest {
     addEmp.addCommissionedEmployee(data);
     payData = EmpData.getPayDayDataForCommissionedEmployee();
     payEmp.paySingleEmployee(payData);
-    Date payDate = EmpData.getPayDate(payData);
+    Date payDate = EmpDataUtils.getPayDate(payData);
 
     Employee employee = GpayrollDatabase.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
@@ -266,7 +200,7 @@ public class PayrollTest {
     addEmp.addCommissionedEmployee(data);
     payData = EmpData.getPayDayWrongDataForHourlyEmployee();
     payEmp.paySingleEmployee(payData);
-    Date payDate = EmpData.getPayDate(payData);
+    Date payDate = EmpDataUtils.getPayDate(payData);
 
     Employee employee = GpayrollDatabase.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
@@ -280,7 +214,7 @@ public class PayrollTest {
     addSR.addSalesReceipt(EmpData.getFirstSalesRecieptDataForEmployee());
     payData = EmpData.getPayDayDataForCommissionedEmployee();
     payEmp.paySingleEmployee(payData);
-    Date payDate = EmpData.getPayDate(payData);
+    Date payDate = EmpDataUtils.getPayDate(payData);
 
     Employee employee = GpayrollDatabase.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
@@ -296,7 +230,7 @@ public class PayrollTest {
     addSR.addSalesReceipt(EmpData.getSecondSalesRecieptDataForEmployee());
     payData = EmpData.getPayDayDataForCommissionedEmployee();
     payEmp.paySingleEmployee(payData);
-    Date payDate = EmpData.getPayDate(payData);
+    Date payDate = EmpDataUtils.getPayDate(payData);
 
     Employee employee = GpayrollDatabase.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
@@ -311,7 +245,7 @@ public class PayrollTest {
     addSR.addSalesReceipt(EmpData.getPreviousPeriodSalesRecieptDataForEmployee());
     payData = EmpData.getPayDayDataForCommissionedEmployee();
     payEmp.paySingleEmployee(payData);
-    Date payDate = EmpData.getPayDate(payData);
+    Date payDate = EmpDataUtils.getPayDate(payData);
 
     Employee employee = GpayrollDatabase.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
@@ -323,19 +257,9 @@ public class PayrollTest {
   @Test
   public void salariedUnionMemberDues() throws Exception {
     addEmp.addSalariedEmployee(data);
-
-    final int memberId = 86;
-    Map<String, Object> data2 = new HashMap<String, Object>();
-    data2.put(Constants.MEMBER_ID.name(), memberId);
-    data2.put(Constants.WEEKLY_DUES.name(), BigDecimal.valueOf(9.42));
-    data2.put(Constants.EMPLOYEE_ID.name(), 1);
-
-    Request request = changeEmpRequestBuilder.buildChangeMemberRequest(data2);
-    UseCase changeEmployeeMemberUseCase = changeEmpFactory.makeChangeEmployeeMember();
-    changeEmployeeMemberUseCase.execute(request);
-
+    changeEmp.changeToMember(EmpData.getUnionMembershipDataForEmployee());
     payEmp.paySingleEmployee(EmpData.getPayDayDataForSalariedEmployee());
-    Date payDate = EmpData.getPayDate(EmpData.getPayDayDataForSalariedEmployee());
+    Date payDate = EmpDataUtils.getPayDate(EmpData.getPayDayDataForSalariedEmployee());
 
     Employee employee = GpayrollDatabase.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
@@ -350,16 +274,12 @@ public class PayrollTest {
   @Test
   public void hourlyUnionMemberServiceCharge() throws Exception {
 
-    final int memberId = 86;
     addEmp.addHourlyEmployee(data);
-    Employee e = GpayrollDatabase.getEmployee(EmpData.getId(data));
-    Member af = new Member(memberId, BigDecimal.valueOf(9.42));
-    e.setUnionMembership(af);
-    GpayrollDatabase.addUnionMember(memberId, e);
+    changeEmp.changeToMember(EmpData.getUnionMembershipDataForEmployee());
     addTc.addTimeCard(EmpData.getThirdTimeCardDataForEmployee());
-    addSc.addServiceCharge(EmpData.getServieChargeDataForHourlyEmployee());
+    addSc.addServiceCharge(EmpData.getServiceChargeDataForHourlyEmployee());
     payEmp.paySingleEmployee(EmpData.getPayDayDataForHourlyEmployee());
-    Date payDate = EmpData.getPayDate(EmpData.getPayDayDataForHourlyEmployee());
+    Date payDate = EmpDataUtils.getPayDate(EmpData.getPayDayDataForHourlyEmployee());
 
     Employee employee = GpayrollDatabase.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
@@ -376,15 +296,15 @@ public class PayrollTest {
     final int memberId = 86;
 
     addEmp.addHourlyEmployee(data);
-    Employee e = GpayrollDatabase.getEmployee(EmpData.getId(data));
+    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(data));
     Member af = new Member(memberId, BigDecimal.valueOf(9.42));
     e.setUnionMembership(af);
     GpayrollDatabase.addUnionMember(memberId, e);
 
-    Date earlyDate = date(11, 2, 2001); // previous Friday
+    Date earlyDate = TestUtils.date(11, 2, 2001); // previous Friday
 
-    Date lateDate = date(11, 16, 2001); // next Friday
-    addSc.addServiceCharge(EmpData.getServieChargeDataForHourlyEmployee());
+    Date lateDate = TestUtils.date(11, 16, 2001); // next Friday
+    addSc.addServiceCharge(EmpData.getServiceChargeDataForHourlyEmployee());
 //    ddServiceChargeRequest sct = new AddServiceChargeRequest(memberId, payDate, new BigDecimal("19.42"));
 //    sct.execute();
 //    AddServiceChargeRequest sctEarly = new AddServiceChargeRequest(memberId,
@@ -398,7 +318,7 @@ public class PayrollTest {
     addTc.addTimeCard(EmpData.getThirdTimeCardDataForEmployee());
     payEmp.paySingleEmployee(EmpData.getPayDayDataForHourlyEmployee());
 
-    Date payDate = EmpData.getPayDate(EmpData.getPayDayDataForHourlyEmployee());
+    Date payDate = EmpDataUtils.getPayDate(EmpData.getPayDayDataForHourlyEmployee());
 
     Employee employee = GpayrollDatabase.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
@@ -432,13 +352,6 @@ public class PayrollTest {
     assertThat(pc.getField("Disposition"), is("Hold"));
     assertThat(pc.getDeductions(), is(deductions));
     assertThat(pc.getNetPay(), is(netPay));
-  }
-
-  private Date date(int month, int day, int year) {
-    Calendar c = Calendar.getInstance();
-    c.clear();
-    c.set(year, month - 1, day);
-    return c.getTime();
   }
 
 }

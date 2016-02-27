@@ -16,30 +16,33 @@ import org.junit.Test;
 import com.georgiev.builder.ChangeEmployeeRequestBuilder;
 import com.georgiev.builder.RequestBuilderImpl;
 import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
-import com.georgiev.payroll.domain.UnionMembership;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.payroll.domain.PaySchedule;
 import com.georgiev.payroll.domain.PayType;
+import com.georgiev.payroll.domain.UnionMembership;
 import com.georgiev.payroll.impl.BiweeklySchedule;
 import com.georgiev.payroll.impl.Commissioned;
 import com.georgiev.payroll.impl.Hourly;
+import com.georgiev.payroll.impl.Member;
 import com.georgiev.payroll.impl.MonthlySchedule;
 import com.georgiev.payroll.impl.NoMember;
 import com.georgiev.payroll.impl.Salaried;
-import com.georgiev.payroll.impl.Member;
 import com.georgiev.payroll.impl.WeeklySchedule;
 import com.georgiev.payroll.request.Request;
 import com.georgiev.test.usecases.AddEmployee;
+import com.georgiev.test.usecases.ChangeEmployeeToMember;
 import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.ChangeEmployeeUseCaseFactory;
 import com.georgiev.usecases.factory.impl.UseCaseFactoryImpl;
 import com.payroll.EmpData;
+import com.payroll.EmpDataUtils;
 
 public class ChangeEmployeePayrollTest {
 
   Map<String, Object> data;
   Map<String, Object> newData;
   AddEmployee addEmp;
+  ChangeEmployeeToMember chnageEmp;
   ChangeEmployeeRequestBuilder changeEmpRequestBuilder;
   ChangeEmployeeUseCaseFactory changeEmpFactory;
 
@@ -48,6 +51,7 @@ public class ChangeEmployeePayrollTest {
     GpayrollDatabase = new InMemoryPayrollDatabase();
     data = EmpData.getStandardDataForEmployee();
     addEmp = new AddEmployee();
+    chnageEmp = new ChangeEmployeeToMember();
 
     changeEmpRequestBuilder = new RequestBuilderImpl();
     changeEmpFactory = new UseCaseFactoryImpl();
@@ -57,9 +61,9 @@ public class ChangeEmployeePayrollTest {
   public void shouldChangeEmployeeName() throws Exception {
     addEmp.addHourlyEmployee(data);
     changeEmployeeName();
-    Employee e = GpayrollDatabase.getEmployee(EmpData.getId(newData));
+    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(newData));
     assertThat(e, is(notNullValue()));
-    assertThat(e.getName(), is(EmpData.getName(newData)));
+    assertThat(e.getName(), is(EmpDataUtils.getName(newData)));
   }
 
   private void changeEmployeeName() {
@@ -74,12 +78,12 @@ public class ChangeEmployeePayrollTest {
     addEmp.addCommissionedEmployee(data);
     changeEmployeeToHourly();
 
-    Employee e = GpayrollDatabase.getEmployee(EmpData.getId(newData));
+    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(newData));
     assertThat(e, is(notNullValue()));
     PayType pc = e.getPayType();
     assertThat(pc, instanceOf(Hourly.class));
     Hourly hc = (Hourly) pc;
-    assertThat(hc.getHourlyRate(), is(EmpData.getHourlyRate(newData)));
+    assertThat(hc.getHourlyRate(), is(EmpDataUtils.getHourlyRate(newData)));
     PaySchedule ps = e.getPaySchedule();
     assertThat(ps, instanceOf(WeeklySchedule.class));
   }
@@ -96,7 +100,7 @@ public class ChangeEmployeePayrollTest {
     addEmp.addCommissionedEmployee(data);
     changeEmployeeToSalaried();
 
-    Employee e = GpayrollDatabase.getEmployee(EmpData.getId(newData));
+    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(newData));
     assertThat(e, is(notNullValue()));
     PayType pc = e.getPayType();
     assertThat(pc, instanceOf(Salaried.class));
@@ -118,7 +122,7 @@ public class ChangeEmployeePayrollTest {
     addEmp.addSalariedEmployee(data);
     changeEmployeeToCommissioned();
 
-    Employee e = GpayrollDatabase.getEmployee(EmpData.getId(newData));
+    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(newData));
     assertThat(e, is(notNullValue()));
     PayType pc = e.getPayType();
     assertThat(pc, instanceOf(Commissioned.class));
@@ -139,14 +143,15 @@ public class ChangeEmployeePayrollTest {
   @Test
   public void shouldChangeToMember() throws Exception {
     addEmp.addHourlyEmployee(data);
-    changeToMember();
+    newData = EmpData.getChangeAffiliationToMemberForEmployee();
+    chnageEmp.changeToMember(newData);
 
-    Employee e = GpayrollDatabase.getEmployee(EmpData.getId(newData));
+    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(newData));
     assertThat(e, is(notNullValue()));
-    UnionMembership af = e.getAffiliation();
+    UnionMembership af = e.getUnionMembership();
     assertThat(af, instanceOf(Member.class));
     Member uf = (Member) af;
-    int memberId = EmpData.getMemberId(newData);
+    int memberId = EmpDataUtils.getMemberId(newData);
     assertThat(uf.getMemberId(), is(memberId));
     assertThat(uf.getWeeklyDues(), is(BigDecimal.valueOf(99.42)));
     Employee member = GpayrollDatabase.getUnionMember(memberId);
@@ -154,26 +159,19 @@ public class ChangeEmployeePayrollTest {
     assertThat(e.equals(member), is(true));
   }
 
-  private void changeToMember() {
-    newData = EmpData.getChangeAffiliationToMemberForEmployee();
-    Request request = changeEmpRequestBuilder.buildChangeMemberRequest(newData);
-    UseCase changeEmployeeMemberUseCase = changeEmpFactory.makeChangeEmployeeMember();
-    changeEmployeeMemberUseCase.execute(request);
-  }
-
   @Test
   public void shouldChangeToNoMember() throws Exception {
     addEmp.addHourlyEmployee(data);
-    final int memberId = EmpData.getMemberId(data);
+    final int memberId = EmpDataUtils.getMemberId(data);
 
-    Employee e = GpayrollDatabase.getEmployee(EmpData.getId(data));
+    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(data));
     assertThat(e, is(notNullValue()));
     Member uf = new Member(memberId, BigDecimal.valueOf(12.5));
     e.setUnionMembership(uf);
     GpayrollDatabase.addUnionMember(memberId, e);
     changeToNoMember();
 
-    UnionMembership af = e.getAffiliation();
+    UnionMembership af = e.getUnionMembership();
     assertThat(af, instanceOf(NoMember.class));
     Employee member = GpayrollDatabase.getUnionMember(memberId);
     assertThat(member, is(nullValue()));
@@ -189,11 +187,11 @@ public class ChangeEmployeePayrollTest {
   @Test
   public void changeToNoMember_alreadyUnaffiliatedEmployee() throws Exception {
     addEmp.addCommissionedEmployee(data);
-    Employee e = GpayrollDatabase.getEmployee(EmpData.getId(data));
+    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(data));
     assertThat(e, is(notNullValue()));
 
     changeToNoMember();
-    UnionMembership af = e.getAffiliation();
+    UnionMembership af = e.getUnionMembership();
     assertThat(af, instanceOf(NoMember.class));
   }
 }

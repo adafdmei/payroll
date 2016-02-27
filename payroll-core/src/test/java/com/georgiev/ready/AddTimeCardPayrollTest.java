@@ -19,6 +19,7 @@ import com.georgiev.test.usecases.AddEmployee;
 import com.georgiev.test.usecases.AddTimeCard;
 import com.georgiev.util.Constants;
 import com.payroll.EmpData;
+import com.payroll.EmpDataUtils;
 
 public class AddTimeCardPayrollTest {
 
@@ -51,7 +52,7 @@ public class AddTimeCardPayrollTest {
 
     assertThat(e, is(notNullValue()));
     Hourly hc = (Hourly) e.getPayType();
-    TimeCard tc = hc.getTimeCard(EmpData.getDate(data));
+    TimeCard tc = hc.getTimeCard(EmpDataUtils.getDate(data));
     assertThat(tc, is(notNullValue()));
     assertThat(tc.getHours(), is(getHours()));
   }

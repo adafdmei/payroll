@@ -17,7 +17,7 @@ public class ChangeEmployeeNoMemberUseCase extends ChangeEmployeeAffiliationUseC
 
   @Override
   protected void recordMembership(Employee employee, Request request) {
-    UnionMembership af = employee.getAffiliation();
+    UnionMembership af = employee.getUnionMembership();
     if (af instanceof Member) {
       Member uf = (Member) af;
       GpayrollDatabase.deleteUnionMember(uf.getMemberId());

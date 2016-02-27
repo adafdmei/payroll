@@ -22,6 +22,7 @@ import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.UseCaseFactory;
 import com.georgiev.usecases.factory.impl.UseCaseFactoryImpl;
 import com.payroll.EmpData;
+import com.payroll.EmpDataUtils;
 
 public class DeleteEmployeePayrollTest {
 
@@ -46,12 +47,12 @@ public class DeleteEmployeePayrollTest {
     addEmp.addCommissionedEmployee(data);
 
     {
-      Employee e = GpayrollDatabase.getEmployee(EmpData.getId(data));
+      Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(data));
       assertThat(e, is(notNullValue()));
     }
     deleteEmployee();
     {
-      Employee e = GpayrollDatabase.getEmployee(EmpData.getId(data));
+      Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(data));
       assertThat(e, is(nullValue()));
     }
   }

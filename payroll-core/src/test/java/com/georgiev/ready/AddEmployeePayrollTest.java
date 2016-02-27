@@ -28,6 +28,7 @@ import com.georgiev.payroll.impl.WeeklySchedule;
 import com.georgiev.test.usecases.AddEmployee;
 import com.georgiev.util.Constants;
 import com.payroll.EmpData;
+import com.payroll.EmpDataUtils;
 
 public class AddEmployeePayrollTest {
 
@@ -44,7 +45,7 @@ public class AddEmployeePayrollTest {
   @Test
   public void shouldAddSalariedEmployee() throws Exception {
     addEmp.addSalariedEmployee(data);
-    Employee e = GpayrollDatabase.getEmployee(EmpData.getId(data));
+    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(data));
     assertThat(e.getName(), is("Bob"));
 
     PayType pc = e.getPayType();
@@ -59,7 +60,7 @@ public class AddEmployeePayrollTest {
     PayDisposition pm = e.getPayDisposition();
     assertThat(pm, instanceOf(HoldMethod.class));
 
-    UnionMembership af = e.getAffiliation();
+    UnionMembership af = e.getUnionMembership();
     assertThat(af, instanceOf(NoMember.class));
   }
 
@@ -67,7 +68,7 @@ public class AddEmployeePayrollTest {
   public void shouldAddCommissionedEmployee() throws Exception {
     addEmp.addCommissionedEmployee(data);
 
-    Employee e = GpayrollDatabase.getEmployee(EmpData.getId(data));
+    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(data));
     assertThat(e.getName(), is("Bob"));
 
     PayType pc = e.getPayType();
@@ -83,14 +84,14 @@ public class AddEmployeePayrollTest {
     PayDisposition pm = e.getPayDisposition();
     assertThat(pm, instanceOf(HoldMethod.class));
 
-    UnionMembership af = e.getAffiliation();
+    UnionMembership af = e.getUnionMembership();
     assertThat(af, instanceOf(NoMember.class));
   }
 
   @Test
   public void shouldAddHourlyEmployee() throws Exception {
     addEmp.addHourlyEmployee(data);
-    Employee e = GpayrollDatabase.getEmployee(EmpData.getId(data));
+    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(data));
 
     assertThat(e.getName(), is("Bob"));
 
@@ -106,7 +107,7 @@ public class AddEmployeePayrollTest {
     PayDisposition pm = e.getPayDisposition();
     assertThat(pm, instanceOf(HoldMethod.class));
 
-    UnionMembership af = e.getAffiliation();
+    UnionMembership af = e.getUnionMembership();
     assertThat(af, instanceOf(NoMember.class));
   }
 

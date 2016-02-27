@@ -75,7 +75,7 @@ public class Employee {
     this.unionMembership = unionMembership;
   }
 
-  public UnionMembership getAffiliation() {
+  public UnionMembership getUnionMembership() {
     return unionMembership;
   }
 

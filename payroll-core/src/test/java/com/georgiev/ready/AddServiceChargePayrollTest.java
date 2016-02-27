@@ -13,21 +13,24 @@ import org.junit.Test;
 
 import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
-import com.georgiev.payroll.impl.ServiceCharge;
 import com.georgiev.payroll.impl.Member;
+import com.georgiev.payroll.impl.ServiceCharge;
 import com.georgiev.test.usecases.AddEmployee;
 import com.georgiev.test.usecases.AddSalesReceipt;
 import com.georgiev.test.usecases.AddServiceCharge;
 import com.georgiev.test.usecases.AddTimeCard;
+import com.georgiev.test.usecases.ChangeEmployeeToMember;
 import com.payroll.EmpData;
+import com.payroll.EmpDataUtils;
 import com.payroll.TestUtils;
 
 public class AddServiceChargePayrollTest {
 
   AddEmployee addEmp;
-  AddSalesReceipt addSR;
+  AddSalesReceipt addSr;
   AddServiceCharge addSc;
   AddTimeCard addTc;
+  ChangeEmployeeToMember chnageEmp;
   Map<String, Object> data;
   Map<String, Object> newData;
 
@@ -36,23 +39,24 @@ public class AddServiceChargePayrollTest {
     GpayrollDatabase = new InMemoryPayrollDatabase();
     data = EmpData.getStandardDataForEmployee();
     addEmp = new AddEmployee();
-    addSR = new AddSalesReceipt();
+    addSr = new AddSalesReceipt();
     addSc = new AddServiceCharge();
+    chnageEmp = new ChangeEmployeeToMember();
+
   }
 
   @Test
   public void shouldAddServiceCharge() throws Exception {
     addEmp.addCommissionedEmployee(data);
-    Employee e = GpayrollDatabase.getEmployee(EmpData.getId(data));
+    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(data));
     assertThat(e, is(notNullValue()));
-    addSR.addSalesReceipt(data);
-    int memberId = EmpData.getMemberId(EmpData.getServieChargeDataForEmployee());
-    Member af = new Member(memberId, BigDecimal.valueOf(12.5));
-    e.setUnionMembership(af);
-    GpayrollDatabase.addUnionMember(memberId, e);
+    addSr.addSalesReceipt(data);
+    newData = EmpData.getChangeAffiliationToMemberForEmployee();
+    chnageEmp.changeToMember(newData);
     addSc.addServiceCharge(EmpData.getServieChargeDataForEmployee());
 
-    ServiceCharge sc = af.getServiceCharge(TestUtils.date(11, 01, 2001));
+    Member member = (Member) e.getUnionMembership();
+    ServiceCharge sc = member.getServiceCharge(TestUtils.date(11, 01, 2001));
     assertThat(sc, is(notNullValue()));
     assertThat(sc.getAmount(), is(BigDecimal.valueOf(12.95)));
   }

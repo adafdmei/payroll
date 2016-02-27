@@ -15,7 +15,7 @@ public class AddServiceChargeUseCase implements UseCase {
   public void execute(Request request) {
     AddServiceChargeRequest scReq = (AddServiceChargeRequest) request;
     Employee e = GpayrollDatabase.getUnionMember(scReq.getMemberId());
-    UnionMembership af = e.getAffiliation();
+    UnionMembership af = e.getUnionMembership();
     if (af instanceof Member) {
       Member uaf = (Member) af;
       uaf.addServiceCharge(new ServiceCharge(scReq.getDate(), scReq.getCharge()));

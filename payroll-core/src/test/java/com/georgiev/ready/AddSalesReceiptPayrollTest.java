@@ -17,6 +17,7 @@ import com.georgiev.payroll.impl.SalesReceipt;
 import com.georgiev.test.usecases.AddEmployee;
 import com.georgiev.test.usecases.AddSalesReceipt;
 import com.payroll.EmpData;
+import com.payroll.EmpDataUtils;
 
 public class AddSalesReceiptPayrollTest {
 
@@ -36,13 +37,13 @@ public class AddSalesReceiptPayrollTest {
   public void shouldAddSalesReceipt() throws Exception {
     addEmp.addCommissionedEmployee(data);
     addSR.addSalesReceipt(data);
-    Employee e = GpayrollDatabase.getEmployee(EmpData.getId(data));
+    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(data));
 
     assertThat(e, is(notNullValue()));
     Commissioned cc = (Commissioned) e.getPayType();
-    SalesReceipt sr = cc.getSalesReceipt(EmpData.getDate(data));
+    SalesReceipt sr = cc.getSalesReceipt(EmpDataUtils.getDate(data));
     assertThat(sr, is(notNullValue()));
-    assertThat(sr.getAmount(), is(EmpData.getSoldAmount(data)));
+    assertThat(sr.getAmount(), is(EmpDataUtils.getSoldAmount(data)));
   }
 
 }
