@@ -1,9 +1,9 @@
 package com.georgiev.payroll.transaction.source;
 
-import com.georgiev.payroll.transaction.Transaction;
+import java.util.Map;
 
 public interface TransactionSource {
 
-  Transaction getTransaction();
+  public Map<String, Object> getDataArgs();
 
 }

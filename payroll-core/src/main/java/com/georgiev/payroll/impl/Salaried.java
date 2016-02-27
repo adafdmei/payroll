@@ -1,14 +1,14 @@
 package com.georgiev.payroll.impl;
 
 import com.georgiev.payroll.domain.Paycheck;
-import com.georgiev.payroll.domain.PaymentClassification;
+import com.georgiev.payroll.domain.AbstractPayType;
 import java.math.BigDecimal;
 
-public class SalariedClassification extends PaymentClassification {
+public class Salaried extends AbstractPayType {
 
   private final BigDecimal salary;
 
-  public SalariedClassification(BigDecimal salary) {
+  public Salaried(BigDecimal salary) {
     this.salary = salary;
   }
 

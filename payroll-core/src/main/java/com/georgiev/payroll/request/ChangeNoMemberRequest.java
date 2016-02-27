@@ -1,30 +1,17 @@
-package com.georgiev.payroll.transaction.impl;
+package com.georgiev.payroll.request;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
+import java.util.Map;
 
-import com.georgiev.payroll.domain.Affiliation;
-import com.georgiev.payroll.domain.Employee;
-import com.georgiev.payroll.impl.NoAffiliation;
-import com.georgiev.payroll.impl.UnionAffiliation;
+import com.georgiev.util.Constants;
 
-public class ChangeUnaffiliatedTransaction extends ChangeAffiliationTransaction {
+public class ChangeNoMemberRequest extends ChangeAffiliationRequest {
 
-  public ChangeUnaffiliatedTransaction(int employeeId) {
+  public ChangeNoMemberRequest(int employeeId) {
     super(employeeId);
   }
 
-  @Override
-  protected Affiliation getAffiliation() {
-    return new NoAffiliation();
+  public static Request createChangeNoMemberRequest(Map<String, Object> dataArgs) {
+    int employeeId = (int) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    return new ChangeNoMemberRequest(employeeId);
   }
-
-  @Override
-  protected void recordMembership(Employee employee) {
-    Affiliation af = employee.getAffiliation();
-    if (af instanceof UnionAffiliation) {
-      UnionAffiliation uf = (UnionAffiliation) af;
-      GpayrollDatabase.deleteUnionMember(uf.getMemberId());
-    }
-  }
-
 }

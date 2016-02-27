@@ -1,39 +1,25 @@
-package com.georgiev.payroll.transaction.impl;
+package com.georgiev.payroll.request;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
-
-import com.georgiev.payroll.domain.Employee;
-import com.georgiev.payroll.domain.Paycheck;
-import com.georgiev.payroll.transaction.Transaction;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class PaydayTransaction implements Transaction {
+import com.georgiev.util.Constants;
 
-  private final Map<Integer, Paycheck> paychecks = new HashMap<Integer, Paycheck>();
+public class PaydayRequest implements Request {
+
   private final Date payDate;
 
-  public PaydayTransaction(Date payDate) {
+  public PaydayRequest(Date payDate) {
     this.payDate = payDate;
   }
 
-  @Override
-  public void execute() {
-    List<Integer> empIds = GpayrollDatabase.getAllEmployeeIds();
-    for (int empId : empIds) {
-      Employee e = GpayrollDatabase.getEmployee(empId);
-      if (e != null && e.isPayDay(payDate)) {
-        Paycheck pc = new Paycheck(e.getPayPeriodStartDate(payDate), payDate);
-        paychecks.put(empId, pc);
-        e.payDay(pc);
-      }
-    }
+  public Date getPayDate() {
+    return payDate;
   }
 
-  public Paycheck getPaycheck(int employeeId) {
-    return paychecks.get(employeeId);
+  public static Request createPaydayRequest(Map<String, Object> dataArgs) {
+    Date payDate = (Date) dataArgs.get(Constants.PAY_DATE.name());
+    return new PaydayRequest(payDate);
   }
 
 }

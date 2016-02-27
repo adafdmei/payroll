@@ -1,31 +1,34 @@
-package com.georgiev.payroll.transaction.impl;
+package com.georgiev.payroll.request;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
-
-import com.georgiev.payroll.domain.Affiliation;
-import com.georgiev.payroll.domain.Employee;
-import com.georgiev.payroll.impl.UnionAffiliation;
 import java.math.BigDecimal;
+import java.util.Map;
 
-public class ChangeMemberTransaction extends ChangeAffiliationTransaction {
+import com.georgiev.util.Constants;
+
+public class ChangeMemberRequest extends ChangeAffiliationRequest {
 
   private final int memberId;
   private final BigDecimal weeklyDues;
 
-  public ChangeMemberTransaction(int employeeId, int memberId, BigDecimal weeklyDues) {
+  public ChangeMemberRequest(int employeeId, int memberId, BigDecimal weeklyDues) {
     super(employeeId);
     this.memberId = memberId;
     this.weeklyDues = weeklyDues;
   }
 
-  @Override
-  protected Affiliation getAffiliation() {
-    return new UnionAffiliation(memberId, weeklyDues);
+  public int getMemberId() {
+    return memberId;
   }
 
-  @Override
-  protected void recordMembership(Employee employee) {
-    GpayrollDatabase.addUnionMember(memberId, employee);
+  public BigDecimal getWeeklyDues() {
+    return weeklyDues;
   }
 
+  public static Request createChangeMemberRequest(Map<String, Object> dataArgs) {
+    int employeeId = (Integer) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    int memberId = (Integer) dataArgs.get(Constants.MEMBER_ID.name());
+    BigDecimal weeklyDues = (BigDecimal) dataArgs.get(Constants.WEEKLY_DUES.name());
+
+    return new ChangeMemberRequest(employeeId, memberId, weeklyDues);
+  }
 }

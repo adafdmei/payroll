@@ -1,45 +1,35 @@
 package com.georgiev.payroll.transaction.source;
 
-import com.georgiev.payroll.request.PayrollRequest;
-import com.georgiev.payroll.transaction.Transaction;
-import com.georgiev.payroll.transaction.TransactionFactory;
-import com.georgiev.request.PayRollRequestImpl;
+import com.georgiev.util.Constants;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
-public class TextParserTransactionSource implements TransactionSource {
+public class TextParserSource implements TransactionSource {
 
-  private final TransactionFactory factory;
   private final String line;
 
-  public TextParserTransactionSource(TransactionFactory factory, String line) {
-    this.factory = factory;
+  public TextParserSource(String line) {
     this.line = line;
   }
 
   @Override
-  public Transaction getTransaction() {
+  public Map<String, Object> getDataArgs() {
     return parseLine();
   }
 
-  private Transaction parseLine() {
+  private Map<String, Object> parseLine() {
     String[] parts = line.split(",");
-    if (parts[4].equals("H")) {
-      return factory.makeAddHourlyTransaction(integer(parts[1]), parts[2], parts[3], decimal(parts[5]));
+    Map<String, Object> dataArgs = new HashMap<>();
+    dataArgs.put(Constants.EMPLOYEE_ID.name(), integer(parts[1].trim()));
+    dataArgs.put(Constants.NAME.name(), parts[2].trim());
+    dataArgs.put(Constants.ADDRESS.name(), parts[3].trim());
+    if (parts[4].trim().equals("C")) {
+      dataArgs.put(Constants.BASE_PAY.name(), decimal(parts[5].trim()));
+      dataArgs.put(Constants.COMMISSION_RATE.name(), decimal(parts[6].trim()));
     }
-    else {
-      return factory.makeAddCommissionedTransaction(createPayrollRequest(parts));
-    }
-  }
-
-  private PayrollRequest createPayrollRequest(String[] parts) {
-    PayRollRequestImpl pr = new PayRollRequestImpl();
-    pr.setEmployeeId(integer(parts[1].trim()));
-    pr.setName(parts[2].trim());
-    pr.setAddres(parts[3].trim());
-    pr.setSalary(decimal(parts[5].trim()));
-    pr.setCommissionRate(decimal(parts[6].trim()));
-    return pr;
+    return dataArgs;
   }
 
   private Integer integer(String value) {

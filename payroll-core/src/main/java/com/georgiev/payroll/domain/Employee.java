@@ -2,21 +2,29 @@ package com.georgiev.payroll.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Employee {
+
+  private final Map<Date, Paycheck> paychecks = new HashMap<Date, Paycheck>();
 
   private final int employeeId;
   private String name;
   private String address;
-  private PaymentClassification classification;
-  private PaymentSchedule schedule;
-  private PaymentMethod method;
-  private Affiliation affiliation;
+  private PaySchedule paySchedule;
+  private PayDisposition payDisposition;
+  private UnionMembership unionMembership;
+  private PayType payType;
 
   public Employee(int employeeId, String name, String address) {
     this.employeeId = employeeId;
     this.name = name;
     this.address = address;
+  }
+
+  public Map<Date, Paycheck> getPaychecks() {
+    return paychecks;
   }
 
   public int getEmployeeId() {
@@ -39,54 +47,55 @@ public class Employee {
     this.address = address;
   }
 
-  public PaymentClassification getClassification() {
-    return classification;
+  public PayType getPayType() {
+    return payType;
   }
 
-  public void setClassification(PaymentClassification classification) {
-    this.classification = classification;
+  public void setPayType(PayType payType) {
+    this.payType = payType;
   }
 
-  public PaymentSchedule getSchedule() {
-    return schedule;
+  public PaySchedule getPaySchedule() {
+    return paySchedule;
   }
 
-  public void setSchedule(PaymentSchedule schedule) {
-    this.schedule = schedule;
+  public void setPaySchedule(PaySchedule paySchedule) {
+    this.paySchedule = paySchedule;
   }
 
-  public PaymentMethod getMethod() {
-    return method;
+  public PayDisposition getPayDisposition() {
+    return payDisposition;
   }
 
-  public void setMethod(PaymentMethod method) {
-    this.method = method;
+  public void setMethod(PayDisposition payDisposition) {
+    this.payDisposition = payDisposition;
   }
 
-  public void setAffiliation(Affiliation affiliation) {
-    this.affiliation = affiliation;
+  public void setUnionMembership(UnionMembership unionMembership) {
+    this.unionMembership = unionMembership;
   }
 
-  public Affiliation getAffiliation() {
-    return affiliation;
+  public UnionMembership getAffiliation() {
+    return unionMembership;
   }
 
   public boolean isPayDay(Date payDate) {
-    return schedule.isPayDay(payDate);
+    return paySchedule.isPayDay(payDate);
   }
 
   public Date getPayPeriodStartDate(Date payDate) {
-    return schedule.getPayPeriodStartDate(payDate);
+    return paySchedule.getPayPeriodStartDate(payDate);
   }
 
   public void payDay(Paycheck pc) {
-    BigDecimal grossPay = classification.calculatePay(pc);
-    BigDecimal deductions = affiliation.calculateDeductions(pc);
+    BigDecimal grossPay = payType.calculatePay(pc);
+    BigDecimal deductions = unionMembership.calculateDeductions(pc);
     BigDecimal netPay = grossPay.subtract(deductions);
     pc.setGrossPay(grossPay);
     pc.setDeductions(deductions);
     pc.setNetPay(netPay);
-    method.pay(pc);
+    paychecks.put(pc.getPayPeriodEndDate(), pc);
+    payDisposition.pay(pc);
   }
 
 }

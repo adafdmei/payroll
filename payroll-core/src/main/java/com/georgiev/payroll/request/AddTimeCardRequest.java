@@ -1,43 +1,39 @@
-package com.georgiev.payroll.transaction.impl;
+package com.georgiev.payroll.request;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
+import com.georgiev.util.Constants;
 
-import com.georgiev.payroll.domain.Employee;
-import com.georgiev.payroll.domain.PaymentClassification;
-import com.georgiev.payroll.impl.HourlyClassification;
-import com.georgiev.payroll.impl.TimeCard;
-import com.georgiev.payroll.transaction.Transaction;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 
-public class TimeCardTransaction implements Transaction {
+public class AddTimeCardRequest implements Request {
 
-  private final Date date;
-  private final BigDecimal hours;
-  private final int employeeId;
+  private Date date;
+  private BigDecimal hours;
+  private int employeeId;
 
-  public TimeCardTransaction(Date date, BigDecimal hours, int employeeId) {
+  public AddTimeCardRequest(Date date, BigDecimal hours, int employeeId) {
     this.date = date;
     this.hours = hours;
     this.employeeId = employeeId;
   }
 
-  @Override
-  public void execute() {
-    Employee e = GpayrollDatabase.getEmployee(employeeId);
-    if (e != null) {
-      PaymentClassification pc = e.getClassification();
-      if (pc instanceof HourlyClassification) {
-        HourlyClassification hc = (HourlyClassification) pc;
-        hc.addTimeCard(new TimeCard(date, hours));
-      }
-      else {
-        throw new RuntimeException("Tried to add timecard to non-hourly employee");
-      }
-    }
-    else {
-      throw (new RuntimeException("No such employee."));
-    }
+  public static AddTimeCardRequest createAddTimeCardRequest(Map<String, Object> dataArgs) {
+    Date date = (Date) dataArgs.get(Constants.DATE.name());
+    BigDecimal hours = (BigDecimal) dataArgs.get(Constants.HOURS.name());
+    int employeeId = (Integer) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    return new AddTimeCardRequest(date, hours, employeeId);
   }
 
+  public Date getDate() {
+    return date;
+  }
+
+  public BigDecimal getHours() {
+    return hours;
+  }
+
+  public int getEmployeeId() {
+    return employeeId;
+  }
 }

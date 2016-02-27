@@ -1,10 +1,10 @@
 package com.georgiev.payroll.impl;
 
-import com.georgiev.payroll.domain.Affiliation;
+import com.georgiev.payroll.domain.UnionMembership;
 import com.georgiev.payroll.domain.Paycheck;
 import java.math.BigDecimal;
 
-public class NoAffiliation implements Affiliation {
+public class NoMember implements UnionMembership {
 
   @Override
   public BigDecimal calculateDeductions(Paycheck pc) {

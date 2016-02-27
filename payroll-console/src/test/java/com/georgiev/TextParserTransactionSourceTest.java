@@ -11,45 +11,45 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.georgiev.payroll.request.PayrollRequest;
-import com.georgiev.payroll.transaction.Transaction;
+import com.georgiev.payroll.transaction.UseCase;
 import com.georgiev.payroll.transaction.TransactionFactory;
-import com.georgiev.payroll.transaction.source.TextParserTransactionSource;
+import com.georgiev.payroll.transaction.source.TextParserSource;
 
 public class TextParserTransactionSourceTest {
 
-  private final Transaction addHourlyTransaction = new TestTransaction();
-  private final Transaction addCommissionedTransaction = new TestTransaction();
+  private final UseCase addHourlyTransaction = new TestTransaction();
+  private final UseCase addCommissionedTransaction = new TestTransaction();
 
-  private TextParserTransactionSource source;
+  private TextParserSource source;
 
   @Test
   public void addCommissionedEmployee() throws Exception {
     given("AddEmp, 2, Bill, Work, C, 2500.00, 3.2");
-    assertThat(source.getTransaction(), is(addCommissionedTransaction));
+    assertThat(source.getDataArgs(), is(addCommissionedTransaction));
   }
 
   @Ignore
   @Test
   public void addHourlyEmployee() throws Exception {
     given("AddEmp, 3, Lance, Home, H ,15.25");
-    assertThat(source.getTransaction(), is(addHourlyTransaction));
+    assertThat(source.getDataArgs(), is(addHourlyTransaction));
   }
 
   @Ignore
   @Test 
   public void canReadMultipleTransactions() throws Exception {
     given("AddEmp, 2, Bill, Work, C, 2500.00, 3.2" + "\n AddEmp, 3, Lance, Home, H, 15.25");
-    assertThat(source.getTransaction(), is(addCommissionedTransaction));
-    assertThat(source.getTransaction(), is(addHourlyTransaction));
-    assertThat(source.getTransaction(), is(nullValue()));
+    assertThat(source.getDataArgs(), is(addCommissionedTransaction));
+    assertThat(source.getDataArgs(), is(addHourlyTransaction));
+    assertThat(source.getDataArgs(), is(nullValue()));
   }
 
   private void given(String transactions) throws Exception {
-    source = new TextParserTransactionSource(new TestTransactionFactory(),
+    source = new TextParserSource(new TestTransactionFactory(),
                                              transactions);
   }
 
-  private class TestTransaction implements Transaction {
+  private class TestTransaction implements UseCase {
 
     @Override
     public void execute() {
@@ -60,7 +60,7 @@ public class TextParserTransactionSourceTest {
   private class TestTransactionFactory implements TransactionFactory {
 
     @Override
-    public Transaction makeAddCommissionedTransaction(PayrollRequest request) {
+    public UseCase makeAddCommissionedTransaction(PayrollRequest request) {
       assertThat(request.getId(), is(2));
       assertThat(request.getName(), is("Bill"));
       assertThat(request.getAddress(), is("Work"));
@@ -70,7 +70,7 @@ public class TextParserTransactionSourceTest {
     }
 
     @Override
-    public Transaction makeAddHourlyTransaction(int employeeId,
+    public UseCase makeAddHourlyTransaction(int employeeId,
                                                 String name,
                                                 String address,
                                                 BigDecimal hourlyRate) {
@@ -82,7 +82,7 @@ public class TextParserTransactionSourceTest {
     }
 
     @Override
-    public Transaction makeAddSalariedTransaction(int employeeId,
+    public UseCase makeAddSalariedTransaction(int employeeId,
                                                   String name,
                                                   String address,
                                                   BigDecimal salary) {
@@ -91,7 +91,7 @@ public class TextParserTransactionSourceTest {
     }
 
     @Override
-    public Transaction makeChangeCommissionedTransaction(int employeeId,
+    public UseCase makeChangeCommissionedTransaction(int employeeId,
                                                          BigDecimal salary,
                                                          BigDecimal commissionRate) {
       // TODO Auto-generated method stub
@@ -99,61 +99,61 @@ public class TextParserTransactionSourceTest {
     }
 
     @Override
-    public Transaction makeChangeHourlyTransaction(int employeeId, BigDecimal hourlyRate) {
+    public UseCase makeChangeHourlyTransaction(int employeeId, BigDecimal hourlyRate) {
       // TODO Auto-generated method stub
       return null;
     }
 
     @Override
-    public Transaction makeChangeMemberTransaction(int employeeId, int memberId, BigDecimal weeklyDues) {
+    public UseCase makeChangeMemberTransaction(int employeeId, int memberId, BigDecimal weeklyDues) {
       // TODO Auto-generated method stub
       return null;
     }
 
     @Override
-    public Transaction makeChangeNameTransaction(int employeeId, String name) {
+    public UseCase makeChangeNameTransaction(int employeeId, String name) {
       // TODO Auto-generated method stub
       return null;
     }
 
     @Override
-    public Transaction makeChangeSalariedTransaction(int employeeId, BigDecimal salary) {
+    public UseCase makeChangeSalariedTransaction(int employeeId, BigDecimal salary) {
       // TODO Auto-generated method stub
       return null;
     }
 
     @Override
-    public Transaction makeChangeUnaffiliatedTransaction(int employeeId) {
+    public UseCase makeChangeUnaffiliatedTransaction(int employeeId) {
       // TODO Auto-generated method stub
       return null;
     }
 
     @Override
-    public Transaction makeDeleteEmployeeTransaction(int employeeId) {
+    public UseCase makeDeleteEmployeeTransaction(int employeeId) {
       // TODO Auto-generated method stub
       return null;
     }
 
     @Override
-    public Transaction makePaydayTransaction(Date payDate) {
+    public UseCase makePaydayTransaction(Date payDate) {
       // TODO Auto-generated method stub
       return null;
     }
 
     @Override
-    public Transaction makeSalesReceiptTransaction(Date date, BigDecimal amount, int employeeId) {
+    public UseCase makeSalesReceiptTransaction(Date date, BigDecimal amount, int employeeId) {
       // TODO Auto-generated method stub
       return null;
     }
 
     @Override
-    public Transaction makeServiceChargeTransaction(int memberId, Date date, BigDecimal charge) {
+    public UseCase makeServiceChargeTransaction(int memberId, Date date, BigDecimal charge) {
       // TODO Auto-generated method stub
       return null;
     }
 
     @Override
-    public Transaction makeTimeCardTransaction(Date date, BigDecimal hours, int employeeId) {
+    public UseCase makeTimeCardTransaction(Date date, BigDecimal hours, int employeeId) {
       // TODO Auto-generated method stub
       return null;
     }

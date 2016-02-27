@@ -2,11 +2,11 @@ package com.georgiev.payroll.impl;
 
 import static java.util.Calendar.DAY_OF_MONTH;
 
-import com.georgiev.payroll.domain.PaymentSchedule;
+import com.georgiev.payroll.domain.PaySchedule;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MonthlySchedule implements PaymentSchedule {
+public class MonthlySchedule implements PaySchedule {
 
   @Override
   public boolean isPayDay(Date payDate) {

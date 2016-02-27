@@ -1,43 +1,39 @@
-package com.georgiev.payroll.transaction.impl;
+package com.georgiev.payroll.request;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
+import com.georgiev.util.Constants;
 
-import com.georgiev.payroll.domain.Employee;
-import com.georgiev.payroll.domain.PaymentClassification;
-import com.georgiev.payroll.impl.CommissionedClassification;
-import com.georgiev.payroll.impl.SalesReceipt;
-import com.georgiev.payroll.transaction.Transaction;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 
-public class SalesReceiptTransaction implements Transaction {
+public class AddSalesRequest implements Request {
 
-  private final Date date;
-  private final BigDecimal amount;
-  private final int employeeId;
+  private Date date;
+  private BigDecimal amount;
+  private int employeeId;
 
-  public SalesReceiptTransaction(Date date, BigDecimal amount, int employeeId) {
+  public AddSalesRequest(Date date, BigDecimal amount, int employeeId) {
     this.date = date;
     this.amount = amount;
     this.employeeId = employeeId;
   }
 
-  @Override
-  public void execute() {
-    Employee e = GpayrollDatabase.getEmployee(employeeId);
-    if (e != null) {
-      PaymentClassification pc = e.getClassification();
-      if (pc instanceof CommissionedClassification) {
-        CommissionedClassification cc = (CommissionedClassification) pc;
-        cc.addSalesReceipt(new SalesReceipt(date, amount));
-      }
-      else {
-        throw new RuntimeException("Tried to add sales receipt to non-commissioned employee");
-      }
-    }
-    else {
-      throw (new RuntimeException("No such employee."));
-    }
+  public Date getDate() {
+    return date;
+  } 
+
+  public BigDecimal getAmount() {
+    return amount;
   }
 
+  public int getEmployeeId() {
+    return employeeId;
+  }
+
+  public static Request createAddSalesRecieptRequest(Map<String, Object> dataArgs) {
+    Date date = (Date) dataArgs.get(Constants.DATE.name());
+    BigDecimal amount = (BigDecimal) dataArgs.get(Constants.SOLD_AMOUNT.name());
+    int employeeId = (Integer) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    return new AddSalesRequest(date, amount, employeeId);
+  }
 }

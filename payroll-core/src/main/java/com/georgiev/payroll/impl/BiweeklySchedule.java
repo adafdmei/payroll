@@ -1,13 +1,13 @@
 package com.georgiev.payroll.impl;
 
-import com.georgiev.payroll.domain.PaymentSchedule;
+import com.georgiev.payroll.domain.PaySchedule;
 import com.georgiev.util.DateHelper;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BiweeklySchedule implements PaymentSchedule {
+public class BiweeklySchedule implements PaySchedule {
 
   private static final Set<Date> paydates = calculateBiWeeklyPayDates();
 

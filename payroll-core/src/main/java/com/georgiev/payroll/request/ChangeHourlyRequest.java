@@ -1,28 +1,27 @@
-package com.georgiev.payroll.transaction.impl;
+package com.georgiev.payroll.request;
 
-import com.georgiev.payroll.domain.PaymentClassification;
-import com.georgiev.payroll.domain.PaymentSchedule;
-import com.georgiev.payroll.impl.HourlyClassification;
-import com.georgiev.payroll.impl.WeeklySchedule;
 import java.math.BigDecimal;
+import java.util.Map;
 
-public class ChangeHourlyTransaction extends ChangeClassificationTransaction {
+import com.georgiev.util.Constants;
+
+public class ChangeHourlyRequest extends ChangeClassificationRequest {
 
   private final BigDecimal hourlyRate;
 
-  public ChangeHourlyTransaction(int employeeId, BigDecimal hourlyRate) {
+  public ChangeHourlyRequest(int employeeId, BigDecimal hourlyRate) {
     super(employeeId);
     this.hourlyRate = hourlyRate;
   }
 
-  @Override
-  protected PaymentClassification getClassification() {
-    return new HourlyClassification(hourlyRate);
+  public BigDecimal getHourlyRate() {
+    return hourlyRate;
   }
 
-  @Override
-  protected PaymentSchedule getSchedule() {
-    return new WeeklySchedule();
+  public static Request createChangeHourlyRequest(Map<String, Object> dataArgs) {
+    int employeeId = (Integer) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    BigDecimal hourlyRate = (BigDecimal) dataArgs.get(Constants.HOURLY_RATE.name());
+    return new ChangeHourlyRequest(employeeId, hourlyRate);
   }
 
 }

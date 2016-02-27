@@ -5,7 +5,7 @@ import static java.util.Calendar.DATE;
 import static java.util.Calendar.DAY_OF_WEEK;
 import static java.util.Calendar.FRIDAY;
 
-import com.georgiev.payroll.domain.Affiliation;
+import com.georgiev.payroll.domain.UnionMembership;
 import com.georgiev.payroll.domain.Paycheck;
 import com.georgiev.util.DateHelper;
 import java.math.BigDecimal;
@@ -14,13 +14,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UnionAffiliation implements Affiliation {
+public class Member implements UnionMembership {
 
   private final Map<Date, ServiceCharge> serviceCharges = new HashMap<Date, ServiceCharge>();
   private final int memberId;
   private final BigDecimal weeklyDues;
 
-  public UnionAffiliation(int memberId, BigDecimal weeklyDues) {
+  public Member(int memberId, BigDecimal weeklyDues) {
     this.memberId = memberId;
     this.weeklyDues = weeklyDues;
   }

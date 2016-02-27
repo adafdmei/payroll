@@ -1,30 +1,33 @@
-package com.georgiev.payroll.transaction.impl;
+package com.georgiev.payroll.request;
 
-import com.georgiev.payroll.domain.PaymentClassification;
-import com.georgiev.payroll.domain.PaymentSchedule;
-import com.georgiev.payroll.impl.BiweeklySchedule;
-import com.georgiev.payroll.impl.CommissionedClassification;
 import java.math.BigDecimal;
+import java.util.Map;
 
-public class ChangeCommissionedTransaction extends ChangeClassificationTransaction {
+import com.georgiev.util.Constants;
+
+public class ChangeCommissionedRequest extends ChangeClassificationRequest {
 
   private final BigDecimal salary;
   private final BigDecimal commissionRate;
 
-  public ChangeCommissionedTransaction(int employeeId, BigDecimal salary, BigDecimal commissionRate) {
+  public ChangeCommissionedRequest(int employeeId, BigDecimal salary, BigDecimal commissionRate) {
     super(employeeId);
     this.salary = salary;
     this.commissionRate = commissionRate;
   }
 
-  @Override
-  protected PaymentClassification getClassification() {
-    return new CommissionedClassification(salary, commissionRate);
+  public BigDecimal getSalary() {
+    return salary;
   }
 
-  @Override
-  protected PaymentSchedule getSchedule() {
-    return new BiweeklySchedule();
+  public BigDecimal getCommissionRate() {
+    return commissionRate;
   }
 
+  public static Request createChangeCommissionedRequest(Map<String, Object> dataArgs) {
+    int employeeId = (int) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    BigDecimal basePay = (BigDecimal) dataArgs.get(Constants.BASE_PAY.name());
+    BigDecimal commissionRate = (BigDecimal) dataArgs.get(Constants.COMMISSION_RATE.name());
+    return new ChangeCommissionedRequest(employeeId, basePay, commissionRate);
+  }
 }

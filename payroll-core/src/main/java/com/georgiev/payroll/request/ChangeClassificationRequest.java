@@ -1,23 +1,9 @@
-package com.georgiev.payroll.transaction.impl;
+package com.georgiev.payroll.request;
 
-import com.georgiev.payroll.domain.Employee;
-import com.georgiev.payroll.domain.PaymentClassification;
-import com.georgiev.payroll.domain.PaymentSchedule;
 
-public abstract class ChangeClassificationTransaction extends ChangeEmployeeTransaction {
+public abstract class ChangeClassificationRequest extends ChangeEmployeeRequest {
 
-  public ChangeClassificationTransaction(int employeeId) {
+  public ChangeClassificationRequest(int employeeId) {
     super(employeeId);
   }
-
-  @Override
-  protected void change(Employee employee) {
-    employee.setClassification(getClassification());
-    employee.setSchedule(getSchedule());
-  }
-
-  protected abstract PaymentClassification getClassification();
-
-  protected abstract PaymentSchedule getSchedule();
-
 }

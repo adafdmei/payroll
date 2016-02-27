@@ -1,20 +1,23 @@
 package com.georgiev.app;
 
-import com.georgiev.payroll.transaction.Transaction;
-import com.georgiev.payroll.transaction.source.TransactionSource;
+import com.georgiev.payroll.request.Request;
+import com.georgiev.usecases.UseCase;
+import com.georgiev.usecases.factory.UseCaseFactory;
+import com.georgiev.usecases.factory.impl.UseCaseFactoryImpl;
 
 public class TransactionApplication extends Application {
 
-  private final TransactionSource source;
+  private UseCaseFactory factory = new UseCaseFactoryImpl();
+  private Request request;
 
-  public TransactionApplication(TransactionSource source) {
-    this.source = source;
+  public TransactionApplication(Request request) {
+    this.request = request;
   }
 
   @Override
   public void run() {
-    Transaction trans = source.getTransaction();
-    trans.execute();
+    UseCase makeAddCommisionedEmployee = factory.makeAddCommisionedEmployee();
+    makeAddCommisionedEmployee.execute(request);
   }
 
 }

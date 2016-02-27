@@ -1,34 +1,35 @@
 package com.georgiev.transaction;
 
+import com.georgiev.payroll.request.AddSalesRequest;
+import com.georgiev.payroll.request.AddServiceChargeRequest;
+import com.georgiev.payroll.request.AddTimeCardRequest;
+import com.georgiev.payroll.request.ChangeCommissionedRequest;
+import com.georgiev.payroll.request.ChangeEmployeeNameRequest;
+import com.georgiev.payroll.request.ChangeHourlyRequest;
+import com.georgiev.payroll.request.ChangeMemberRequest;
+import com.georgiev.payroll.request.ChangeSalariedRequest;
+import com.georgiev.payroll.request.ChangeNoMemberRequest;
+import com.georgiev.payroll.request.PaydayRequest;
 import com.georgiev.payroll.request.PayrollRequest;
-import com.georgiev.payroll.transaction.Transaction;
+import com.georgiev.payroll.transaction.UseCase;
 import com.georgiev.payroll.transaction.TransactionFactory;
-import com.georgiev.payroll.transaction.impl.AddCommissionedEmployee;
+import com.georgiev.payroll.transaction.impl.AddCommissionedEmployeeUseCase;
 import com.georgiev.payroll.transaction.impl.AddHourlyEmployee;
 import com.georgiev.payroll.transaction.impl.AddSalariedEmployee;
-import com.georgiev.payroll.transaction.impl.ChangeCommissionedTransaction;
-import com.georgiev.payroll.transaction.impl.ChangeHourlyTransaction;
-import com.georgiev.payroll.transaction.impl.ChangeMemberTransaction;
-import com.georgiev.payroll.transaction.impl.ChangeNameTransaction;
-import com.georgiev.payroll.transaction.impl.ChangeSalariedTransaction;
-import com.georgiev.payroll.transaction.impl.ChangeUnaffiliatedTransaction;
-import com.georgiev.payroll.transaction.impl.DeleteEmployeeTransaction;
-import com.georgiev.payroll.transaction.impl.PaydayTransaction;
-import com.georgiev.payroll.transaction.impl.SalesReceiptTransaction;
-import com.georgiev.payroll.transaction.impl.ServiceChargeTransaction;
-import com.georgiev.payroll.transaction.impl.TimeCardTransaction;
+import com.georgiev.usecases.DeleteEmployeeUseCase;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class TransactionFactoryImpl implements TransactionFactory {
 
   @Override
-  public Transaction makeAddCommissionedTransaction(PayrollRequest requst) {
-    return new AddCommissionedEmployee(requst);
+  public UseCase makeAddCommissionedTransaction(PayrollRequest requst) {
+    return new AddCommissionedEmployeeUseCase(requst);
   }
 
   @Override
-  public Transaction makeAddHourlyTransaction(int employeeId,
+  public UseCase makeAddHourlyTransaction(int employeeId,
                                               String name,
                                               String address,
                                               BigDecimal hourlyRate) {
@@ -36,65 +37,65 @@ public class TransactionFactoryImpl implements TransactionFactory {
   }
 
   @Override
-  public Transaction makeAddSalariedTransaction(int employeeId, String name, String address, BigDecimal salary) {
+  public UseCase makeAddSalariedTransaction(int employeeId, String name, String address, BigDecimal salary) {
     return new AddSalariedEmployee(employeeId, name, address, salary);
   }
 
   @Override
-  public Transaction makeChangeCommissionedTransaction(int employeeId,
+  public UseCase makeChangeCommissionedTransaction(int employeeId,
                                                        BigDecimal salary,
                                                        BigDecimal commissionRate) {
-    return new ChangeCommissionedTransaction(employeeId, salary, commissionRate);
+    return new ChangeCommissionedRequest(employeeId, salary, commissionRate);
   }
 
   @Override
-  public Transaction makeChangeHourlyTransaction(int employeeId, BigDecimal hourlyRate) {
-    return new ChangeHourlyTransaction(employeeId, hourlyRate);
+  public UseCase makeChangeHourlyTransaction(int employeeId, BigDecimal hourlyRate) {
+    return new ChangeHourlyRequest(employeeId, hourlyRate);
   }
 
   @Override
-  public Transaction makeChangeMemberTransaction(int employeeId, int memberId, BigDecimal weeklyDues) {
-    return new ChangeMemberTransaction(employeeId, memberId, weeklyDues);
+  public UseCase makeChangeMemberTransaction(int employeeId, int memberId, BigDecimal weeklyDues) {
+    return new ChangeMemberRequest(employeeId, memberId, weeklyDues);
   }
 
   @Override
-  public Transaction makeChangeNameTransaction(int employeeId, String name) {
-    return new ChangeNameTransaction(employeeId, name);
+  public UseCase makeChangeNameTransaction(int employeeId, String name) {
+    return new ChangeEmployeeNameRequest(employeeId, name);
   }
 
   @Override
-  public Transaction makeChangeSalariedTransaction(int employeeId, BigDecimal salary) {
-    return new ChangeSalariedTransaction(employeeId, salary);
+  public UseCase makeChangeSalariedTransaction(int employeeId, BigDecimal salary) {
+    return new ChangeSalariedRequest(employeeId, salary);
   }
 
   @Override
-  public Transaction makeChangeUnaffiliatedTransaction(int employeeId) {
-    return new ChangeUnaffiliatedTransaction(employeeId);
+  public UseCase makeChangeUnaffiliatedTransaction(int employeeId) {
+    return new ChangeNoMemberRequest(employeeId);
   }
 
   @Override
-  public Transaction makeDeleteEmployeeTransaction(int employeeId) {
-    return new DeleteEmployeeTransaction(employeeId);
+  public UseCase makeDeleteEmployeeTransaction(int employeeId) {
+    return new DeleteEmployeeUseCase(employeeId);
   }
 
   @Override
-  public Transaction makePaydayTransaction(Date payDate) {
-    return new PaydayTransaction(payDate);
+  public UseCase makePaydayTransaction(Date payDate) {
+    return new PaydayRequest(payDate);
   }
 
   @Override
-  public Transaction makeSalesReceiptTransaction(Date date, BigDecimal amount, int employeeId) {
-    return new SalesReceiptTransaction(date, amount, employeeId);
+  public UseCase makeSalesReceiptTransaction(Date date, BigDecimal amount, int employeeId) {
+    return new AddSalesRequest(date, amount, employeeId);
   }
 
   @Override
-  public Transaction makeServiceChargeTransaction(int memberId, Date date, BigDecimal charge) {
-    return new ServiceChargeTransaction(memberId, date, charge);
+  public UseCase makeServiceChargeTransaction(int memberId, Date date, BigDecimal charge) {
+    return new AddServiceChargeRequest(memberId, date, charge);
   }
 
   @Override
-  public Transaction makeTimeCardTransaction(Date date, BigDecimal hours, int employeeId) {
-    return new TimeCardTransaction(date, hours, employeeId);
+  public UseCase makeTimeCardTransaction(Date date, BigDecimal hours, int employeeId) {
+    return new AddTimeCardRequest(date, hours, employeeId);
   }
 
 }

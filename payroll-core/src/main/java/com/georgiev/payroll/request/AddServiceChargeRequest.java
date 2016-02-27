@@ -1,35 +1,40 @@
-package com.georgiev.payroll.transaction.impl;
+package com.georgiev.payroll.request;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
-
-import com.georgiev.payroll.domain.Affiliation;
-import com.georgiev.payroll.domain.Employee;
-import com.georgiev.payroll.impl.ServiceCharge;
-import com.georgiev.payroll.impl.UnionAffiliation;
-import com.georgiev.payroll.transaction.Transaction;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 
-public class ServiceChargeTransaction implements Transaction {
+import com.georgiev.util.Constants;
+
+public class AddServiceChargeRequest implements Request {
 
   private final int memberId;
   private final Date date;
   private final BigDecimal charge;
 
-  public ServiceChargeTransaction(int memberId, Date date, BigDecimal charge) {
+  public AddServiceChargeRequest(int memberId, Date date, BigDecimal charge) {
     this.memberId = memberId;
     this.date = date;
     this.charge = charge;
   }
 
-  @Override
-  public void execute() {
-    Employee e = GpayrollDatabase.getUnionMember(memberId);
-    Affiliation af = e.getAffiliation();
-    if (af instanceof UnionAffiliation) {
-      UnionAffiliation uaf = (UnionAffiliation) af;
-      uaf.addServiceCharge(new ServiceCharge(date, charge));
-    }
+  public int getMemberId() {
+    return memberId;
   }
 
+  public Date getDate() {
+    return date;
+  }
+
+  public BigDecimal getCharge() {
+    return charge;
+  }
+
+  public static Request createServiceChargeRequest(Map<String, Object> dataArgs) {
+    Date date = (Date) dataArgs.get(Constants.DATE.name());
+    int memberId = (int) dataArgs.get(Constants.MEMBER_ID.name());
+    BigDecimal charge = (BigDecimal) dataArgs.get(Constants.CHARGE.name());
+
+    return new AddServiceChargeRequest(memberId, date, charge);
+  }
 }

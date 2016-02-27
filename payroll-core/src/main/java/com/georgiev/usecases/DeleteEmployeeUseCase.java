@@ -1,20 +1,17 @@
-package com.georgiev.payroll.transaction.impl;
+package com.georgiev.usecases;
 
 import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
 
-import com.georgiev.payroll.transaction.Transaction;
+import com.georgiev.payroll.request.DeleteEmployeePayrollRequest;
+import com.georgiev.payroll.request.Request;
 
-public class DeleteEmployeeTransaction implements Transaction {
-
-  private final int employeeId;
-
-  public DeleteEmployeeTransaction(int employeeId) {
-    this.employeeId = employeeId;
-  }
+public class DeleteEmployeeUseCase implements UseCase {
 
   @Override
-  public void execute() {
-    GpayrollDatabase.deleteEmployee(employeeId);
+  public void execute(Request request) {
+    DeleteEmployeePayrollRequest depr = (DeleteEmployeePayrollRequest) request;
+    GpayrollDatabase.deleteEmployee(depr.getEmployeeId());
+
   }
 
 }

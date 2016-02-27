@@ -1,26 +1,15 @@
-package com.georgiev.payroll.transaction.impl;
+package com.georgiev.payroll.request;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
 
-import com.georgiev.payroll.domain.Employee;
-import com.georgiev.payroll.transaction.Transaction;
+public abstract class ChangeEmployeeRequest implements Request {
 
-public abstract class ChangeEmployeeTransaction implements Transaction {
+  private int employeeId;
 
-  private final int employeeId;
-
-  public ChangeEmployeeTransaction(int employeeId) {
+  public ChangeEmployeeRequest(int employeeId) {
     this.employeeId = employeeId;
   }
 
-  @Override
-  public void execute() {
-    Employee e = GpayrollDatabase.getEmployee(employeeId);
-    if (e != null) {
-      change(e);
-    }
+  public int getEmployeeId() {
+    return employeeId;
   }
-
-  protected abstract void change(Employee employee);
-
 }

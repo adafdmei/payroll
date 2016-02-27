@@ -2,7 +2,7 @@ package com.georgiev.payroll.domain;
 
 import java.util.Date;
 
-public interface PaymentSchedule {
+public interface PaySchedule {
 
   boolean isPayDay(Date payDate);
 

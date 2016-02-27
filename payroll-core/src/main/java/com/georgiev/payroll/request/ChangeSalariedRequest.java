@@ -1,28 +1,27 @@
-package com.georgiev.payroll.transaction.impl;
+package com.georgiev.payroll.request;
 
-import com.georgiev.payroll.domain.PaymentClassification;
-import com.georgiev.payroll.domain.PaymentSchedule;
-import com.georgiev.payroll.impl.MonthlySchedule;
-import com.georgiev.payroll.impl.SalariedClassification;
 import java.math.BigDecimal;
+import java.util.Map;
 
-public class ChangeSalariedTransaction extends ChangeClassificationTransaction {
+import com.georgiev.util.Constants;
+
+public class ChangeSalariedRequest extends ChangeClassificationRequest {
 
   private final BigDecimal salary;
 
-  public ChangeSalariedTransaction(int employeeId, BigDecimal salary) {
+  public ChangeSalariedRequest(int employeeId, BigDecimal salary) {
     super(employeeId);
     this.salary = salary;
   }
 
-  @Override
-  protected PaymentClassification getClassification() {
-    return new SalariedClassification(salary);
+  public BigDecimal getSalary() {
+    return salary;
   }
 
-  @Override
-  protected PaymentSchedule getSchedule() {
-    return new MonthlySchedule();
+  public static Request createChangeSalariedRequest(Map<String, Object> dataArgs) {
+    int employeeId = (Integer) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    BigDecimal salary = (BigDecimal) dataArgs.get(Constants.SALARY.name());
+    return new ChangeSalariedRequest(employeeId, salary);
   }
 
 }

@@ -1,19 +1,25 @@
-package com.georgiev.payroll.transaction.impl;
+package com.georgiev.payroll.request;
 
-import com.georgiev.payroll.domain.Employee;
+import java.util.Map;
 
-public class ChangeNameTransaction extends ChangeEmployeeTransaction {
+import com.georgiev.util.Constants;
 
-  private final String name;
+public class ChangeEmployeeNameRequest extends ChangeEmployeeRequest {
 
-  public ChangeNameTransaction(int employeeId, String name) {
+  private String name;
+
+  public ChangeEmployeeNameRequest(int employeeId, String name) {
     super(employeeId);
     this.name = name;
   }
 
-  @Override
-  protected void change(Employee employee) {
-    employee.setName(name);
+  public String getName() {
+    return name;
   }
 
+  public static Request createChangeEmployeeNameRequest(Map<String, Object> dataArgs) {
+    int employeeId = (int) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    String name = (String) dataArgs.get(Constants.NAME.name());
+    return new ChangeEmployeeNameRequest(employeeId, name);
+  }
 }
