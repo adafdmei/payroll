@@ -11,7 +11,7 @@ public class Employee {
 
   private final int employeeId;
   private String name;
-  private String address;
+  private final String address;
   private PaySchedule paySchedule;
   private PayDisposition payDisposition;
   private UnionMembership unionMembership;
@@ -41,10 +41,6 @@ public class Employee {
 
   public String getAddress() {
     return address;
-  }
-
-  public void setAddress(String address) {
-    this.address = address;
   }
 
   public PayType getPayType() {
