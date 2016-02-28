@@ -27,8 +27,8 @@ import com.georgiev.payroll.impl.Salaried;
 import com.georgiev.payroll.impl.WeeklySchedule;
 import com.georgiev.test.usecases.AddEmployee;
 import com.georgiev.util.Constants;
-import com.payroll.EmpData;
-import com.payroll.EmpDataUtils;
+import com.payroll.EmployeeData;
+import com.payroll.EmployeeDataUtils;
 
 public class AddEmployeePayrollTest {
 
@@ -38,14 +38,14 @@ public class AddEmployeePayrollTest {
   @Before
   public void setup() {
     GpayrollDatabase = new InMemoryPayrollDatabase();
-    data = EmpData.getStandardDataForEmployee();
+    data = EmployeeData.getStandardDataForEmployee();
     addEmp = new AddEmployee();
   }
 
   @Test
   public void shouldAddSalariedEmployee() throws Exception {
     addEmp.addSalariedEmployee(data);
-    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(data));
+    Employee e = GpayrollDatabase.getEmployee(EmployeeDataUtils.getId(data));
     assertThat(e.getName(), is("Bob"));
 
     PayType pc = e.getPayType();
@@ -68,7 +68,7 @@ public class AddEmployeePayrollTest {
   public void shouldAddCommissionedEmployee() throws Exception {
     addEmp.addCommissionedEmployee(data);
 
-    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(data));
+    Employee e = GpayrollDatabase.getEmployee(EmployeeDataUtils.getId(data));
     assertThat(e.getName(), is("Bob"));
 
     PayType pc = e.getPayType();
@@ -91,7 +91,7 @@ public class AddEmployeePayrollTest {
   @Test
   public void shouldAddHourlyEmployee() throws Exception {
     addEmp.addHourlyEmployee(data);
-    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(data));
+    Employee e = GpayrollDatabase.getEmployee(EmployeeDataUtils.getId(data));
 
     assertThat(e.getName(), is("Bob"));
 

@@ -13,6 +13,6 @@ public enum Constants {
   SOLD_AMOUNT,
   MEMBER_ID,
   WEEKLY_DUES,
-  CHARGE,
+  SERVICE_CHARGE,
   PAY_DATE
 }

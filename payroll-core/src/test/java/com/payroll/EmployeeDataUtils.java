@@ -6,10 +6,14 @@ import java.util.Map;
 
 import com.georgiev.util.Constants;
 
-public class EmpDataUtils {
+public class EmployeeDataUtils {
 
   public static int getId(Map<String, Object> data) {
     return (int) data.get(Constants.EMPLOYEE_ID.name());
+  }
+
+  public static BigDecimal getServiceCharge(Map<String, Object> data) {
+    return (BigDecimal) data.get(Constants.SERVICE_CHARGE.name());
   }
 
   public static BigDecimal getSoldAmount(Map<String, Object> data) {

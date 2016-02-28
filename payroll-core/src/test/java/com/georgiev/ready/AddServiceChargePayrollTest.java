@@ -5,7 +5,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 import org.junit.Before;
@@ -20,8 +19,8 @@ import com.georgiev.test.usecases.AddSalesReceipt;
 import com.georgiev.test.usecases.AddServiceCharge;
 import com.georgiev.test.usecases.AddTimeCard;
 import com.georgiev.test.usecases.ChangeEmployeeToMember;
-import com.payroll.EmpData;
-import com.payroll.EmpDataUtils;
+import com.payroll.EmployeeData;
+import com.payroll.EmployeeDataUtils;
 import com.payroll.TestUtils;
 
 public class AddServiceChargePayrollTest {
@@ -37,7 +36,7 @@ public class AddServiceChargePayrollTest {
   @Before
   public void setup() {
     GpayrollDatabase = new InMemoryPayrollDatabase();
-    data = EmpData.getStandardDataForEmployee();
+    data = EmployeeData.getStandardDataForEmployee();
     addEmp = new AddEmployee();
     addSr = new AddSalesReceipt();
     addSc = new AddServiceCharge();
@@ -48,16 +47,16 @@ public class AddServiceChargePayrollTest {
   @Test
   public void shouldAddServiceCharge() throws Exception {
     addEmp.addCommissionedEmployee(data);
-    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(data));
+    Employee e = GpayrollDatabase.getEmployee(EmployeeDataUtils.getId(data));
     assertThat(e, is(notNullValue()));
     addSr.addSalesReceipt(data);
-    newData = EmpData.getChangeAffiliationToMemberForEmployee();
+    newData = EmployeeData.getChangeUnionMembershipToMemberForEmployee();
     chnageEmp.changeToMember(newData);
-    addSc.addServiceCharge(EmpData.getServieChargeDataForEmployee());
+    addSc.addServiceCharge(EmployeeData.getServieChargeDataForEmployee());
 
     Member member = (Member) e.getUnionMembership();
     ServiceCharge sc = member.getServiceCharge(TestUtils.date(11, 01, 2001));
     assertThat(sc, is(notNullValue()));
-    assertThat(sc.getAmount(), is(BigDecimal.valueOf(12.95)));
+    assertThat(sc.getAmount(), is(EmployeeDataUtils.getServiceCharge(EmployeeData.getServieChargeDataForEmployee())));
   }
 }

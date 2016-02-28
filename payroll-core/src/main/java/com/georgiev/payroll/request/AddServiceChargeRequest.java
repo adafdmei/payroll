@@ -33,7 +33,7 @@ public class AddServiceChargeRequest implements Request {
   public static Request createServiceChargeRequest(Map<String, Object> dataArgs) {
     Date date = (Date) dataArgs.get(Constants.DATE.name());
     int memberId = (int) dataArgs.get(Constants.MEMBER_ID.name());
-    BigDecimal charge = (BigDecimal) dataArgs.get(Constants.CHARGE.name());
+    BigDecimal charge = (BigDecimal) dataArgs.get(Constants.SERVICE_CHARGE.name());
 
     return new AddServiceChargeRequest(memberId, date, charge);
   }

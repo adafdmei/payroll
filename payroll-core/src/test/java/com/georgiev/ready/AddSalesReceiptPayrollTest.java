@@ -16,8 +16,8 @@ import com.georgiev.payroll.impl.Commissioned;
 import com.georgiev.payroll.impl.SalesReceipt;
 import com.georgiev.test.usecases.AddEmployee;
 import com.georgiev.test.usecases.AddSalesReceipt;
-import com.payroll.EmpData;
-import com.payroll.EmpDataUtils;
+import com.payroll.EmployeeData;
+import com.payroll.EmployeeDataUtils;
 
 public class AddSalesReceiptPayrollTest {
 
@@ -28,7 +28,7 @@ public class AddSalesReceiptPayrollTest {
   @Before
   public void setup() {
     GpayrollDatabase = new InMemoryPayrollDatabase();
-    data = EmpData.getStandardDataForEmployee();
+    data = EmployeeData.getStandardDataForEmployee();
     addEmp = new AddEmployee();
     addSR = new AddSalesReceipt();
   }
@@ -37,13 +37,13 @@ public class AddSalesReceiptPayrollTest {
   public void shouldAddSalesReceipt() throws Exception {
     addEmp.addCommissionedEmployee(data);
     addSR.addSalesReceipt(data);
-    Employee e = GpayrollDatabase.getEmployee(EmpDataUtils.getId(data));
+    Employee e = GpayrollDatabase.getEmployee(EmployeeDataUtils.getId(data));
 
     assertThat(e, is(notNullValue()));
     Commissioned cc = (Commissioned) e.getPayType();
-    SalesReceipt sr = cc.getSalesReceipt(EmpDataUtils.getDate(data));
+    SalesReceipt sr = cc.getSalesReceipt(EmployeeDataUtils.getDate(data));
     assertThat(sr, is(notNullValue()));
-    assertThat(sr.getAmount(), is(EmpDataUtils.getSoldAmount(data)));
+    assertThat(sr.getAmount(), is(EmployeeDataUtils.getSoldAmount(data)));
   }
 
 }

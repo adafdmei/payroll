@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.georgiev.util.Constants;
 
-public class EmpData {
+public class EmployeeData {
 
   public static Map<String, Object> getStandardDataForEmployee() {
     Map<String, Object> data = new HashMap<String, Object>();
@@ -52,17 +52,17 @@ public class EmpData {
     return data;
   }
 
-  public static Map<String, Object> getPayDayDataForCommissionedEmployee() {
-    Map<String, Object> data = new HashMap<String, Object>();
-    data.put(Constants.EMPLOYEE_ID.name(), 1);
-    data.put(Constants.PAY_DATE.name(), TestUtils.date(11, 16, 2012));
-    return data;
-  }
-
   public static Map<String, Object> getPayDayWrongDataForHourlyEmployee() {
     Map<String, Object> data = new HashMap<String, Object>();
     data.put(Constants.EMPLOYEE_ID.name(), 1);
     data.put(Constants.PAY_DATE.name(), TestUtils.date(11, 8, 2001));
+    return data;
+  }
+
+  public static Map<String, Object> getPayDayDataForCommissionedEmployee() {
+    Map<String, Object> data = new HashMap<String, Object>();
+    data.put(Constants.EMPLOYEE_ID.name(), 1);
+    data.put(Constants.PAY_DATE.name(), TestUtils.date(11, 16, 2012));
     return data;
   }
 
@@ -95,7 +95,7 @@ public class EmpData {
     return data;
   }
 
-  public static Map<String, Object> getChangeAffiliationToMemberForEmployee() {
+  public static Map<String, Object> getChangeUnionMembershipToMemberForEmployee() {
     Map<String, Object> data = new HashMap<String, Object>();
     data.put(Constants.MEMBER_ID.name(), 86);
     data.put(Constants.WEEKLY_DUES.name(), BigDecimal.valueOf(99.42));
@@ -103,7 +103,7 @@ public class EmpData {
     return data;
   }
 
-  public static Map<String, Object> getTimeCardDataForEmployee() {
+  public static Map<String, Object> getTimeCardTwoHoursForEmployee() {
     Map<String, Object> data = new HashMap<String, Object>();
     data.put(Constants.EMPLOYEE_ID.name(), 1);
     data.put(Constants.DATE.name(), TestUtils.date(11, 9, 2001));
@@ -112,7 +112,7 @@ public class EmpData {
     return data;
   }
 
-  public static Map<String, Object> getThirdTimeCardDataForEmployee() {
+  public static Map<String, Object> getTimeCardEightHoursForEmployee() {
     Map<String, Object> data = new HashMap<String, Object>();
     data.put(Constants.EMPLOYEE_ID.name(), 1);
     data.put(Constants.DATE.name(), TestUtils.date(11, 9, 2001));
@@ -121,7 +121,7 @@ public class EmpData {
     return data;
   }
 
-  public static Map<String, Object> getSecondTimeCardDataForEmployee() {
+  public static Map<String, Object> getTimeCardFiveHoursForEmployee() {
     Map<String, Object> data = new HashMap<String, Object>();
     data.put(Constants.EMPLOYEE_ID.name(), 1);
     data.put(Constants.DATE.name(), TestUtils.date(11, 5, 2001));
@@ -130,7 +130,7 @@ public class EmpData {
     return data;
   }
 
-  public static Map<String, Object> getPreviousPeriodTimeCardDataForEmployee() {
+  public static Map<String, Object> getTimeCardPreviousPeriodForEmployee() {
     Map<String, Object> data = new HashMap<String, Object>();
     data.put(Constants.EMPLOYEE_ID.name(), 1);
     data.put(Constants.DATE.name(), TestUtils.date(11, 1, 2001));
@@ -139,7 +139,16 @@ public class EmpData {
     return data;
   }
 
-  public static Map<String, Object> getOvertimeTimeCardDataForEmployee() {
+  public static Map<String, Object> getTimeCardPreviousNextForEmployee() {
+    Map<String, Object> data = new HashMap<String, Object>();
+    data.put(Constants.EMPLOYEE_ID.name(), 1);
+    data.put(Constants.DATE.name(), TestUtils.date(11, 20, 2001));
+    data.put(Constants.HOURS.name(), BigDecimal.valueOf(5.0));
+
+    return data;
+  }
+
+  public static Map<String, Object> getOvertimeTimeCardForEmployee() {
     Map<String, Object> data = new HashMap<String, Object>();
     data.put(Constants.EMPLOYEE_ID.name(), 1);
     data.put(Constants.DATE.name(), TestUtils.date(11, 9, 2001));
@@ -148,7 +157,7 @@ public class EmpData {
     return data;
   }
 
-  public static Map<String, Object> getFirstSalesRecieptDataForEmployee() {
+  public static Map<String, Object> getFirstSalesRecieptForEmployee() {
     Map<String, Object> data = new HashMap<String, Object>();
     data.put(Constants.EMPLOYEE_ID.name(), 1);
     data.put(Constants.DATE.name(), TestUtils.date(11, 16, 2012));
@@ -176,7 +185,7 @@ public class EmpData {
     Map<String, Object> data = new HashMap<String, Object>();
     data.put(Constants.MEMBER_ID.name(), 86);
     data.put(Constants.DATE.name(), TestUtils.date(11, 01, 2001));
-    data.put(Constants.CHARGE.name(), BigDecimal.valueOf(12.95));
+    data.put(Constants.SERVICE_CHARGE.name(), BigDecimal.valueOf(9.42));
     return data;
   }
 
@@ -184,7 +193,23 @@ public class EmpData {
     Map<String, Object> data = new HashMap<String, Object>();
     data.put(Constants.MEMBER_ID.name(), 86);
     data.put(Constants.DATE.name(), TestUtils.date(11, 9, 2001));
-    data.put(Constants.CHARGE.name(), BigDecimal.valueOf(19.42));
+    data.put(Constants.SERVICE_CHARGE.name(), BigDecimal.valueOf(19.42));
+    return data;
+  }
+
+  public static Map<String, Object> getServiceChargeForPreviousPeriodForHourlyEmployee() {
+    Map<String, Object> data = new HashMap<String, Object>();
+    data.put(Constants.MEMBER_ID.name(), 86);
+    data.put(Constants.DATE.name(), TestUtils.date(11, 1, 2001));
+    data.put(Constants.SERVICE_CHARGE.name(), BigDecimal.valueOf(100.00));
+    return data;
+  }
+
+  public static Map<String, Object> getServiceChargeForNextPeriodMapForHourlyEmployee() {
+    Map<String, Object> data = new HashMap<String, Object>();
+    data.put(Constants.MEMBER_ID.name(), 86);
+    data.put(Constants.DATE.name(), TestUtils.date(11, 1, 2001));
+    data.put(Constants.SERVICE_CHARGE.name(), BigDecimal.valueOf(200.00));
     return data;
   }
 
