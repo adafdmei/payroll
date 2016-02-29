@@ -10,7 +10,7 @@ import com.georgiev.payroll.request.Request;
 public class AddCommissionedEmployeeUseCase extends AddEmployeeUseCase {
 
   @Override
-  public AbstractPayType getClassification(Request request) {
+  public AbstractPayType getPayType(Request request) {
     AddCommisionedEmployeeRequest req = (AddCommisionedEmployeeRequest) request;
     return new Commissioned(req.getBasePay(), req.getCommissionRate());
   }

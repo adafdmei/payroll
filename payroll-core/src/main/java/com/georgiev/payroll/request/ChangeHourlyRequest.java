@@ -19,7 +19,7 @@ public class ChangeHourlyRequest extends ChangeClassificationRequest {
   }
 
   public static Request createChangeHourlyRequest(Map<String, Object> dataArgs) {
-    int employeeId = (Integer) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    int employeeId = (Integer) dataArgs.get(Constants.ID.name());
     BigDecimal hourlyRate = (BigDecimal) dataArgs.get(Constants.HOURLY_RATE.name());
     return new ChangeHourlyRequest(employeeId, hourlyRate);
   }

@@ -37,7 +37,7 @@ public class AddTimeCardPayrollTest {
   }
 
   private int getId() {
-    return (int) data.get(Constants.EMPLOYEE_ID.name());
+    return (int) data.get(Constants.ID.name());
   }
 
   private BigDecimal getHours() {

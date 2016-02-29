@@ -11,7 +11,7 @@ public class ChangeNoMemberRequest extends ChangeAffiliationRequest {
   }
 
   public static Request createChangeNoMemberRequest(Map<String, Object> dataArgs) {
-    int employeeId = (int) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    int employeeId = (int) dataArgs.get(Constants.ID.name());
     return new ChangeNoMemberRequest(employeeId);
   }
 }

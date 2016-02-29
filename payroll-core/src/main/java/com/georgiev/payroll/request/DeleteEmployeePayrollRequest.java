@@ -9,7 +9,7 @@ public class DeleteEmployeePayrollRequest implements Request {
   private int employeeId;
 
   public DeleteEmployeePayrollRequest(Map<String, Object> dataArgs) {
-    employeeId = (Integer) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    employeeId = (Integer) dataArgs.get(Constants.ID.name());
   }
 
   public int getEmployeeId() {

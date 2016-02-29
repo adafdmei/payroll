@@ -19,7 +19,7 @@ public class ChangeSalariedRequest extends ChangeClassificationRequest {
   }
 
   public static Request createChangeSalariedRequest(Map<String, Object> dataArgs) {
-    int employeeId = (Integer) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    int employeeId = (Integer) dataArgs.get(Constants.ID.name());
     BigDecimal salary = (BigDecimal) dataArgs.get(Constants.SALARY.name());
     return new ChangeSalariedRequest(employeeId, salary);
   }

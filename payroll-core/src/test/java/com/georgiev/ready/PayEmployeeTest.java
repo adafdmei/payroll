@@ -267,7 +267,7 @@ public class PayEmployeeTest {
   }
 
   private int getId() {
-    return (int) data.get(Constants.EMPLOYEE_ID.name());
+    return (int) data.get(Constants.ID.name());
   }
 
   private Paycheck getPayCheckForEmployee(Date payDate) {

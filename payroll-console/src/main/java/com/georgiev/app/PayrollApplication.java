@@ -2,17 +2,14 @@ package com.georgiev.app;
 
 import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
 
+import java.io.IOException;
+import java.util.Scanner;
+
 import com.georgiev.builder.RequestBuilder;
 import com.georgiev.builder.RequestBuilderImpl;
 import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.payroll.request.Request;
 import com.georgiev.payroll.transaction.source.TextParserSource;
-import com.georgiev.transaction.TransactionFactoryImpl;
-import com.georgiev.usecases.factory.UseCaseFactory;
-import com.georgiev.usecases.factory.impl.UseCaseFactoryImpl;
-
-import java.io.IOException;
-import java.util.Scanner;
 
 public class PayrollApplication {
 
@@ -33,6 +30,7 @@ public class PayrollApplication {
   private static void initDB() {
     GpayrollDatabase = new InMemoryPayrollDatabase();
   }
+
   private static void printPrompt() {
     System.out.println("Press q for exit!");
     System.out.println("Transaction Format: Usecase, ID, Name, Address, EmpType, Sallary, Rate   > ");
@@ -42,7 +40,6 @@ public class PayrollApplication {
   private static void processInput(String line) {
     try {
       RequestBuilder requestBuilder = new RequestBuilderImpl();
-      
 
       TextParserSource source = new TextParserSource(line);
       Request request = requestBuilder.buildCommissionedEmployeeRequest(source.getDataArgs());

@@ -11,7 +11,7 @@ public abstract class AddEmployeeRequest implements Request {
 
   public AddEmployeeRequest(Map<String, Object> dataArgs) {
     address = (String) dataArgs.get(Constants.ADDRESS.name());
-    employeeId = (Integer) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    employeeId = (Integer) dataArgs.get(Constants.ID.name());
     name = (String) dataArgs.get(Constants.NAME.name());
   }
 

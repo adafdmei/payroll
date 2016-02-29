@@ -9,7 +9,7 @@ import com.georgiev.util.Constants;
 public class EmployeeDataUtils {
 
   public static int getId(Map<String, Object> data) {
-    return (int) data.get(Constants.EMPLOYEE_ID.name());
+    return (int) data.get(Constants.ID.name());
   }
 
   public static BigDecimal getServiceCharge(Map<String, Object> data) {

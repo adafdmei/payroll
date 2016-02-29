@@ -25,7 +25,7 @@ public class ChangeCommissionedRequest extends ChangeClassificationRequest {
   }
 
   public static Request createChangeCommissionedRequest(Map<String, Object> dataArgs) {
-    int employeeId = (int) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    int employeeId = (int) dataArgs.get(Constants.ID.name());
     BigDecimal basePay = (BigDecimal) dataArgs.get(Constants.BASE_PAY.name());
     BigDecimal commissionRate = (BigDecimal) dataArgs.get(Constants.COMMISSION_RATE.name());
     return new ChangeCommissionedRequest(employeeId, basePay, commissionRate);

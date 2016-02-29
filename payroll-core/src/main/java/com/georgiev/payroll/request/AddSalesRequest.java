@@ -33,7 +33,7 @@ public class AddSalesRequest implements Request {
   public static Request createAddSalesRecieptRequest(Map<String, Object> dataArgs) {
     Date date = (Date) dataArgs.get(Constants.DATE.name());
     BigDecimal amount = (BigDecimal) dataArgs.get(Constants.SOLD_AMOUNT.name());
-    int employeeId = (Integer) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    int employeeId = (Integer) dataArgs.get(Constants.ID.name());
     return new AddSalesRequest(date, amount, employeeId);
   }
 }

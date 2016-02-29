@@ -20,14 +20,14 @@ public abstract class AddEmployeeUseCase implements UseCase {
     UnionMembership af = new NoMember();
     AddEmployeeRequest aepr = (AddEmployeeRequest) request;
     Employee e = new Employee(aepr.getEmployeeId(), aepr.getName(), aepr.getAddress());
-    e.setPayType(getClassification(request));
+    e.setPayType(getPayType(request));
     e.setPaySchedule(getSchedule());
     e.setMethod(pm);
     e.setUnionMembership(af);
     GpayrollDatabase.addEmployee(e.getEmployeeId(), e);
   }
 
-  protected abstract AbstractPayType getClassification(Request request);
+  protected abstract AbstractPayType getPayType(Request request);
 
   public abstract PaySchedule getSchedule();
 

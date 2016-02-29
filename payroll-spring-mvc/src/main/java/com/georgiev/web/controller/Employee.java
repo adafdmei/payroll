@@ -1,19 +1,22 @@
 package com.georgiev.web.controller;
 
+import java.math.BigDecimal;
+
 public class Employee {
-  private int id;
+  private Integer id;
   private String name;
   private String address;
   private String type;
+  private BigDecimal salary;
+  private BigDecimal commissionRate;
+  private BigDecimal basePay;
+  private BigDecimal hourlyRate;
 
-  // ransaction Format: Usecase, ID, Name, Address, EmpType, Sallary, Rate >
-  // ");
-
-  public int getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
@@ -41,4 +44,35 @@ public class Employee {
     this.type = type;
   }
 
+  public void setSalary(BigDecimal salary) {
+    this.salary = salary;
+  }
+
+  public BigDecimal getSalary() {
+    return salary;
+  }
+
+  public BigDecimal getCommissionRate() {
+    return commissionRate;
+  }
+
+  public void setCommissionRate(BigDecimal commissionRate) {
+    this.commissionRate = commissionRate;
+  }
+
+  public BigDecimal getBasePay() {
+    return basePay;
+  }
+
+  public void setBasePay(BigDecimal basePay) {
+    this.basePay = basePay;
+  }
+
+  public BigDecimal getHourlyRate() {
+    return hourlyRate;
+  }
+
+  public void setHourlyRate(BigDecimal hourlyRate) {
+    this.hourlyRate = hourlyRate;
+  }
 }

@@ -22,7 +22,7 @@ public class TextParserSource implements TransactionSource {
   private Map<String, Object> parseLine() {
     String[] parts = line.split(",");
     Map<String, Object> dataArgs = new HashMap<>();
-    dataArgs.put(Constants.EMPLOYEE_ID.name(), integer(parts[1].trim()));
+    dataArgs.put(Constants.ID.name(), integer(parts[1].trim()));
     dataArgs.put(Constants.NAME.name(), parts[2].trim());
     dataArgs.put(Constants.ADDRESS.name(), parts[3].trim());
     if (parts[4].trim().equals("C")) {

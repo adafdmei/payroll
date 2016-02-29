@@ -21,7 +21,7 @@ public class AddTimeCardRequest implements Request {
   public static AddTimeCardRequest createAddTimeCardRequest(Map<String, Object> dataArgs) {
     Date date = (Date) dataArgs.get(Constants.DATE.name());
     BigDecimal hours = (BigDecimal) dataArgs.get(Constants.HOURS.name());
-    int employeeId = (Integer) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    int employeeId = (Integer) dataArgs.get(Constants.ID.name());
     return new AddTimeCardRequest(date, hours, employeeId);
   }
 

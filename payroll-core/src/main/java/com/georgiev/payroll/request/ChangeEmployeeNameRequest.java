@@ -18,7 +18,7 @@ public class ChangeEmployeeNameRequest extends ChangeEmployeeRequest {
   }
 
   public static Request createChangeEmployeeNameRequest(Map<String, Object> dataArgs) {
-    int employeeId = (int) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    int employeeId = (int) dataArgs.get(Constants.ID.name());
     String name = (String) dataArgs.get(Constants.NAME.name());
     return new ChangeEmployeeNameRequest(employeeId, name);
   }

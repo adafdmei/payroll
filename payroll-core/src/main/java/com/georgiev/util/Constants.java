@@ -1,7 +1,7 @@
 package com.georgiev.util;
 
 public enum Constants {
-  EMPLOYEE_ID,
+  ID,
   NAME,
   ADDRESS,
   BASE_PAY,

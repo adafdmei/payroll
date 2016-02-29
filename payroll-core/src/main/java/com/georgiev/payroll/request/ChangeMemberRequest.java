@@ -25,7 +25,7 @@ public class ChangeMemberRequest extends ChangeAffiliationRequest {
   }
 
   public static Request createChangeMemberRequest(Map<String, Object> dataArgs) {
-    int employeeId = (Integer) dataArgs.get(Constants.EMPLOYEE_ID.name());
+    int employeeId = (Integer) dataArgs.get(Constants.ID.name());
     int memberId = (Integer) dataArgs.get(Constants.MEMBER_ID.name());
     BigDecimal weeklyDues = (BigDecimal) dataArgs.get(Constants.WEEKLY_DUES.name());
 

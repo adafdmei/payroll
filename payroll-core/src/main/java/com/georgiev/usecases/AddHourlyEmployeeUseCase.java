@@ -10,7 +10,7 @@ import com.georgiev.payroll.request.Request;
 public class AddHourlyEmployeeUseCase extends AddEmployeeUseCase {
 
   @Override
-  public AbstractPayType getClassification(Request request) {
+  public AbstractPayType getPayType(Request request) {
     AddHourlyEmployeeRequest req = (AddHourlyEmployeeRequest) request;
     return new Hourly(req.getHourlyRate());
   }

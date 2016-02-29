@@ -9,19 +9,19 @@
    <table>
    <tr>
         <td>ID</td>
-        <td>${id}</td>
+        <td>${emp.id}</td>
     </tr>
     <tr>
         <td>Name</td>
-        <td>${name}</td>
+        <td>${emp.name}</td>
     </tr>
     <tr>
         <td>Address</td>
-        <td>${address}</td>
+        <td>${emp.address}</td>
     </tr>
      <tr>
         <td>Type</td>
-        <td>${type}</td>
+        <td>${emp.type}</td>
     </tr>
      <tr>
         <td>Result</td>
