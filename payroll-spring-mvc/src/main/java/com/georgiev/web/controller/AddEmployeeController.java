@@ -39,7 +39,6 @@ public class AddEmployeeController {
     if (employee == null) {
       employee = new EmployeeForm("Salaried");
     }
-
     initModels(model, employee);
 
     return new ModelAndView("employee", "command", employee);
