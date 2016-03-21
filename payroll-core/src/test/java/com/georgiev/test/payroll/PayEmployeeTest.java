@@ -1,4 +1,4 @@
-package com.georgiev.ready;
+package com.georgiev.test.payroll;
 
 import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
 import static org.hamcrest.CoreMatchers.is;
@@ -22,9 +22,9 @@ import com.georgiev.test.usecases.AddServiceCharge;
 import com.georgiev.test.usecases.AddTimeCard;
 import com.georgiev.test.usecases.ChangeEmployeeToMember;
 import com.georgiev.test.usecases.PayEmployee;
+import com.georgiev.test.utils.EmployeeData;
+import com.georgiev.test.utils.EmployeeDataUtils;
 import com.georgiev.util.Constants;
-import com.payroll.EmployeeData;
-import com.payroll.EmployeeDataUtils;
 
 public class PayEmployeeTest {
 

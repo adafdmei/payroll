@@ -4,15 +4,15 @@ import java.util.Map;
 
 import com.georgiev.util.Constants;
 
-public class FindAnEmplyeeRequest extends EmployeeRequest {
+public class FindEmplyeeRequest extends EmployeeRequest {
 
-  public FindAnEmplyeeRequest(int employeeId) {
+  public FindEmplyeeRequest(int employeeId) {
     super(employeeId);
   }
 
   public static Request createFindAnEmployeeRequest(Map<String, Object> dataArgs) {
     int employeeId = (int) dataArgs.get(Constants.ID.name());
-    return new FindAnEmplyeeRequest(employeeId);
+    return new FindEmplyeeRequest(employeeId);
   }
 
 }

@@ -1,4 +1,4 @@
-package com.georgiev.ready;
+package com.georgiev.test.payroll;
 
 import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
 import static org.hamcrest.CoreMatchers.is;
@@ -16,8 +16,8 @@ import com.georgiev.payroll.impl.Commissioned;
 import com.georgiev.payroll.impl.SalesReceipt;
 import com.georgiev.test.usecases.AddEmployee;
 import com.georgiev.test.usecases.AddSalesReceipt;
-import com.payroll.EmployeeData;
-import com.payroll.EmployeeDataUtils;
+import com.georgiev.test.utils.EmployeeData;
+import com.georgiev.test.utils.EmployeeDataUtils;
 
 public class AddSalesReceiptPayrollTest {
 

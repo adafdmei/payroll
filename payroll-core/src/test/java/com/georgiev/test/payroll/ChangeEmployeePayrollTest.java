@@ -1,4 +1,4 @@
-package com.georgiev.ready;
+package com.georgiev.test.payroll;
 
 import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -31,11 +31,11 @@ import com.georgiev.payroll.impl.WeeklySchedule;
 import com.georgiev.payroll.request.Request;
 import com.georgiev.test.usecases.AddEmployee;
 import com.georgiev.test.usecases.ChangeEmployeeToMember;
+import com.georgiev.test.utils.EmployeeData;
+import com.georgiev.test.utils.EmployeeDataUtils;
 import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.ChangeEmployeeUseCaseFactory;
 import com.georgiev.usecases.factory.impl.UseCaseFactoryImpl;
-import com.payroll.EmployeeData;
-import com.payroll.EmployeeDataUtils;
 
 public class ChangeEmployeePayrollTest {
 

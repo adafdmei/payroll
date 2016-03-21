@@ -1,4 +1,4 @@
-package com.georgiev.ready;
+package com.georgiev.test.payroll;
 
 import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
 import static org.hamcrest.CoreMatchers.is;
@@ -18,11 +18,11 @@ import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.payroll.request.Request;
 import com.georgiev.test.usecases.AddEmployee;
+import com.georgiev.test.utils.EmployeeData;
+import com.georgiev.test.utils.EmployeeDataUtils;
 import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.UseCaseFactory;
 import com.georgiev.usecases.factory.impl.UseCaseFactoryImpl;
-import com.payroll.EmployeeData;
-import com.payroll.EmployeeDataUtils;
 
 public class DeleteEmployeePayrollTest {
 
