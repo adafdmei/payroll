@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-<!-- -->
+	<!-- -->
 	<parent>
 		<groupId>com.kgeorgiev.pom</groupId>
 		<artifactId>payroll-system</artifactId>
@@ -11,9 +11,8 @@
 
 	<groupId>com.kgeorgiev</groupId>
 	<artifactId>payroll-console</artifactId>
-	<packaging>jar</packaging>	
+	<packaging>jar</packaging>
 	<name>payroll console</name>
-
 
 	<dependencies>
 		<dependency>
@@ -27,6 +26,22 @@
 		</dependency>
 	</dependencies>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+					<wtpversion>2.0</wtpversion>
+					<wtpContextName>spring3</wtpContextName>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
 
 </project>
 
