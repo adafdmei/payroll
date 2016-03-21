@@ -4,7 +4,7 @@ import com.georgiev.usecases.UseCase;
 
 public interface AddEmployeeUseCaseFactory {
 
-  UseCase makeAddCommisionedEmployee();
+  UseCase makeAddCommissionedEmployee();
 
   UseCase makeAddSalariedEmployee();
 

@@ -1,5 +1,6 @@
 package com.georgiev.builder;
 
-public interface RequestBuilder extends AddEmployeeRequestBuilder, ChangeEmployeeRequestBuilder, DeleteEmployeeRequestBuilder, AddTimeCardRequestBuilder, AddSalesRecieptRequestBuilder, AddServiceChargeRequestBuilder, PayEmployeeRequestBuilder {
+
+public interface RequestBuilder extends AddEmployeeRequestBuilder, ChangeEmployeeRequestBuilder, DeleteEmployeeRequestBuilder, AddTimeCardRequestBuilder, AddSalesRecieptRequestBuilder, AddServiceChargeRequestBuilder, PayEmployeeRequestBuilder, FindEmployeeRequestBuilder {
 
 }

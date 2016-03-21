@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import com.georgiev.builder.RequestBuilder;
-import com.georgiev.builder.RequestBuilderImpl;
+import com.georgiev.builder.impl.RequestBuilderImpl;
 import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.payroll.request.Request;
 import com.georgiev.payroll.transaction.source.TextParserSource;

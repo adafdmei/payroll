@@ -16,7 +16,7 @@ public class TransactionApplication extends Application {
 
   @Override
   public void run() {
-    UseCase makeAddCommisionedEmployee = factory.makeAddCommisionedEmployee();
+    UseCase makeAddCommisionedEmployee = factory.makeAddCommissionedEmployee();
     makeAddCommisionedEmployee.execute(request);
   }
 

@@ -1,7 +1,7 @@
 package com.georgiev.usecases;
 
-import com.georgiev.payroll.domain.PaySchedule;
 import com.georgiev.payroll.domain.AbstractPayType;
+import com.georgiev.payroll.domain.PaySchedule;
 import com.georgiev.payroll.impl.MonthlySchedule;
 import com.georgiev.payroll.impl.Salaried;
 import com.georgiev.payroll.request.ChangeSalariedRequest;
@@ -18,5 +18,11 @@ public class ChangeSalariedUseCase extends ChangePayTypeUseCase {
   @Override
   protected PaySchedule getSchedule() {
     return new MonthlySchedule();
+  }
+
+  @Override
+  public Response getResponse() {
+    // TODO Auto-generated method stub
+    return null;
   }
 }

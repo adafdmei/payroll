@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.georgiev.payroll.domain.AbstractPayType;
 import com.georgiev.payroll.domain.Paycheck;
+import com.georgiev.util.Constants;
 
 public class Hourly extends AbstractPayType {
 
@@ -51,4 +52,8 @@ public class Hourly extends AbstractPayType {
                        .setScale(2, ROUND_HALF_UP);
   }
 
+  @Override
+  public String getType() {
+    return Constants.HOURLY.name();
+  }
 }

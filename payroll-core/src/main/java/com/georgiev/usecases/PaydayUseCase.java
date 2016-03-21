@@ -26,4 +26,10 @@ public class PaydayUseCase implements UseCase {
       }
     }
   }
+
+  @Override
+  public Response getResponse() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

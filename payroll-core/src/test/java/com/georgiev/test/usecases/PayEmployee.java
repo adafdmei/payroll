@@ -3,7 +3,7 @@ package com.georgiev.test.usecases;
 import java.util.Map;
 
 import com.georgiev.builder.PayEmployeeRequestBuilder;
-import com.georgiev.builder.RequestBuilderImpl;
+import com.georgiev.builder.impl.RequestBuilderImpl;
 import com.georgiev.payroll.request.Request;
 import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.PayEmployeeUseCaseFactory;

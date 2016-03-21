@@ -31,4 +31,10 @@ public class AddTimeCardUseCase implements UseCase {
       throw (new RuntimeException("No such employee."));
     }
   }
+
+  @Override
+  public Response getResponse() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

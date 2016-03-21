@@ -1,8 +1,10 @@
 package com.georgiev.payroll.impl;
 
-import com.georgiev.payroll.domain.Paycheck;
-import com.georgiev.payroll.domain.AbstractPayType;
 import java.math.BigDecimal;
+
+import com.georgiev.payroll.domain.AbstractPayType;
+import com.georgiev.payroll.domain.Paycheck;
+import com.georgiev.util.Constants;
 
 public class Salaried extends AbstractPayType {
 
@@ -19,6 +21,11 @@ public class Salaried extends AbstractPayType {
   @Override
   public BigDecimal calculatePay(Paycheck pc) {
     return salary;
+  }
+
+  @Override
+  public String getType() {
+    return Constants.SALARIED.name();
   }
 
 }

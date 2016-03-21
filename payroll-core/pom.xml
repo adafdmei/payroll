@@ -11,7 +11,7 @@
 
 	<groupId>com.kgeorgiev</groupId>
 	<artifactId>payroll-core</artifactId>
-	<packaging>jar</packaging>	
+	<packaging>jar</packaging>
 	<name>payroll core</name>
 
 

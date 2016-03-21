@@ -3,7 +3,7 @@ package com.georgiev.test.usecases;
 import java.util.Map;
 
 import com.georgiev.builder.AddEmployeeRequestBuilder;
-import com.georgiev.builder.RequestBuilderImpl;
+import com.georgiev.builder.impl.RequestBuilderImpl;
 import com.georgiev.payroll.request.Request;
 import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.AddEmployeeUseCaseFactory;
@@ -27,7 +27,7 @@ public class AddEmployee {
 
   public void addCommissionedEmployee(Map<String, Object> data) {
     Request request = requestBuilder.buildCommissionedEmployeeRequest(data);
-    UseCase makeAddCommissionedEmployee = factory.makeAddCommisionedEmployee();
+    UseCase makeAddCommissionedEmployee = factory.makeAddCommissionedEmployee();
     makeAddCommissionedEmployee.execute(request);
   }
 

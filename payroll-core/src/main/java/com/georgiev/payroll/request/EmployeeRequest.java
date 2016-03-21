@@ -1,11 +1,11 @@
 package com.georgiev.payroll.request;
 
 
-public abstract class ChangeEmployeeRequest implements Request {
+public abstract class EmployeeRequest implements Request {
 
   private int employeeId;
 
-  public ChangeEmployeeRequest(int employeeId) {
+  public EmployeeRequest(int employeeId) {
     this.employeeId = employeeId;
   }
 

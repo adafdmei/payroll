@@ -1,8 +1,10 @@
-package com.georgiev.web.controller;
+package com.georgiev.data.objects;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Employee {
+public class EmployeeForm {
   private Integer id;
   private String name;
   private String address;
@@ -11,6 +13,24 @@ public class Employee {
   private BigDecimal commissionRate;
   private BigDecimal basePay;
   private BigDecimal hourlyRate;
+  private final List<String> types;
+
+  public EmployeeForm() {
+    types = new ArrayList<String>();
+    types.add("Salaried");
+    types.add("Commissioned");
+    types.add("Hourly");
+  }
+
+  public EmployeeForm(String type) {
+    this();
+    this.type = type;
+
+  }
+
+  public List<String> getTypes() {
+    return types;
+  }
 
   public Integer getId() {
     return id;

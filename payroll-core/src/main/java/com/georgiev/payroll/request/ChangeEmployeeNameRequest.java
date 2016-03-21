@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.georgiev.util.Constants;
 
-public class ChangeEmployeeNameRequest extends ChangeEmployeeRequest {
+public class ChangeEmployeeNameRequest extends EmployeeRequest {
 
   private String name;
 

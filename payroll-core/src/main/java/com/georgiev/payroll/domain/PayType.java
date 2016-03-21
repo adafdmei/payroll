@@ -6,4 +6,6 @@ public interface PayType {
 
   BigDecimal calculatePay(Paycheck pc);
 
+  String getType();
+
 }

@@ -5,4 +5,6 @@ import com.georgiev.payroll.request.Request;
 public interface UseCase {
   void execute(Request request);
 
+  Response getResponse();
+
 }

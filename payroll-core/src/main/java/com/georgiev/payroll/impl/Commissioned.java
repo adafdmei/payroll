@@ -7,8 +7,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.georgiev.payroll.domain.Paycheck;
 import com.georgiev.payroll.domain.AbstractPayType;
+import com.georgiev.payroll.domain.Paycheck;
+import com.georgiev.util.Constants;
 
 public class Commissioned extends AbstractPayType {
 
@@ -56,6 +57,11 @@ public class Commissioned extends AbstractPayType {
       }
     }
     return sales;
+  }
+
+  @Override
+  public String getType() {
+    return Constants.COMMISSIONED.name();
   }
 
 }

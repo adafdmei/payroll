@@ -10,23 +10,23 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HelloController {
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String printWelcome(ModelMap model) {
+  @RequestMapping(value = "/", method = RequestMethod.GET)
+  public String printWelcome(ModelMap model) {
 
-		model.addAttribute("message", "Spring 3 MVC Hello World");
-		return "hello";
+    model.addAttribute("message", "Spring 3 MVC Hello World");
+    return "hello";
 
-	}
+  }
 
-	@RequestMapping(value = "/hello/{name:.+}", method = RequestMethod.GET)
-	public ModelAndView hello(@PathVariable("name") String name) {
+  @RequestMapping(value = "/hello/{name:.+}", method = RequestMethod.GET)
+  public ModelAndView hello(@PathVariable("name") String name) {
 
-		ModelAndView model = new ModelAndView();
-		model.setViewName("hello");
-		model.addObject("msg", name);
+    ModelAndView model = new ModelAndView();
+    model.setViewName("hello");
+    model.addObject("msg", name);
 
-		return model;
+    return model;
 
-	}
+  }
 
 }

@@ -1,17 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>com.kgeorgiev.pom</groupId>
 		<artifactId>payroll-system</artifactId>
 		<version>0.1-SNAPSHOT</version>
 		<relativePath>../payroll-system/pom.xml</relativePath>
-	</parent>	
+	</parent>
 
 	<groupId>com.kgeorgiev</groupId>
 	<artifactId>payroll-spring-mvc</artifactId>
-	<packaging>war</packaging>	
+	<packaging>war</packaging>
 	<name>spring3 mvc maven</name>
 
 	<properties>
@@ -30,14 +30,14 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>			
+			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>			
+			<artifactId>jstl</artifactId>
 		</dependency>
-		
+
 		<!-- JSP Dependencies -->
 		<dependency>
 			<groupId>jstl</groupId>
@@ -60,6 +60,11 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -88,7 +93,7 @@
 					<wtpContextName>spring3</wtpContextName>
 				</configuration>
 			</plugin>
-			
+
 		</plugins>
 	</build>
 

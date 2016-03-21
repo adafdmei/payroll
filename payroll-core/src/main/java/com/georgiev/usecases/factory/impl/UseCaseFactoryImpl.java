@@ -13,6 +13,8 @@ import com.georgiev.usecases.ChangeEmployeeNoMemberUseCase;
 import com.georgiev.usecases.ChangeHourlyUseCase;
 import com.georgiev.usecases.ChangeSalariedUseCase;
 import com.georgiev.usecases.DeleteEmployeeUseCase;
+import com.georgiev.usecases.FindAnEmployeeUseCase;
+import com.georgiev.usecases.GetAllEmployeeUseCase;
 import com.georgiev.usecases.PaydayUseCase;
 import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.UseCaseFactory;
@@ -20,7 +22,7 @@ import com.georgiev.usecases.factory.UseCaseFactory;
 public class UseCaseFactoryImpl implements UseCaseFactory {
 
   @Override
-  public UseCase makeAddCommisionedEmployee() {
+  public UseCase makeAddCommissionedEmployee() {
     return new AddCommissionedEmployeeUseCase();
   }
 
@@ -89,4 +91,13 @@ public class UseCaseFactoryImpl implements UseCaseFactory {
     return new PaydayUseCase();
   }
 
+  @Override
+  public UseCase makeFindAnEmployee() {
+    return new FindAnEmployeeUseCase();
+  }
+
+  @Override
+  public UseCase makeGetAllEmployees() {
+    return new GetAllEmployeeUseCase();
+  }
 }

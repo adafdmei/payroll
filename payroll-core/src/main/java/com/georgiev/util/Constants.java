@@ -14,5 +14,8 @@ public enum Constants {
   MEMBER_ID,
   WEEKLY_DUES,
   SERVICE_CHARGE,
-  PAY_DATE
+  PAY_DATE,
+  COMMISSIONED,
+  SALARIED,
+  HOURLY
 }

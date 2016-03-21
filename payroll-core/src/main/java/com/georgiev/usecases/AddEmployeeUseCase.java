@@ -4,8 +4,8 @@ import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDat
 
 import com.georgiev.payroll.domain.AbstractPayType;
 import com.georgiev.payroll.domain.Employee;
-import com.georgiev.payroll.domain.PaySchedule;
 import com.georgiev.payroll.domain.PayDisposition;
+import com.georgiev.payroll.domain.PaySchedule;
 import com.georgiev.payroll.domain.UnionMembership;
 import com.georgiev.payroll.impl.HoldMethod;
 import com.georgiev.payroll.impl.NoMember;
@@ -13,6 +13,8 @@ import com.georgiev.payroll.request.AddEmployeeRequest;
 import com.georgiev.payroll.request.Request;
 
 public abstract class AddEmployeeUseCase implements UseCase {
+
+  Response response;
 
   @Override
   public void execute(Request request) {
@@ -25,10 +27,16 @@ public abstract class AddEmployeeUseCase implements UseCase {
     e.setMethod(pm);
     e.setUnionMembership(af);
     GpayrollDatabase.addEmployee(e.getEmployeeId(), e);
+    response = new MessageResponse("OK");
+
   }
 
   protected abstract AbstractPayType getPayType(Request request);
 
   public abstract PaySchedule getSchedule();
 
+  @Override
+  public Response getResponse() {
+    return response;
+  }
 }

@@ -1,7 +1,9 @@
 package com.georgiev.payroll.db;
 
-import com.georgiev.payroll.domain.Employee;
 import java.util.List;
+import java.util.Map;
+
+import com.georgiev.payroll.domain.Employee;
 
 public interface PayrollDatabase {
 
@@ -16,6 +18,8 @@ public interface PayrollDatabase {
   void deleteEmployee(int employeeId);
 
   Employee getEmployee(int employeeId);
+
+  Map<String, Employee> getAllEmployees();
 
   List<Integer> getAllEmployeeIds();
 

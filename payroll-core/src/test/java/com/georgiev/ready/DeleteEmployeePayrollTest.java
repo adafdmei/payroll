@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import com.georgiev.builder.AddEmployeeRequestBuilder;
 import com.georgiev.builder.DeleteEmployeeRequestBuilder;
-import com.georgiev.builder.RequestBuilderImpl;
+import com.georgiev.builder.impl.RequestBuilderImpl;
 import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.payroll.request.Request;

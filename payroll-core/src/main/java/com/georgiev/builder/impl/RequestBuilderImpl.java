@@ -16,6 +16,8 @@ import com.georgiev.payroll.request.ChangeMemberRequest;
 import com.georgiev.payroll.request.ChangeNoMemberRequest;
 import com.georgiev.payroll.request.ChangeSalariedRequest;
 import com.georgiev.payroll.request.DeleteEmployeePayrollRequest;
+import com.georgiev.payroll.request.FindAnEmplyeeRequest;
+import com.georgiev.payroll.request.NullRequest;
 import com.georgiev.payroll.request.PaydayRequest;
 import com.georgiev.payroll.request.Request;
 
@@ -87,8 +89,18 @@ public class RequestBuilderImpl implements RequestBuilder {
   }
 
   @Override
-  public Request buildPayDayRequest(Map<String, Object> dataArg) {
-    return PaydayRequest.createPaydayRequest(dataArg);
+  public Request buildPayDayRequest(Map<String, Object> dataArgs) {
+    return PaydayRequest.createPaydayRequest(dataArgs);
+  }
+
+  @Override
+  public Request buildGetAllEmployeeRequest() {
+    return new NullRequest();
+  }
+
+  @Override
+  public Request buildFindAnEmployeeRequest(Map<String, Object> dataArgs) {
+    return FindAnEmplyeeRequest.createFindAnEmployeeRequest(dataArgs);
   }
 
 }

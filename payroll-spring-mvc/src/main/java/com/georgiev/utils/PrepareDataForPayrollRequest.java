@@ -1,15 +1,16 @@
-package com.georgiev.web.controller;
+package com.georgiev.utils;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import com.georgiev.data.objects.EmployeeForm;
 import com.georgiev.util.Constants;
 
 public class PrepareDataForPayrollRequest {
 
-  private final Employee employee;
+  private final EmployeeForm employee;
 
-  public PrepareDataForPayrollRequest(Employee employee) {
+  public PrepareDataForPayrollRequest(EmployeeForm employee) {
     this.employee = employee;
   }
 

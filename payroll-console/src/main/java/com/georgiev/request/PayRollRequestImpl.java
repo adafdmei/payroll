@@ -1,9 +1,8 @@
 package com.georgiev.request;
 
-import com.georgiev.payroll.request.PayrollRequest;
 import java.math.BigDecimal;
 
-public class PayRollRequestImpl implements PayrollRequest {
+public class PayRollRequestImpl {
 
   private int employeeId;
   private String name;
@@ -11,7 +10,6 @@ public class PayRollRequestImpl implements PayrollRequest {
   private BigDecimal salary;
   private BigDecimal commissionRate;
 
-  @Override
   public int getId() {
     return employeeId;
   }
@@ -20,7 +18,6 @@ public class PayRollRequestImpl implements PayrollRequest {
     this.employeeId = employeeId;
   }
 
-  @Override
   public String getName() {
     return name;
   }
@@ -29,7 +26,6 @@ public class PayRollRequestImpl implements PayrollRequest {
     this.name = name;
   }
 
-  @Override
   public String getAddress() {
     return address;
   }
@@ -38,7 +34,6 @@ public class PayRollRequestImpl implements PayrollRequest {
     this.address = address;
   }
 
-  @Override
   public BigDecimal getSalary() {
     return salary;
   }
@@ -47,7 +42,6 @@ public class PayRollRequestImpl implements PayrollRequest {
     this.salary = salary;
   }
 
-  @Override
   public BigDecimal getCommissionRate() {
     return commissionRate;
   }

@@ -1,11 +1,12 @@
 package com.georgiev.payroll.db.impl;
 
-import com.georgiev.payroll.db.PayrollDatabase;
-import com.georgiev.payroll.domain.Employee;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.georgiev.payroll.db.PayrollDatabase;
+import com.georgiev.payroll.domain.Employee;
 
 public class InMemoryPayrollDatabase implements PayrollDatabase {
 
@@ -28,11 +29,6 @@ public class InMemoryPayrollDatabase implements PayrollDatabase {
   }
 
   @Override
-  public List<Integer> getAllEmployeeIds() {
-    return new ArrayList<Integer>(employees.keySet());
-  }
-
-  @Override
   public Employee getUnionMember(int memberId) {
     return unionMembers.get(memberId);
   }
@@ -51,6 +47,20 @@ public class InMemoryPayrollDatabase implements PayrollDatabase {
   public void clear() {
     employees.clear();
     unionMembers.clear();
+  }
+
+  @Override
+  public Map<String, Employee> getAllEmployees() {
+    Map<String, Employee> employeesMap = new HashMap<>();
+    for (Integer empId : employees.keySet()) {
+      employeesMap.put(String.valueOf(empId), employees.get(empId));
+    }
+    return employeesMap;
+  }
+
+  @Override
+  public List<Integer> getAllEmployeeIds() {
+    return new ArrayList<Integer>(employees.keySet());
   }
 
 }

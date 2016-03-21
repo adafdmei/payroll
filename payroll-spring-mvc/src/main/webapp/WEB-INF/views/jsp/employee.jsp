@@ -9,8 +9,8 @@
 </div>
 
 <div class="container-fluid">
-	<form:form method="POST" action="/payroll-spring-mvc/addEmployee"
-		htmlEscape="true" cssClass="form-horizontal">
+	<form:form method="POST" action="${action}" htmlEscape="true"
+		cssClass="form-horizontal" modelAttribute="employee">
 		<div class="form-group">
 			<form:label cssClass="control-label col-sm-2" path="id">ID</form:label>
 			<div class="col-sm-2">
@@ -32,37 +32,45 @@
 		<div class="form-group">
 			<form:label cssClass="control-label col-sm-2" path="type">Type</form:label>
 			<div class="col-sm-2">
-				<select class="form-control" name="type">
-					<option value="salaried">Salaried</option>
-					<option value="hourly">Hourly</option>
-					<option value="commissioned">Commissioned</option>
-				</select>
+				<form:select cssClass="form-control" path="type"
+					onchange="myFunction()  ">
+					<form:options items="${employee.types}" />
+				</form:select>
 			</div>
 		</div>
-		<div class="form-group">
-			<form:label cssClass="control-label col-sm-2" path="salary">Salary</form:label>
-			<div class="col-sm-2">
-				<form:input cssClass="form-control" path="salary" />
+
+		<c:if test="${employee.type == 'Salaried'}">
+			<div class="form-group">
+				<form:label cssClass="control-label col-sm-2" path="salary">Salary</form:label>
+				<div class="col-sm-2">
+					<form:input cssClass="form-control" path="salary" />
+				</div>
 			</div>
-		</div>
-		<div class="form-group">
-			<form:label cssClass="control-label col-sm-2" path="basePay">Base Pay</form:label>
-			<div class="col-sm-2">
-				<form:input cssClass="form-control" path="basePay" />
+		</c:if>
+
+		<c:if test="${employee.type == 'Commissioned'}">
+			<div class="form-group">
+				<form:label cssClass="control-label col-sm-2" path="basePay">Base Pay</form:label>
+				<div class="col-sm-2">
+					<form:input cssClass="form-control" path="basePay" />
+				</div>
 			</div>
-		</div>
-		<div class="form-group">
-			<form:label cssClass="control-label col-sm-2" path="commissionRate">Commission Rate</form:label>
-			<div class="col-sm-2">
-				<form:input cssClass="form-control" path="commissionRate" />
+			<div class="form-group">
+				<form:label cssClass="control-label col-sm-2" path="commissionRate">Commission Rate</form:label>
+				<div class="col-sm-2">
+					<form:input cssClass="form-control" path="commissionRate" />
+				</div>
 			</div>
-		</div>
-		<div class="form-group">
-			<form:label cssClass="control-label col-sm-2" path="hourlyRate">Hourly Rate</form:label>
-			<div class="col-sm-2">
-				<form:input cssClass="form-control" path="hourlyRate" />
+		</c:if>
+
+		<c:if test="${employee.type == 'Hourly'}">
+			<div class="form-group">
+				<form:label cssClass="control-label col-sm-2" path="hourlyRate">Hourly Rate</form:label>
+				<div class="col-sm-2">
+					<form:input cssClass="form-control" path="hourlyRate" />
+				</div>
 			</div>
-		</div>
+		</c:if>
 		<div class="form-group">
 			<label class="control-label col-sm-2"></label>
 			<div class="col-sm-2">
@@ -72,5 +80,11 @@
 	</form:form>
 
 </div>
+
+<script>
+	function myFunction() {
+		document.getElementById("employee").submit();
+	}
+</script>
 
 <jsp:directive.include file="bottom.jsp" />
