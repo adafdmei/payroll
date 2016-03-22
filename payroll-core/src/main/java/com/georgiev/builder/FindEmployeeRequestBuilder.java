@@ -5,7 +5,7 @@ import java.util.Map;
 import com.georgiev.payroll.request.Request;
 
 public interface FindEmployeeRequestBuilder {
-  Request buildGetAllEmployeeRequest();
+  Request buildFindAllEmployeesRequest();
 
-  Request buildFindAnEmployeeRequest(Map<String, Object> dataArgs);
+  Request buildFindEmployeeRequest(Map<String, Object> dataArgs);
 }

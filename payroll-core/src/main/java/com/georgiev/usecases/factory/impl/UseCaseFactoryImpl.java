@@ -92,12 +92,12 @@ public class UseCaseFactoryImpl implements UseCaseFactory {
   }
 
   @Override
-  public UseCase makeFindAnEmployee() {
+  public UseCase makeFindEmployee() {
     return new FindAnEmployeeUseCase();
   }
 
   @Override
-  public UseCase makeGetAllEmployees() {
+  public UseCase makeFindAllEmployees() {
     return new GetAllEmployeeUseCase();
   }
 }

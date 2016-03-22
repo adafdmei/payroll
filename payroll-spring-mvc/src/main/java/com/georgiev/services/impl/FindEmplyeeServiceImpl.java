@@ -36,8 +36,8 @@ public class FindEmplyeeServiceImpl implements FindEmplyeeService {
 
   @Override
   public Map<String, Object> findAllEmployees() {
-    Request request = requestBuilder.buildGetAllEmployeeRequest();
-    UseCase useCase = useCaseFactory.makeGetAllEmployees();
+    Request request = requestBuilder.buildFindAllEmployeesRequest();
+    UseCase useCase = useCaseFactory.makeFindAllEmployees();
     execute(request, useCase);
 
     return response(useCase);
@@ -45,8 +45,8 @@ public class FindEmplyeeServiceImpl implements FindEmplyeeService {
 
   @Override
   public Map<String, Object> findEmployee(Map<String, Object> data) {
-    Request request = requestBuilder.buildFindAnEmployeeRequest(data);
-    UseCase useCase = useCaseFactory.makeFindAnEmployee();
+    Request request = requestBuilder.buildFindEmployeeRequest(data);
+    UseCase useCase = useCaseFactory.makeFindEmployee();
     execute(request, useCase);
     return response(useCase);
   }

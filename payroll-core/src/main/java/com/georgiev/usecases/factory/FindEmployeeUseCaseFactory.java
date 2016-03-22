@@ -4,8 +4,8 @@ import com.georgiev.usecases.UseCase;
 
 public interface FindEmployeeUseCaseFactory {
 
-  UseCase makeGetAllEmployees();
+  UseCase makeFindAllEmployees();
 
-  UseCase makeFindAnEmployee();
+  UseCase makeFindEmployee();
 
 }

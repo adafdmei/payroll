@@ -94,12 +94,12 @@ public class RequestBuilderImpl implements RequestBuilder {
   }
 
   @Override
-  public Request buildGetAllEmployeeRequest() {
+  public Request buildFindAllEmployeesRequest() {
     return new NullRequest();
   }
 
   @Override
-  public Request buildFindAnEmployeeRequest(Map<String, Object> dataArgs) {
+  public Request buildFindEmployeeRequest(Map<String, Object> dataArgs) {
     return FindEmplyeeRequest.createFindAnEmployeeRequest(dataArgs);
   }
 

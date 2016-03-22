@@ -2,14 +2,12 @@ package com.georgiev.payroll.impl;
 
 import static java.math.BigDecimal.ROUND_HALF_UP;
 
+import com.georgiev.payroll.domain.AbstractPayType;
+import com.georgiev.payroll.domain.Paycheck;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.georgiev.payroll.domain.AbstractPayType;
-import com.georgiev.payroll.domain.Paycheck;
-import com.georgiev.util.Constants;
 
 public class Hourly extends AbstractPayType {
 
@@ -52,8 +50,4 @@ public class Hourly extends AbstractPayType {
                        .setScale(2, ROUND_HALF_UP);
   }
 
-  @Override
-  public String getType() {
-    return Constants.HOURLY.name();
-  }
 }
