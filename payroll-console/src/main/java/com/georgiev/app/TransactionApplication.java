@@ -1,5 +1,4 @@
 package com.georgiev.app;
-
 import com.georgiev.payroll.request.Request;
 import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.UseCaseFactory;

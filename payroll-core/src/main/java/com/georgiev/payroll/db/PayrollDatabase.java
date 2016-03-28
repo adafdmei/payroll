@@ -7,7 +7,12 @@ import com.georgiev.payroll.domain.Employee;
 
 public interface PayrollDatabase {
 
+  /**
+   * @deprecated, inject implementation class via factory
+   */
+  @Deprecated
   class GlobalInstance {
+    @Deprecated
     public static PayrollDatabase GpayrollDatabase;
   }
 

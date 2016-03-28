@@ -1,5 +1,7 @@
 package com.georgiev.usecases.factory.impl;
 
+import com.georgiev.payroll.db.PayrollDatabase;
+import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.usecases.AddCommissionedEmployeeUseCase;
 import com.georgiev.usecases.AddHourlyEmployeeUseCase;
 import com.georgiev.usecases.AddSalariedEmployeeUseCase;
@@ -21,19 +23,21 @@ import com.georgiev.usecases.factory.UseCaseFactory;
 
 public class UseCaseFactoryImpl implements UseCaseFactory {
 
+  private final PayrollDatabase payrollDatabase = new InMemoryPayrollDatabase();
+
   @Override
   public UseCase makeAddCommissionedEmployee() {
-    return new AddCommissionedEmployeeUseCase();
+    return new AddCommissionedEmployeeUseCase(payrollDatabase);
   }
 
   @Override
   public UseCase makeAddSalariedEmployee() {
-    return new AddSalariedEmployeeUseCase();
+    return new AddSalariedEmployeeUseCase(payrollDatabase);
   }
 
   @Override
   public UseCase makeAddHourlyEmployee() {
-    return new AddHourlyEmployeeUseCase();
+    return new AddHourlyEmployeeUseCase(payrollDatabase);
   }
 
   @Override

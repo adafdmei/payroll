@@ -1,7 +1,6 @@
 package com.georgiev.usecases;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
-
+import com.georgiev.payroll.db.PayrollDatabase;
 import com.georgiev.payroll.domain.AbstractPayType;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.payroll.domain.PayDisposition;
@@ -14,7 +13,12 @@ import com.georgiev.payroll.request.Request;
 
 public abstract class AddEmployeeUseCase implements UseCase {
 
+  private final PayrollDatabase payrollDatabase;
   Response response;
+
+  public AddEmployeeUseCase(PayrollDatabase payrollDatabase) {
+    this.payrollDatabase = payrollDatabase;
+  }
 
   @Override
   public void execute(Request request) {
@@ -26,7 +30,8 @@ public abstract class AddEmployeeUseCase implements UseCase {
     e.setPaySchedule(getSchedule());
     e.setMethod(pm);
     e.setUnionMembership(af);
-    GpayrollDatabase.addEmployee(e.getEmployeeId(), e);
+    //GpayrollDatabase.addEmployee(e.getEmployeeId(), e);
+    payrollDatabase.addEmployee(e.getEmployeeId(), e);
     response = new MessageResponse("OK");
 
   }
