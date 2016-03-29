@@ -2,10 +2,15 @@ package com.georgiev.web.controller;
 
 import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
 
+import com.georgiev.dao.PayrollDaoImpl;
+import com.georgiev.data.objects.EmployeeDataFactory;
+import com.georgiev.data.objects.EmployeeForm;
+import com.georgiev.model.PayrollModel;
+import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
+import com.georgiev.payroll.domain.Employee;
+import com.georgiev.services.AddEmplyeeService;
 import java.util.Map;
-
 import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,12 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.georgiev.data.objects.EmployeeDataFactory;
-import com.georgiev.data.objects.EmployeeForm;
-import com.georgiev.model.PayrollModel;
-import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
-import com.georgiev.services.AddEmplyeeService;
 
 @Controller
 public class AddEmployeeController {
@@ -57,6 +56,9 @@ public class AddEmployeeController {
     }
     else {
       addEmployee(form);
+      PayrollDaoImpl pr = new PayrollDaoImpl();
+      Employee employee = null;
+      pr.addEmployee(employee);
       model.addAttribute("result", "OK");
       return new ModelAndView("result");
     }

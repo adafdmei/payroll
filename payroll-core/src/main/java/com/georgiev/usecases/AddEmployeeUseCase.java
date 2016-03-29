@@ -14,7 +14,7 @@ import com.georgiev.payroll.request.Request;
 public abstract class AddEmployeeUseCase implements UseCase {
 
   private final PayrollDatabase payrollDatabase;
-  Response response;
+  private Response response;
 
   public AddEmployeeUseCase(PayrollDatabase payrollDatabase) {
     this.payrollDatabase = payrollDatabase;
@@ -31,9 +31,8 @@ public abstract class AddEmployeeUseCase implements UseCase {
     e.setMethod(pm);
     e.setUnionMembership(af);
     //GpayrollDatabase.addEmployee(e.getEmployeeId(), e);
-    payrollDatabase.addEmployee(e.getEmployeeId(), e);
+    payrollDatabase.addEmployee(e);
     response = new MessageResponse("OK");
-
   }
 
   protected abstract AbstractPayType getPayType(Request request);

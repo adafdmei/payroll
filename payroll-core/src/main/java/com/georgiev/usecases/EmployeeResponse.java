@@ -1,9 +1,8 @@
 package com.georgiev.usecases;
 
+import com.georgiev.payroll.domain.Employee;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.georgiev.payroll.domain.Employee;
 
 public class EmployeeResponse implements Response {
 

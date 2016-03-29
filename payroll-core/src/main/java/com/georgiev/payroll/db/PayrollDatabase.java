@@ -1,9 +1,8 @@
 package com.georgiev.payroll.db;
 
+import com.georgiev.payroll.domain.Employee;
 import java.util.List;
 import java.util.Map;
-
-import com.georgiev.payroll.domain.Employee;
 
 public interface PayrollDatabase {
 
@@ -14,11 +13,12 @@ public interface PayrollDatabase {
   class GlobalInstance {
     @Deprecated
     public static PayrollDatabase GpayrollDatabase;
+
   }
 
   void clear();
 
-  void addEmployee(int employeeId, Employee employee);
+  void addEmployee(Employee employee);
 
   void deleteEmployee(int employeeId);
 

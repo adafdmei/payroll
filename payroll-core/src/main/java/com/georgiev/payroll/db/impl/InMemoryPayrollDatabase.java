@@ -1,12 +1,11 @@
 package com.georgiev.payroll.db.impl;
 
+import com.georgiev.payroll.db.PayrollDatabase;
+import com.georgiev.payroll.domain.Employee;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.georgiev.payroll.db.PayrollDatabase;
-import com.georgiev.payroll.domain.Employee;
 
 public class InMemoryPayrollDatabase implements PayrollDatabase {
 
@@ -19,8 +18,8 @@ public class InMemoryPayrollDatabase implements PayrollDatabase {
   }
 
   @Override
-  public void addEmployee(int employeeId, Employee employee) {
-    employees.put(employeeId, employee);
+  public void addEmployee(Employee employee) {
+    employees.put(employee.getEmployeeId(), employee);
   }
 
   @Override
