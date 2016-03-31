@@ -1,9 +1,8 @@
 package com.contorler;
 
+import com.georgiev.web.controller.ChangeEmployeeController;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.georgiev.web.controller.ChangeEmployeeController;
 
 public class UpdateEmployeeControllerTest {
 

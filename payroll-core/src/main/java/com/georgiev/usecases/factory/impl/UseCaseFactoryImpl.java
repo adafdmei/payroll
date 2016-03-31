@@ -1,7 +1,6 @@
 package com.georgiev.usecases.factory.impl;
 
 import com.georgiev.payroll.db.PayrollDatabase;
-import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.usecases.AddCommissionedEmployeeUseCase;
 import com.georgiev.usecases.AddHourlyEmployeeUseCase;
 import com.georgiev.usecases.AddSalariedEmployeeUseCase;
@@ -16,92 +15,90 @@ import com.georgiev.usecases.ChangeHourlyUseCase;
 import com.georgiev.usecases.ChangeSalariedUseCase;
 import com.georgiev.usecases.DeleteEmployeeUseCase;
 import com.georgiev.usecases.FindAnEmployeeUseCase;
-import com.georgiev.usecases.GetAllEmployeeUseCase;
+import com.georgiev.usecases.FindAllEmployeeUseCase;
 import com.georgiev.usecases.PaydayUseCase;
 import com.georgiev.usecases.UseCase;
 import com.georgiev.usecases.factory.UseCaseFactory;
 
 public class UseCaseFactoryImpl implements UseCaseFactory {
 
-  private final PayrollDatabase payrollDatabase = new InMemoryPayrollDatabase();
-
   @Override
-  public UseCase makeAddCommissionedEmployee() {
+  public UseCase makeAddCommissionedEmployee(PayrollDatabase payrollDatabase) {
     return new AddCommissionedEmployeeUseCase(payrollDatabase);
   }
 
   @Override
-  public UseCase makeAddSalariedEmployee() {
+  public UseCase makeAddSalariedEmployee(PayrollDatabase payrollDatabase) {
     return new AddSalariedEmployeeUseCase(payrollDatabase);
   }
 
   @Override
-  public UseCase makeAddHourlyEmployee() {
+  public UseCase makeAddHourlyEmployee(PayrollDatabase payrollDatabase) {
     return new AddHourlyEmployeeUseCase(payrollDatabase);
   }
 
   @Override
-  public UseCase makeDeleteEmployee() {
-    return new DeleteEmployeeUseCase();
+  public UseCase makeDeleteEmployee(PayrollDatabase payrollDatabase) {
+    return new DeleteEmployeeUseCase(payrollDatabase);
   }
 
   @Override
-  public UseCase makeAddTimeCard() {
-    return new AddTimeCardUseCase();
+  public UseCase makeAddTimeCard(PayrollDatabase payrollDatabase) {
+    return new AddTimeCardUseCase(payrollDatabase);
   }
 
   @Override
-  public UseCase makeAddSalesReciept() {
-    return new AddSalesRecieptUseCase();
+  public UseCase makeAddSalesReciept(PayrollDatabase payrollDatabase) {
+    return new AddSalesRecieptUseCase(payrollDatabase);
   }
 
   @Override
-  public UseCase makeChangeEmployeeName() {
-    return new ChangeEmployeeNameUseCase();
+  public UseCase makeChangeEmployeeName(PayrollDatabase payrollDatabase) {
+    return new ChangeEmployeeNameUseCase(payrollDatabase);
   }
 
   @Override
-  public UseCase makeChangeEmployeeHourly() {
-    return new ChangeHourlyUseCase();
+  public UseCase makeChangeEmployeeHourly(PayrollDatabase payrollDatabase) {
+    return new ChangeHourlyUseCase(payrollDatabase);
   }
 
   @Override
-  public UseCase makeChangeEmployeeSalaried() {
-    return new ChangeSalariedUseCase();
+  public UseCase makeChangeEmployeeSalaried(PayrollDatabase payrollDatabase) {
+    return new ChangeSalariedUseCase(payrollDatabase);
   }
 
   @Override
-  public UseCase makeChangeEmployeeCommissioned() {
-    return new ChangeCommissionedUseCase();
+  public UseCase makeChangeEmployeeCommissioned(PayrollDatabase payrollDatabase) {
+    return new ChangeCommissionedUseCase(payrollDatabase);
   }
 
   @Override
-  public UseCase makeChangeEmployeeMember() {
-    return new ChangeEmployeeMemberUseCase();
+  public UseCase makeChangeEmployeeMember(PayrollDatabase payrollDatabase) {
+    return new ChangeEmployeeMemberUseCase(payrollDatabase);
   }
 
   @Override
-  public UseCase makeChangeEmployeeNoMember() {
-    return new ChangeEmployeeNoMemberUseCase();
+  public UseCase makeChangeEmployeeNoMember(PayrollDatabase payrollDatabase) {
+    return new ChangeEmployeeNoMemberUseCase(payrollDatabase);
   }
 
   @Override
-  public UseCase makeAddServiceCharge() {
-    return new AddServiceChargeUseCase();
+  public UseCase makeAddServiceCharge(PayrollDatabase payrollDatabase) {
+    return new AddServiceChargeUseCase(payrollDatabase);
   }
 
   @Override
-  public UseCase makePayDay() {
-    return new PaydayUseCase();
+  public UseCase makePayDay(PayrollDatabase payrollDatabase) {
+    return new PaydayUseCase(payrollDatabase);
   }
 
   @Override
-  public UseCase makeFindEmployee() {
-    return new FindAnEmployeeUseCase();
+  public UseCase makeFindEmployee(PayrollDatabase payrollDatabase) {
+    return new FindAnEmployeeUseCase(payrollDatabase);
   }
 
   @Override
-  public UseCase makeFindAllEmployees() {
-    return new GetAllEmployeeUseCase();
+  public UseCase makeFindAllEmployees(PayrollDatabase payrollDatabase) {
+    return new FindAllEmployeeUseCase(payrollDatabase);
   }
 }

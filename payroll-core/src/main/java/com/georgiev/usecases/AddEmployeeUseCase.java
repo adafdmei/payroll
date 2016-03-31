@@ -11,13 +11,12 @@ import com.georgiev.payroll.impl.NoMember;
 import com.georgiev.payroll.request.AddEmployeeRequest;
 import com.georgiev.payroll.request.Request;
 
-public abstract class AddEmployeeUseCase implements UseCase {
+public abstract class AddEmployeeUseCase extends AbstractUseCase {
 
-  private final PayrollDatabase payrollDatabase;
   private Response response;
 
   public AddEmployeeUseCase(PayrollDatabase payrollDatabase) {
-    this.payrollDatabase = payrollDatabase;
+    super(payrollDatabase);
   }
 
   @Override
@@ -30,7 +29,6 @@ public abstract class AddEmployeeUseCase implements UseCase {
     e.setPaySchedule(getSchedule());
     e.setMethod(pm);
     e.setUnionMembership(af);
-    //GpayrollDatabase.addEmployee(e.getEmployeeId(), e);
     payrollDatabase.addEmployee(e);
     response = new MessageResponse("OK");
   }

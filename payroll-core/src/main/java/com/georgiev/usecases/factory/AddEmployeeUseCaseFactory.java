@@ -1,13 +1,14 @@
 package com.georgiev.usecases.factory;
 
+import com.georgiev.payroll.db.PayrollDatabase;
 import com.georgiev.usecases.UseCase;
 
 public interface AddEmployeeUseCaseFactory {
 
-  UseCase makeAddCommissionedEmployee();
+  UseCase makeAddCommissionedEmployee(PayrollDatabase db);
 
-  UseCase makeAddSalariedEmployee();
+  UseCase makeAddSalariedEmployee(PayrollDatabase db);
 
-  UseCase makeAddHourlyEmployee();
+  UseCase makeAddHourlyEmployee(PayrollDatabase db);
 
 }

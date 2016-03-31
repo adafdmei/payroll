@@ -15,6 +15,7 @@
 		
 		<!-- Mapping with model class containing annotations -->
 		<mapping class="com.georgiev.payroll.entities.EmployeeEntity"/>
+		<mapping class="com.georgiev.payroll.entities.HourlyEmployeeEntity"/>
 	</session-factory>
 </hibernate-configuration>
 

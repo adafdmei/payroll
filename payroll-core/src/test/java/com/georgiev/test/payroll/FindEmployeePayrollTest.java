@@ -1,8 +1,8 @@
 package com.georgiev.test.payroll;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
 import static org.junit.Assert.assertEquals;
 
+import com.georgiev.payroll.db.PayrollDatabase;
 import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.test.usecases.AddEmployee;
@@ -18,10 +18,11 @@ public class FindEmployeePayrollTest {
   AddEmployee addEmp;
   FindEmployee findEmp;
   Map<String, Object> data;
+  PayrollDatabase db;
 
   @Before
   public void setup() {
-    GpayrollDatabase = new InMemoryPayrollDatabase();
+    db = new InMemoryPayrollDatabase();
     data = EmployeeData.getStandardDataForEmployee();
     addEmp = new AddEmployee();
     findEmp = new FindEmployee();
@@ -29,8 +30,8 @@ public class FindEmployeePayrollTest {
 
   @Test
   public void shouldFindEmployee() throws Exception {
-    addEmp.addSalariedEmployee(data);
-    Map<String, Object> empMap = findEmp.findEmployee(data);
+    addEmp.addSalariedEmployee(db, data);
+    Map<String, Object> empMap = findEmp.findEmployee(db, data);
 
     Employee e = (Employee) empMap.get(String.valueOf(EmployeeDataUtils.getId(data)));
     assertEquals("Bob", e.getName());
@@ -38,8 +39,8 @@ public class FindEmployeePayrollTest {
 
   @Test
   public void shouldFindAllEmployees() throws Exception {
-    addEmp.addSalariedEmployee(data);
-    Map<String, Object> empMap = findEmp.findAllEmployees(data);
+    addEmp.addSalariedEmployee(db, data);
+    Map<String, Object> empMap = findEmp.findAllEmployees(db, data);
 
     assertEquals(empMap.size(), 1);
   }

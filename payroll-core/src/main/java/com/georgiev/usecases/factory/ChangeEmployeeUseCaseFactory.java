@@ -1,18 +1,20 @@
 package com.georgiev.usecases.factory;
 
+import com.georgiev.payroll.db.PayrollDatabase;
 import com.georgiev.usecases.UseCase;
 
 public interface ChangeEmployeeUseCaseFactory {
-  UseCase makeChangeEmployeeName();
 
-  UseCase makeChangeEmployeeHourly();
+  UseCase makeChangeEmployeeName(PayrollDatabase payrollDatabase);
 
-  UseCase makeChangeEmployeeSalaried();
+  UseCase makeChangeEmployeeHourly(PayrollDatabase payrollDatabase);
 
-  UseCase makeChangeEmployeeCommissioned();
+  UseCase makeChangeEmployeeSalaried(PayrollDatabase payrollDatabase);
 
-  UseCase makeChangeEmployeeMember();
+  UseCase makeChangeEmployeeCommissioned(PayrollDatabase payrollDatabase);
 
-  UseCase makeChangeEmployeeNoMember();
+  UseCase makeChangeEmployeeMember(PayrollDatabase payrollDatabase);
+
+  UseCase makeChangeEmployeeNoMember(PayrollDatabase payrollDatabase);
 
 }

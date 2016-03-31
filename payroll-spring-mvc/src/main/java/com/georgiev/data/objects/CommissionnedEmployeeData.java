@@ -4,9 +4,20 @@ import com.georgiev.util.Constants;
 
 public class CommissionnedEmployeeData extends EmployeeData {
 
-  public CommissionnedEmployeeData(EmployeeForm form) {
-    super(form);
-    data.put(Constants.BASE_PAY.name(), form.getBasePay());
-    data.put(Constants.COMMISSION_RATE.name(), form.getCommissionRate());
+  @Override
+  EmployeeData createEmployeeData(EmployeeForm form) {
+    if (form.getType().equals("Commissioned")) {
+      CommissionnedEmployeeData comData = new CommissionnedEmployeeData();
+      initData(form, comData);
+      comData.data.put(Constants.BASE_PAY.name(), form.getBasePay());
+      comData.data.put(Constants.COMMISSION_RATE.name(), form.getCommissionRate());
+      return comData;
+    }
+    else if (successor != null) {
+      return successor.createEmployeeData(form);
+    }
+    else {
+      throw new RuntimeException("The Successor is Not SET");
+    }
   }
 }

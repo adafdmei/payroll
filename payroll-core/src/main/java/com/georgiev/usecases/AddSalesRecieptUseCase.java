@@ -1,7 +1,6 @@
 package com.georgiev.usecases;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
-
+import com.georgiev.payroll.db.PayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.payroll.domain.PayType;
 import com.georgiev.payroll.impl.Commissioned;
@@ -9,12 +8,16 @@ import com.georgiev.payroll.impl.SalesReceipt;
 import com.georgiev.payroll.request.AddSalesRequest;
 import com.georgiev.payroll.request.Request;
 
-public class AddSalesRecieptUseCase implements UseCase {
+public class AddSalesRecieptUseCase extends AbstractUseCase {
+
+  public AddSalesRecieptUseCase(PayrollDatabase payrollDatabase) {
+    super(payrollDatabase);
+  }
 
   @Override
   public void execute(Request request) {
     AddSalesRequest srReq = (AddSalesRequest) request;
-    Employee e = GpayrollDatabase.getEmployee(srReq.getEmployeeId());
+    Employee e = payrollDatabase.getEmployee(srReq.getEmployeeId());
     if (e != null) {
       PayType pc = e.getPayType();
       if (pc instanceof Commissioned) {
@@ -28,12 +31,6 @@ public class AddSalesRecieptUseCase implements UseCase {
     else {
       throw (new RuntimeException("No such employee."));
     }
-  }
-
-  @Override
-  public Response getResponse() {
-    // TODO Auto-generated method stub
-    return null;
   }
 
 }

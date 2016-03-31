@@ -1,7 +1,6 @@
 package com.georgiev.usecases;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
-
+import com.georgiev.payroll.db.PayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.payroll.domain.PayType;
 import com.georgiev.payroll.impl.Hourly;
@@ -9,13 +8,17 @@ import com.georgiev.payroll.impl.TimeCard;
 import com.georgiev.payroll.request.AddTimeCardRequest;
 import com.georgiev.payroll.request.Request;
 
-public class AddTimeCardUseCase implements UseCase {
+public class AddTimeCardUseCase extends AbstractUseCase {
+
+  public AddTimeCardUseCase(PayrollDatabase payrollDatabase) {
+    super(payrollDatabase);
+  }
 
   @Override
   public void execute(Request request) {
     AddTimeCardRequest tcReq = (AddTimeCardRequest) request;
     TimeCard tc = new TimeCard(tcReq.getDate(), tcReq.getHours());
-    Employee e = GpayrollDatabase.getEmployee(tcReq.getEmployeeId());
+    Employee e = payrollDatabase.getEmployee(tcReq.getEmployeeId());
 
     if (e != null) {
       PayType pc = e.getPayType();
@@ -30,11 +33,5 @@ public class AddTimeCardUseCase implements UseCase {
     else {
       throw (new RuntimeException("No such employee."));
     }
-  }
-
-  @Override
-  public Response getResponse() {
-    // TODO Auto-generated method stub
-    return null;
   }
 }

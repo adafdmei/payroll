@@ -1,5 +1,6 @@
 package com.georgiev.usecases;
 
+import com.georgiev.payroll.db.PayrollDatabase;
 import com.georgiev.payroll.domain.AbstractPayType;
 import com.georgiev.payroll.domain.PaySchedule;
 import com.georgiev.payroll.impl.Hourly;
@@ -8,6 +9,10 @@ import com.georgiev.payroll.request.ChangeHourlyRequest;
 import com.georgiev.payroll.request.Request;
 
 public class ChangeHourlyUseCase extends ChangePayTypeUseCase {
+
+  public ChangeHourlyUseCase(PayrollDatabase payrollDatabase) {
+    super(payrollDatabase);
+  }
 
   @Override
   protected AbstractPayType getClassification(Request request) {

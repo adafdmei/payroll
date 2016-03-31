@@ -1,19 +1,22 @@
 package com.georgiev.usecases;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
-
+import com.georgiev.payroll.db.PayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.payroll.request.EmployeeRequest;
 import com.georgiev.payroll.request.Request;
 
-public abstract class ChangeEmployeeUseCase implements UseCase {
+public abstract class ChangeEmployeeUseCase extends AbstractUseCase {
+
+  public ChangeEmployeeUseCase(PayrollDatabase payrollDatabase) {
+    super(payrollDatabase);
+  }
 
   @Override
   public void execute(Request request) {
     EmployeeRequest ceRec = (EmployeeRequest) request;
-    Employee e = GpayrollDatabase.getEmployee(ceRec.getEmployeeId());
+    Employee e = payrollDatabase.getEmployee(ceRec.getEmployeeId());
     if (e != null) {
-      change(e,request);
+      change(e, request);
     }
   }
 

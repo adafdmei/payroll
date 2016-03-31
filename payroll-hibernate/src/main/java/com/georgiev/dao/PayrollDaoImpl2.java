@@ -1,44 +1,44 @@
 package com.georgiev.dao;
 
-import HibernateUtil.HibernateUtil;
 import com.georgiev.payroll.db.PayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
-import com.georgiev.payroll.entities.EmployeeEntity;
+import com.georgiev.payroll.entities.HourlyEmployeeEntity;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Repository;
 
-// @Repository("payrollDao")
-public class PayrollDaoImpl extends AbstractDao<Integer, EmployeeEntity>implements PayrollDatabase {
+@Repository("payrollDao")
+//public class PayrollDaoImpl implements PayrollDatabase, JpaRepository<HourlyEmployeeEntity, Integer> {
+
+public class PayrollDaoImpl2 extends AbstractDao<Integer, HourlyEmployeeEntity>implements PayrollDatabase {
 
   @Override
-  public void clear() {
-    // TODO Auto-generated method stub
+  public void addEmployee(Employee employee) {
+    //EmployeeEntity emp = new EmployeeEntity();
+    HourlyEmployeeEntity emp = new HourlyEmployeeEntity();
+    emp.setAddress("adre");
+    emp.setName("name");
+    emp.setType("tet");
+    emp.setHourlyRate(BigDecimal.ONE);
+    getSession().persist(emp);
+
+    //start transaction
+    //Session session = getSession();
+    //session.beginTransaction();
+    //Save the Model object
+    //session.save(emp);
+    //Commit transaction
+    //session.getTransaction().commit();
+    //System.out.println("Employee ID=" + emp.getId());
+
+    //terminate session factory, otherwise program won't end
 
   }
 
   @Override
-  public void addEmployee(Employee employee) {
-    EmployeeEntity emp = new EmployeeEntity();
-    emp.setAddress("adre");
-    emp.setName("name");
-    emp.setType("tet");
-
-    //Get Session
-    SessionFactory sessionFactory = HibernateUtil.getSessionAnnotationFactory();
-    Session session = sessionFactory.getCurrentSession();
-    //start transaction
-    session.beginTransaction();
-    //Save the Model object
-    session.save(emp);
-    //Commit transaction
-    session.getTransaction().commit();
-
-    //terminate session factory, otherwise program won't end
-    sessionFactory.close();
-
-    persist(emp);
+  public void clear() {
+    // TODO Auto-generated method stub
 
   }
 

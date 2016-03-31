@@ -1,16 +1,10 @@
 package com.georgiev.test.payroll;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import java.math.BigDecimal;
-import java.util.Map;
-
-import org.junit.Before;
-import org.junit.Test;
-
+import com.georgiev.payroll.db.PayrollDatabase;
 import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.payroll.impl.Hourly;
@@ -20,16 +14,21 @@ import com.georgiev.test.usecases.AddTimeCard;
 import com.georgiev.test.utils.EmployeeData;
 import com.georgiev.test.utils.EmployeeDataUtils;
 import com.georgiev.util.Constants;
+import java.math.BigDecimal;
+import java.util.Map;
+import org.junit.Before;
+import org.junit.Test;
 
 public class AddTimeCardPayrollTest {
 
   Map<String, Object> data;
   AddEmployee addEmp;
   AddTimeCard addTc;
+  PayrollDatabase db;
 
   @Before
   public void setup() {
-    GpayrollDatabase = new InMemoryPayrollDatabase();
+    db = new InMemoryPayrollDatabase();
 
     data = EmployeeData.getStandardDataForEmployee();
     addEmp = new AddEmployee();
@@ -46,9 +45,9 @@ public class AddTimeCardPayrollTest {
 
   @Test
   public void shouldAddTimeCard() throws Exception {
-    addEmp.addHourlyEmployee(data);
-    addTc.addTimeCard(data);
-    Employee e = GpayrollDatabase.getEmployee(getId());
+    addEmp.addHourlyEmployee(db, data);
+    addTc.addTimeCard(db, data);
+    Employee e = db.getEmployee(getId());
 
     assertThat(e, is(notNullValue()));
     Hourly hc = (Hourly) e.getPayType();

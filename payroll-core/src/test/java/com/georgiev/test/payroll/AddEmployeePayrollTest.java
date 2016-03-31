@@ -1,16 +1,10 @@
 package com.georgiev.test.payroll;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.math.BigDecimal;
-import java.util.Map;
-
-import org.junit.Before;
-import org.junit.Test;
-
+import com.georgiev.payroll.db.PayrollDatabase;
 import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.payroll.domain.PayDisposition;
@@ -29,23 +23,28 @@ import com.georgiev.test.usecases.AddEmployee;
 import com.georgiev.test.utils.EmployeeData;
 import com.georgiev.test.utils.EmployeeDataUtils;
 import com.georgiev.util.Constants;
+import java.math.BigDecimal;
+import java.util.Map;
+import org.junit.Before;
+import org.junit.Test;
 
 public class AddEmployeePayrollTest {
 
   AddEmployee addEmp;
   Map<String, Object> data;
+  PayrollDatabase db;
 
   @Before
   public void setup() {
-    GpayrollDatabase = new InMemoryPayrollDatabase();
+    db = new InMemoryPayrollDatabase();
     data = EmployeeData.getStandardDataForEmployee();
     addEmp = new AddEmployee();
   }
 
   @Test
   public void shouldAddSalariedEmployee() throws Exception {
-    addEmp.addSalariedEmployee(data);
-    Employee e = GpayrollDatabase.getEmployee(EmployeeDataUtils.getId(data));
+    addEmp.addSalariedEmployee(db, data);
+    Employee e = db.getEmployee(EmployeeDataUtils.getId(data));
     assertThat(e.getName(), is("Bob"));
 
     PayType pc = e.getPayType();
@@ -66,9 +65,9 @@ public class AddEmployeePayrollTest {
 
   @Test
   public void shouldAddCommissionedEmployee() throws Exception {
-    addEmp.addCommissionedEmployee(data);
+    addEmp.addCommissionedEmployee(db, data);
 
-    Employee e = GpayrollDatabase.getEmployee(EmployeeDataUtils.getId(data));
+    Employee e = db.getEmployee(EmployeeDataUtils.getId(data));
     assertThat(e.getName(), is("Bob"));
 
     PayType pc = e.getPayType();
@@ -90,8 +89,8 @@ public class AddEmployeePayrollTest {
 
   @Test
   public void shouldAddHourlyEmployee() throws Exception {
-    addEmp.addHourlyEmployee(data);
-    Employee e = GpayrollDatabase.getEmployee(EmployeeDataUtils.getId(data));
+    addEmp.addHourlyEmployee(db, data);
+    Employee e = db.getEmployee(EmployeeDataUtils.getId(data));
 
     assertThat(e.getName(), is("Bob"));
 

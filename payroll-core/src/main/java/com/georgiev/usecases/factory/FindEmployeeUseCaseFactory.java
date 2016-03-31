@@ -1,11 +1,12 @@
 package com.georgiev.usecases.factory;
 
+import com.georgiev.payroll.db.PayrollDatabase;
 import com.georgiev.usecases.UseCase;
 
 public interface FindEmployeeUseCaseFactory {
 
-  UseCase makeFindAllEmployees();
+  UseCase makeFindAllEmployees(PayrollDatabase payrollDatabase);
 
-  UseCase makeFindEmployee();
+  UseCase makeFindEmployee(PayrollDatabase payrollDatabase);
 
 }

@@ -1,18 +1,11 @@
 package com.georgiev.test.payroll;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Map;
-
-import org.junit.Before;
-import org.junit.Test;
-
+import com.georgiev.payroll.db.PayrollDatabase;
 import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
 import com.georgiev.payroll.domain.Employee;
 import com.georgiev.payroll.domain.Paycheck;
@@ -25,6 +18,11 @@ import com.georgiev.test.usecases.PayEmployee;
 import com.georgiev.test.utils.EmployeeData;
 import com.georgiev.test.utils.EmployeeDataUtils;
 import com.georgiev.util.Constants;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Map;
+import org.junit.Before;
+import org.junit.Test;
 
 public class PayEmployeeTest {
 
@@ -37,10 +35,11 @@ public class PayEmployeeTest {
   ChangeEmployeeToMember changeEmp;
   Map<String, Object> data;
   Map<String, Object> newData;
+  PayrollDatabase db;
 
   @Before
   public void setup() {
-    GpayrollDatabase = new InMemoryPayrollDatabase();
+    db = new InMemoryPayrollDatabase();
     data = EmployeeData.getStandardDataForEmployee();
     addEmp = new AddEmployee();
     addSR = new AddSalesReceipt();
@@ -52,8 +51,8 @@ public class PayEmployeeTest {
 
   @Test
   public void shouldPaySingleSalariedEmployee() throws Exception {
-    addEmp.addSalariedEmployee(data);
-    payEmp.paySingleEmployee(EmployeeData.getPayDayDataForSalariedEmployee());
+    addEmp.addSalariedEmployee(db, data);
+    payEmp.paySingleEmployee(db, EmployeeData.getPayDayDataForSalariedEmployee());
     Date payDate = EmployeeDataUtils.getPayDate(EmployeeData.getPayDayDataForSalariedEmployee());
     Paycheck pc = getPayCheckForEmployee(payDate);
 
@@ -68,8 +67,8 @@ public class PayEmployeeTest {
   @Test
   public void shouldNotPaySingleSalariedEmployeeOnWrongDate() throws Exception {
     payData = EmployeeData.getPayDayWrongDataForSalariedEmployee();
-    addEmp.addSalariedEmployee(data);
-    payEmp.paySingleEmployee(payData);
+    addEmp.addSalariedEmployee(db, data);
+    payEmp.paySingleEmployee(db, payData);
 
     Date payDate = EmployeeDataUtils.getPayDate(payData);
     Paycheck pc = getPayCheckForEmployee(payDate);
@@ -79,8 +78,8 @@ public class PayEmployeeTest {
   @Test
   public void shouldNotPaySingleHourlyEmployeeNoTimeCards() throws Exception {
     payData = EmployeeData.getPayDayDataForHourlyEmployee();
-    addEmp.addHourlyEmployee(data);
-    payEmp.paySingleEmployee(payData);
+    addEmp.addHourlyEmployee(db, data);
+    payEmp.paySingleEmployee(db, payData);
 
     Date payDate = EmployeeDataUtils.getPayDate(payData);
     Paycheck pc = getPayCheckForEmployee(payDate);
@@ -89,10 +88,10 @@ public class PayEmployeeTest {
 
   @Test
   public void shouldPaySingleHourlyEmployeeOneTimeCard() throws Exception {
-    addEmp.addHourlyEmployee(data);
-    addTc.addTimeCard(EmployeeData.getTimeCardTwoHoursForEmployee());
+    addEmp.addHourlyEmployee(db, data);
+    addTc.addTimeCard(db, EmployeeData.getTimeCardTwoHoursForEmployee());
     payData = EmployeeData.getPayDayDataForHourlyEmployee();
-    payEmp.paySingleEmployee(payData);
+    payEmp.paySingleEmployee(db, payData);
     Date payDate = EmployeeDataUtils.getPayDate(payData);
     Paycheck pc = getPayCheckForEmployee(payDate);
     validatePaycheck(pc, getId(), payDate, new BigDecimal("30.48"));
@@ -100,10 +99,10 @@ public class PayEmployeeTest {
 
   @Test
   public void shouldPaySingleHourlyEmployeeOvertimeOneTimeCard() throws Exception {
-    addEmp.addHourlyEmployee(data);
-    addTc.addTimeCard(EmployeeData.getOvertimeTimeCardForEmployee());
+    addEmp.addHourlyEmployee(db, data);
+    addTc.addTimeCard(db, EmployeeData.getOvertimeTimeCardForEmployee());
     payData = EmployeeData.getPayDayDataForHourlyEmployee();
-    payEmp.paySingleEmployee(payData);
+    payEmp.paySingleEmployee(db, payData);
 
     Date payDate = EmployeeDataUtils.getPayDate(payData);
     Paycheck pc = getPayCheckForEmployee(payDate);
@@ -113,10 +112,10 @@ public class PayEmployeeTest {
 
   @Test
   public void shouldPaySingleHourlyEmployeeOnWrongDate() throws Exception {
-    addEmp.addHourlyEmployee(data);
-    addTc.addTimeCard(EmployeeData.getTimeCardTwoHoursForEmployee());
+    addEmp.addHourlyEmployee(db, data);
+    addTc.addTimeCard(db, EmployeeData.getTimeCardTwoHoursForEmployee());
     payData = EmployeeData.getPayDayWrongDataForHourlyEmployee();
-    payEmp.paySingleEmployee(payData);
+    payEmp.paySingleEmployee(db, payData);
     Date payDate = EmployeeDataUtils.getPayDate(payData);
 
     Paycheck pc = getPayCheckForEmployee(payDate);
@@ -125,11 +124,11 @@ public class PayEmployeeTest {
 
   @Test
   public void shouldPaySingleHourlyEmployeeTwoTimeCards() throws Exception {
-    addEmp.addHourlyEmployee(data);
-    addTc.addTimeCard(EmployeeData.getTimeCardTwoHoursForEmployee());
-    addTc.addTimeCard(EmployeeData.getTimeCardFiveHoursForEmployee());
+    addEmp.addHourlyEmployee(db, data);
+    addTc.addTimeCard(db, EmployeeData.getTimeCardTwoHoursForEmployee());
+    addTc.addTimeCard(db, EmployeeData.getTimeCardFiveHoursForEmployee());
     payData = EmployeeData.getPayDayDataForHourlyEmployee();
-    payEmp.paySingleEmployee(payData);
+    payEmp.paySingleEmployee(db, payData);
     Date payDate = EmployeeDataUtils.getPayDate(payData);
 
     Paycheck pc = getPayCheckForEmployee(payDate);
@@ -139,11 +138,11 @@ public class PayEmployeeTest {
 
   @Test
   public void shouldpaySingleHourlyEmployeeWithTimeCardsSpanningTwoPayPeriods() throws Exception {
-    addEmp.addHourlyEmployee(data);
-    addTc.addTimeCard(EmployeeData.getTimeCardTwoHoursForEmployee());
-    addTc.addTimeCard(EmployeeData.getTimeCardPreviousPeriodForEmployee());
+    addEmp.addHourlyEmployee(db, data);
+    addTc.addTimeCard(db, EmployeeData.getTimeCardTwoHoursForEmployee());
+    addTc.addTimeCard(db, EmployeeData.getTimeCardPreviousPeriodForEmployee());
     payData = EmployeeData.getPayDayDataForHourlyEmployee();
-    payEmp.paySingleEmployee(payData);
+    payEmp.paySingleEmployee(db, payData);
     Date payDate = EmployeeDataUtils.getPayDate(payData);
 
     Paycheck pc = getPayCheckForEmployee(payDate);
@@ -153,9 +152,9 @@ public class PayEmployeeTest {
 
   @Test
   public void shouldPaySingleCommissionedEmployeeNoSales() throws Exception {
-    addEmp.addCommissionedEmployee(data);
+    addEmp.addCommissionedEmployee(db, data);
     payData = EmployeeData.getPayDayDataForCommissionedEmployee();
-    payEmp.paySingleEmployee(payData);
+    payEmp.paySingleEmployee(db, payData);
     Date payDate = EmployeeDataUtils.getPayDate(payData);
 
     Paycheck pc = getPayCheckForEmployee(payDate);
@@ -165,9 +164,9 @@ public class PayEmployeeTest {
 
   @Test
   public void shouldPaySingleCommissionedEmployeeOnWrongDate() throws Exception {
-    addEmp.addCommissionedEmployee(data);
+    addEmp.addCommissionedEmployee(db, data);
     payData = EmployeeData.getPayDayWrongDataForHourlyEmployee();
-    payEmp.paySingleEmployee(payData);
+    payEmp.paySingleEmployee(db, payData);
 
     Paycheck pc = getPayCheckForEmployee(EmployeeDataUtils.getPayDate(payData));
     assertThat(pc, is(nullValue()));
@@ -175,10 +174,10 @@ public class PayEmployeeTest {
 
   @Test
   public void shouldPaySingleCommissionedEmployeeWithOneSale() throws Exception {
-    addEmp.addCommissionedEmployee(data);
-    addSR.addSalesReceipt(EmployeeData.getFirstSalesRecieptForEmployee());
+    addEmp.addCommissionedEmployee(db, data);
+    addSR.addSalesReceipt(db, EmployeeData.getFirstSalesRecieptForEmployee());
     payData = EmployeeData.getPayDayDataForCommissionedEmployee();
-    payEmp.paySingleEmployee(payData);
+    payEmp.paySingleEmployee(db, payData);
     Date payDate = EmployeeDataUtils.getPayDate(payData);
 
     Paycheck pc = getPayCheckForEmployee(payDate);
@@ -188,11 +187,11 @@ public class PayEmployeeTest {
 
   @Test
   public void shouldPaySingleCommissionedEmployeeWithTwoSales() throws Exception {
-    addEmp.addCommissionedEmployee(data);
-    addSR.addSalesReceipt(EmployeeData.getFirstSalesRecieptForEmployee());
-    addSR.addSalesReceipt(EmployeeData.getSecondSalesRecieptDataForEmployee());
+    addEmp.addCommissionedEmployee(db, data);
+    addSR.addSalesReceipt(db, EmployeeData.getFirstSalesRecieptForEmployee());
+    addSR.addSalesReceipt(db, EmployeeData.getSecondSalesRecieptDataForEmployee());
     payData = EmployeeData.getPayDayDataForCommissionedEmployee();
-    payEmp.paySingleEmployee(payData);
+    payEmp.paySingleEmployee(db, payData);
     Date payDate = EmployeeDataUtils.getPayDate(payData);
 
     Paycheck pc = getPayCheckForEmployee(payDate);
@@ -202,11 +201,11 @@ public class PayEmployeeTest {
 
   @Test
   public void shouldPaySingleCommissionedEmployeeWithSaleInPreviousPayPeriod() throws Exception {
-    addEmp.addCommissionedEmployee(data);
-    addSR.addSalesReceipt(EmployeeData.getFirstSalesRecieptForEmployee());
-    addSR.addSalesReceipt(EmployeeData.getPreviousPeriodSalesRecieptDataForEmployee());
+    addEmp.addCommissionedEmployee(db, data);
+    addSR.addSalesReceipt(db, EmployeeData.getFirstSalesRecieptForEmployee());
+    addSR.addSalesReceipt(db, EmployeeData.getPreviousPeriodSalesRecieptDataForEmployee());
     payData = EmployeeData.getPayDayDataForCommissionedEmployee();
-    payEmp.paySingleEmployee(payData);
+    payEmp.paySingleEmployee(db, payData);
     Date payDate = EmployeeDataUtils.getPayDate(payData);
 
     Paycheck pc = getPayCheckForEmployee(payDate);
@@ -216,9 +215,9 @@ public class PayEmployeeTest {
 
   @Test
   public void shouldPaySalariedUnionMemberEmployee() throws Exception {
-    addEmp.addSalariedEmployee(data);
-    changeEmp.changeToMember(EmployeeData.getUnionMembershipDataForEmployee());
-    payEmp.paySingleEmployee(EmployeeData.getPayDayDataForSalariedEmployee());
+    addEmp.addSalariedEmployee(db, data);
+    changeEmp.changeToMember(db, EmployeeData.getUnionMembershipDataForEmployee());
+    payEmp.paySingleEmployee(db, EmployeeData.getPayDayDataForSalariedEmployee());
     Date payDate = EmployeeDataUtils.getPayDate(EmployeeData.getPayDayDataForSalariedEmployee());
 
     Paycheck pc = getPayCheckForEmployee(payDate);
@@ -232,11 +231,11 @@ public class PayEmployeeTest {
   @Test
   public void shouldPayHourlyUnionMemberEmployee() throws Exception {
 
-    addEmp.addHourlyEmployee(data);
-    changeEmp.changeToMember(EmployeeData.getUnionMembershipDataForEmployee());
-    addTc.addTimeCard(EmployeeData.getTimeCardEightHoursForEmployee());
-    addSc.addServiceCharge(EmployeeData.getServiceChargeDataForHourlyEmployee());
-    payEmp.paySingleEmployee(EmployeeData.getPayDayDataForHourlyEmployee());
+    addEmp.addHourlyEmployee(db, data);
+    changeEmp.changeToMember(db, EmployeeData.getUnionMembershipDataForEmployee());
+    addTc.addTimeCard(db, EmployeeData.getTimeCardEightHoursForEmployee());
+    addSc.addServiceCharge(db, EmployeeData.getServiceChargeDataForHourlyEmployee());
+    payEmp.paySingleEmployee(db, EmployeeData.getPayDayDataForHourlyEmployee());
     Date payDate = EmployeeDataUtils.getPayDate(EmployeeData.getPayDayDataForHourlyEmployee());
     Paycheck pc = getPayCheckForEmployee(payDate);
 
@@ -249,13 +248,13 @@ public class PayEmployeeTest {
 
   @Test
   public void shouldPayHourlyWithServiceChargesSpanningMultiplePayPeriodsEmployee() throws Exception {
-    addEmp.addHourlyEmployee(data);
-    changeEmp.changeToMember(EmployeeData.getUnionMembershipDataForEmployee());
-    addSc.addServiceCharge(EmployeeData.getServiceChargeDataForHourlyEmployee());
-    addSc.addServiceCharge(EmployeeData.getServiceChargeForNextPeriodMapForHourlyEmployee());
-    addSc.addServiceCharge(EmployeeData.getServiceChargeForPreviousPeriodForHourlyEmployee());
-    addTc.addTimeCard(EmployeeData.getTimeCardEightHoursForEmployee());
-    payEmp.paySingleEmployee(EmployeeData.getPayDayDataForHourlyEmployee());
+    addEmp.addHourlyEmployee(db, data);
+    changeEmp.changeToMember(db, EmployeeData.getUnionMembershipDataForEmployee());
+    addSc.addServiceCharge(db, EmployeeData.getServiceChargeDataForHourlyEmployee());
+    addSc.addServiceCharge(db, EmployeeData.getServiceChargeForNextPeriodMapForHourlyEmployee());
+    addSc.addServiceCharge(db, EmployeeData.getServiceChargeForPreviousPeriodForHourlyEmployee());
+    addTc.addTimeCard(db, EmployeeData.getTimeCardEightHoursForEmployee());
+    payEmp.paySingleEmployee(db, EmployeeData.getPayDayDataForHourlyEmployee());
 
     Date payDate = EmployeeDataUtils.getPayDate(EmployeeData.getPayDayDataForHourlyEmployee());
     Paycheck pc = getPayCheckForEmployee(payDate);
@@ -271,7 +270,7 @@ public class PayEmployeeTest {
   }
 
   private Paycheck getPayCheckForEmployee(Date payDate) {
-    Employee employee = GpayrollDatabase.getEmployee(getId());
+    Employee employee = db.getEmployee(getId());
     Paycheck pc = employee.getPaychecks().get(payDate);
     return pc;
   }

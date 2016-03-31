@@ -1,16 +1,12 @@
 package com.georgiev.web.controller;
 
-import static com.georgiev.payroll.db.PayrollDatabase.GlobalInstance.GpayrollDatabase;
-
-import com.georgiev.dao.PayrollDaoImpl;
-import com.georgiev.data.objects.EmployeeDataFactory;
+import com.georgiev.data.objects.EmployeeData;
 import com.georgiev.data.objects.EmployeeForm;
+import com.georgiev.data.objects.EmployeeFormResolverService;
 import com.georgiev.model.PayrollModel;
-import com.georgiev.payroll.db.impl.InMemoryPayrollDatabase;
-import com.georgiev.payroll.domain.Employee;
 import com.georgiev.services.AddEmplyeeService;
+import com.georgiev.services.DataBaseProviderService;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,12 +21,13 @@ public class AddEmployeeController {
   PayrollModel payrollModel = new PayrollModel();
 
   @Autowired
-  public AddEmplyeeService addEmplyeeService;
+  private AddEmplyeeService addEmplyeeService;
 
-  @PostConstruct
-  private void initDB() {
-    GpayrollDatabase = new InMemoryPayrollDatabase();
-  }
+  @Autowired
+  private DataBaseProviderService dataBaseProviderService;
+
+  @Autowired
+  private EmployeeFormResolverService employeeFormResolverService;
 
   @RequestMapping(value = "/addEmployee", method = RequestMethod.GET)
   public ModelAndView addEmployee(ModelMap model) {
@@ -56,9 +53,6 @@ public class AddEmployeeController {
     }
     else {
       addEmployee(form);
-      PayrollDaoImpl pr = new PayrollDaoImpl();
-      Employee employee = null;
-      pr.addEmployee(employee);
       model.addAttribute("result", "OK");
       return new ModelAndView("result");
     }
@@ -69,16 +63,19 @@ public class AddEmployeeController {
   }
 
   private void addEmployee(EmployeeForm form) {
-    Map<String, Object> data = EmployeeDataFactory.createEmployee(form).getDataAsMap();
+    EmployeeData resolveForm = employeeFormResolverService.resolveForm(form);
+
+    System.out.println(resolveForm);
+    Map<String, Object> data = employeeFormResolverService.resolveForm(form).getDataAsMap();
 
     if (isCommissionnedEmployee(form)) {
-      addEmplyeeService.addCommisionedEmployee(data);
+      addEmplyeeService.addCommisionedEmployee(data, dataBaseProviderService.getDataBaseImpl());
     }
     else if (isSalariedEmployee(form)) {
-      addEmplyeeService.addSalariedEmpolyee(data);
+      addEmplyeeService.addSalariedEmpolyee(data, dataBaseProviderService.getDataBaseImpl());
     }
     else if (isHourlyEmployee(form)) {
-      addEmplyeeService.addHourlyEmployee(data);
+      addEmplyeeService.addHourlyEmployee(data, dataBaseProviderService.getDataBaseImpl());
     }
   }
 

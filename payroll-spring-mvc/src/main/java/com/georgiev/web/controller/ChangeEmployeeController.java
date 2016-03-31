@@ -1,9 +1,17 @@
 package com.georgiev.web.controller;
 
+import com.georgiev.data.objects.EmployeeForm;
+import com.georgiev.data.objects.EmployeeFormResolverService;
+import com.georgiev.model.PayrollModel;
+import com.georgiev.services.ChangeEmplyeeService;
+import com.georgiev.services.DataBaseProviderService;
+import com.georgiev.services.FindEmplyeeService;
+import com.georgiev.util.Constants;
+import com.georgiev.utils.ConvertEmployeeUtils;
+import com.georgiev.utils.ConvertResponseUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,15 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.georgiev.data.objects.EmployeeDataFactory;
-import com.georgiev.data.objects.EmployeeForm;
-import com.georgiev.model.PayrollModel;
-import com.georgiev.services.ChangeEmplyeeService;
-import com.georgiev.services.FindEmplyeeService;
-import com.georgiev.util.Constants;
-import com.georgiev.utils.ConvertEmployeeUtils;
-import com.georgiev.utils.ConvertResponseUtils;
 
 @Controller
 public class ChangeEmployeeController {
@@ -33,10 +32,17 @@ public class ChangeEmployeeController {
   @Autowired
   private ChangeEmplyeeService changeEmplyeeService;
 
+  @Autowired
+  private DataBaseProviderService dataBaseProviderService;
+
+  @Autowired
+  private EmployeeFormResolverService employeeFormResolverService;
+
   @RequestMapping(value = { "/edit-user-{id}" }, method = RequestMethod.GET)
   public ModelAndView editUser(@PathVariable Integer id, ModelMap model) {
     Map<String, Object> data = createData(id);
-    Map<String, Object> employeeMap = findEmplyeeService.findEmployee(data);
+    Map<String, Object> employeeMap = findEmplyeeService.findEmployee(data,
+                                                                      dataBaseProviderService.getDataBaseImpl());
     List<EmployeeForm> emplyees = ConvertResponseUtils.dataToEmployeeForm(employeeMap);
     initModels(model, emplyees.get(0));
 
@@ -54,7 +60,8 @@ public class ChangeEmployeeController {
     EmployeeForm prevEmp = payrollModel.getEmployeeForm();
 
     if (isNameChanged(form, prevEmp)) {
-      changeEmplyeeService.changeEmplyeeName(ConvertEmployeeUtils.convertEmployeeDoToData(form));
+      changeEmplyeeService.changeEmplyeeName(ConvertEmployeeUtils.convertEmployeeDoToData(form),
+                                             dataBaseProviderService.getDataBaseImpl());
     }
 
     if (isTypeChanged(form, prevEmp)) {
@@ -73,15 +80,15 @@ public class ChangeEmployeeController {
   }
 
   private void changeEmployeeType(EmployeeForm form) {
-    Map<String, Object> data = EmployeeDataFactory.createEmployee(form).getDataAsMap();
+    Map<String, Object> data = employeeFormResolverService.resolveForm(form).getDataAsMap();
     if (form.getType().equals("Salaried")) {
-      changeEmplyeeService.changeEmplyeeToSalaried(data);
+      changeEmplyeeService.changeEmplyeeToSalaried(data, dataBaseProviderService.getDataBaseImpl());
     }
     else if (form.getType().equals("Hourly")) {
-      changeEmplyeeService.changeEmplyeeToHourly(data);
+      changeEmplyeeService.changeEmplyeeToHourly(data, dataBaseProviderService.getDataBaseImpl());
     }
     else if (form.getType().equals("Commissioned")) {
-      changeEmplyeeService.changeEmplyeeToCommissioned(data);
+      changeEmplyeeService.changeEmplyeeToCommissioned(data, dataBaseProviderService.getDataBaseImpl());
     }
   }
 
