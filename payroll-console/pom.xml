@@ -12,7 +12,6 @@
 	<groupId>com.kgeorgiev</groupId>
 	<artifactId>payroll-console</artifactId>
 	<packaging>jar</packaging>
-	<name>payroll console</name>
 
 	<dependencies>
 		<dependency>

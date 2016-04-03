@@ -12,8 +12,6 @@
 	<groupId>com.kgeorgiev</groupId>
 	<artifactId>payroll-core</artifactId>
 	<packaging>jar</packaging>
-	<name>payroll core</name>
-
 
 	<dependencies>
 		<dependency>
@@ -23,8 +21,4 @@
 		</dependency>
 	</dependencies>
 
-
 </project>
-
-
-
