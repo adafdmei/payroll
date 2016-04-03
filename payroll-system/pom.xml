@@ -11,6 +11,7 @@
 		<module>../payroll-spring-mvc</module>
 		<module>../payroll-core</module>
 		<module>../payroll-console</module>
+		<module>../payroll-hibernate</module>
 	</modules>
 
 	<properties>
