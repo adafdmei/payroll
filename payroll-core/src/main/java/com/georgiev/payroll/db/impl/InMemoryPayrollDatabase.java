@@ -62,4 +62,16 @@ public class InMemoryPayrollDatabase implements PayrollDatabase {
     return new ArrayList<Integer>(employees.keySet());
   }
 
+  @Override
+  public Employee getEmployeeWithTimeCards(int employeeId) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public void sync(Employee employee) {
+    // TODO Auto-generated method stub
+
+  }
+
 }

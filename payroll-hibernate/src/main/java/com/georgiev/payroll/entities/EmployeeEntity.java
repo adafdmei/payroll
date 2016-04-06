@@ -18,6 +18,7 @@ public class EmployeeEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "ID", nullable = false, unique = true, length = 5)
   private Integer id;
 
   @NotEmpty

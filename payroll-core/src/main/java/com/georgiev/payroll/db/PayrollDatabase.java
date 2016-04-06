@@ -34,4 +34,8 @@ public interface PayrollDatabase {
 
   Employee getUnionMember(int memberId);
 
+  Employee getEmployeeWithTimeCards(int employeeId);
+
+  void sync(Employee employee);
+
 }

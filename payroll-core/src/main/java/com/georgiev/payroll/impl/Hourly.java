@@ -14,6 +14,10 @@ public class Hourly extends AbstractPayType {
   private final BigDecimal hourlyRate;
   private final Map<Date, TimeCard> timeCards = new HashMap<Date, TimeCard>();
 
+  public Map<Date, TimeCard> getTimeCards() {
+    return timeCards;
+  }
+
   public Hourly(BigDecimal hourlyRate) {
     this.hourlyRate = hourlyRate;
   }

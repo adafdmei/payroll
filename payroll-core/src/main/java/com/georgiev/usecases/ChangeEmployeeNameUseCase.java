@@ -15,6 +15,7 @@ public class ChangeEmployeeNameUseCase extends ChangeEmployeeUseCase {
   public void change(Employee employee, Request request) {
     ChangeEmployeeNameRequest cenReq = (ChangeEmployeeNameRequest) request;
     employee.setName(cenReq.getName());
+    payrollDatabase.addEmployee(employee);
   }
 
 }

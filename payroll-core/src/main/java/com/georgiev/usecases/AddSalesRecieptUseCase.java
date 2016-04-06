@@ -32,5 +32,4 @@ public class AddSalesRecieptUseCase extends AbstractUseCase {
       throw (new RuntimeException("No such employee."));
     }
   }
-
 }

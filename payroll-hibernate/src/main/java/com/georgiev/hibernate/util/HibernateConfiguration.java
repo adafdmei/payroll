@@ -3,7 +3,6 @@ package com.georgiev.hibernate.util;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class HibernateConfiguration {
 
-  @Bean
+  // @Bean
   public SessionFactory buildSessionAnnotationFactory() {
     try {
       // Create the SessionFactory from hibernate.cfg.xml
