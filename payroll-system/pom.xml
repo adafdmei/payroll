@@ -6,12 +6,12 @@
 	<artifactId>payroll-system</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Payroll System</name>
 
 	<modules>
 		<module>../payroll-spring-mvc</module>
 		<module>../payroll-core</module>
 		<module>../payroll-console</module>
+		<module>../payroll-hibernate</module>
 	</modules>
 
 	<properties>

@@ -13,8 +13,6 @@
 	<groupId>com.kgeorgiev</groupId>
 	<artifactId>payroll-hibernate</artifactId>
 	<packaging>jar</packaging>
-	<name>payroll</name>
-
 
 	<dependencies>
 		<dependency>
